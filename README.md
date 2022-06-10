@@ -24,6 +24,8 @@ vscode————>项目————>打开两个集成终端————>第�
 我本机有保存一个打包好的本项目，打个压缩包后差不多就可以当做是一个已完成的简陋单机魔塔游戏了。
 -_-如果之后有需要的话，再行开个仓库上传吧，老实说体积不算小，估计删去不需要的多余文件，大小总共也有200M呢。
 
+另：因为没有找到好的透明背景素材，所以对背景黑色的素材使用了统一颜色通道替换，在项目中使用时临时调整为透明背景。大致逻辑为将RGB三个数值均低于某个数值时，设置为透明背景，部分为32和1，基础地形中设置为100.
+
 
 以下是百度翻译：
 Operating instructions:
@@ -41,3 +43,5 @@ The following is the process of my regular startup project debugging:
 Vscode -- > Project -- > open two integration terminals -- > NPM run webpackstart project of the first integration terminal -- > after the project is started, NPM run electron -- > in the second integration terminal opens the project desktop application in the debugging state. Because the shortcut key is set, you can press F12 to open the web page debugging tool. F5 can refresh the page without crashing.
 I have saved a packed project on this computer. After playing a compressed package, it can almost be regarded as a completed simple stand-alone magic tower game.
 -_- If you need it later, open a warehouse to upload it. To be honest, the volume is not small. It is estimated that deleting unnecessary redundant files will have a total size of 200m.
+
+In addition: because no good transparent background material is found, the material with black background is replaced by a unified color channel, which is temporarily adjusted to a transparent background when used in the project. The approximate logic is that when the three RGB values are lower than a certain value, it is set as a transparent background, part of which is 32 and 1, and the basic terrain is set as 100
