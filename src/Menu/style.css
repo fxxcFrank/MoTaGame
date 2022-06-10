@@ -1,0 +1,158 @@
+/* ---------菜单样式---------- */
+.Menu_Main{
+    position: absolute;
+    top: 13vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: max-content;
+    height: max-content; */
+    min-width: 20vw;
+    max-width: 60vw;
+    min-height: 10vh;
+    max-height: 50vh;
+    /* left: 24vw; */
+    /* top: 13vh; */
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 1000;
+}
+.Menu_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+}
+
+.Menu_Button_List{
+    padding: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+}
+
+.Menu_Save, .Menu_Load, .Menu_Exit{
+
+}
+.Menu_Save{
+    
+}
+.Menu_Load{
+
+}
+.Menu_Exit{
+
+}
+
+.Menu_Button, .Menu_Button_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+@keyframes menuButtonBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Menu_Button_focus{
+    animation: menuButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+/* ------------------- */
+
+/* ---------菜单样式---------- */
+.Menu_Save{
+    position: absolute;
+    top: 13vh;
+    left:25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 1100;
+}
+.Menu_Save_title{
+
+}
+
+.Menu_Save_Button_List{
+
+}
+.Menu_Save_Button, .Menu_Save_Button_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+@keyframes menuSaveButtonBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Menu_Save_Button_focus{
+    animation: menuSaveButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+
+.Menu_Save_Button_Title{
+
+}
+.Menu_Save_Button_level{
+
+}
+.Menu_Save_Button_img{
+
+}
+.Menu_Save_Button_floorNum{
+    
+}
+.Menu_Save_Button_Time{
+    
+}
+
+.Menu_Save_ExitButton, .Menu_Save_ExitButton_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+.Menu_Save_ExitButton_focus{
+    animation: menuSaveButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+/* ------------------- */

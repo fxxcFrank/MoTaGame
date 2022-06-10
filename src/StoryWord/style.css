@@ -1,0 +1,201 @@
+.PreLoadStory {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    padding: 20vh 30vw;
+    background: black;
+    z-index: 6000;
+}
+.PreLoadStory_Load{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+@keyframes Animation_PreLoadStory_Load_Div {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.PreLoadStory_Load_Div{     /* img/load.jpg 左下角那个 */
+    animation: Animation_PreLoadStory_Load_Div 8s linear 0s normal none infinite;
+    width: 33vw;
+    height: 39vh;
+    background-position: 0 100%;
+    background-size: 500% 200%;
+    /* background-image: url("../../public/img/load.jpg"); */
+}
+/* img动画 */
+@keyframes Animation_PreLoadStory_Load_Img_1 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes Animation_PreLoadStory_Load_Img_2 {
+    0%,4.99% { transform: rotate(0deg); }
+    5%,9.99% { transform: rotate(18deg); }
+    10%,14.99% { transform: rotate(36deg); }
+    15%,19.99% { transform: rotate(54deg); }
+    20%,24.99% { transform: rotate(72deg); }
+    25%,29.99% { transform: rotate(90deg); }
+    30%,34.99% { transform: rotate(108deg); }
+    35%,39.99% { transform: rotate(126deg); }
+    40%,44.99% { transform: rotate(144deg); }
+    45%,49.99% { transform: rotate(162deg); }
+    50%,54.99% { transform: rotate(180deg); }
+    55%,59.99% { transform: rotate(198deg); }
+    60%,64.99% { transform: rotate(216deg); }
+    65%,69.99% { transform: rotate(234deg); }
+    70%,74.99% { transform: rotate(252deg); }
+    75%,79.99% { transform: rotate(270deg); }
+    80%,84.99% { transform: rotate(288deg); }
+    85%,89.99% { transform: rotate(306deg); }
+    90%,94.99% { transform: rotate(324deg); }
+    95%,100% { transform: rotate(342deg); }
+}
+.PreLoadStory_Load_Img{     /* img/load.jpg 左下角那个 */
+    animation: Animation_PreLoadStory_Load_Img_2 8s linear 0s normal none infinite;
+    /* width: 33vw;
+    height: 39vh;
+    background-position: 0 100%;
+    background-size: 500% 200%; */
+    /* background-image: url("../../public/img/load.jpg"); */
+}
+.PreLoadStory_Load_Text{
+    color: white;
+}
+/*--------------*/
+
+.StoryWord_Main {
+    position: absolute;
+    padding: 1vh 0.5vw;
+    left: 20vw;
+    bottom: 0;
+    width: 80%;
+    height: 25vh;
+    background: rgba(172, 172, 172, 0.6);
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 4000;
+}
+
+.StoryWord_Title {
+    font-size: 1.6vw;
+}
+
+.StoryWord_Text {
+    font-size: 1.6vw;
+}
+
+.NormalMap_StoryMap {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+}
+
+.NormalMap_StoryMap_base {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 5vw; */
+    /* height: 6vh; */
+    width: inherit;
+    height: inherit;
+    color: white;
+    z-index: 100;
+}
+
+.NormalMap_StoryMap_base_complex {
+    position: relative;
+    display: flex;
+    width: inherit;
+    height: inherit;
+}
+
+/* 故事模式0 */
+.StoryWord_Main_Mode0 {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    padding: 20vh 30vw;
+    background: black;
+    z-index: 5000;
+}
+
+.StoryWord_Text_Colomn_Mode0 {}
+
+.StoryWord_Text_Mode0 {
+    /* display: flex;
+    align-items: flex-end; */
+    color: white;
+    font-size: 1.3vw;
+}
+
+.StoryWord_Text_Word_Mode0 {
+    display: inline;
+}
+
+@keyframes StoryWord_Text_Last_Mode0_showAndHide {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.StoryWord_Text_Last_Mode0 {
+    animation: StoryWord_Text_Last_Mode0_showAndHide 1.5s linear 0s normal none infinite;
+    /* margin-bottom: 0.5vh; */
+    display: inline-flex;
+    width: 1vw;
+    height: 0.5vh;
+    color: white;
+    background: white;
+}
+
+/*------------------------------*/
+
+/* 故事模式2 */
+.StoryWord_Text_Mode2 {}
+
+.StoryWord_Text_Word_Mode2 {
+    display: inline;
+}
+
+@keyframes StoryWord_Text_Last_Mode2_showAndHide {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.StoryWord_Text_Last_Mode2 {
+    animation: StoryWord_Text_Last_Mode2_showAndHide 1.5s linear 0s normal none infinite;
+    /* margin-bottom: 0.5vh; */
+    display: inline-flex;
+    width: 1vw;
+    height: 0.5vh;
+    color: white;
+    background: white;
+}
+
+/*------------------------------*/

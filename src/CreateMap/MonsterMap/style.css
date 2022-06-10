@@ -1,0 +1,10 @@
+/* ---------创建基础地图样式---------- */
+.CreateMap_baseMap_moster{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 6vh;
+    color: white;
+}
+/* ------------------- */

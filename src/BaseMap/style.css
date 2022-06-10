@@ -1,0 +1,27 @@
+.NormalMap_BaseMap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+}
+.NormalMap_BaseMap_base{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 5vw; */
+    /* height: 6vh; */
+    width: inherit;
+    height: inherit;
+    color: white;
+    z-index: 100;
+}
+.NormalMap_BaseMap_base_complex{
+    position: relative;
+    display: flex;
+    width: inherit;
+    height: inherit;
+}

@@ -1,0 +1,14 @@
+/* ---------创建基础地图样式---------- */
+.CreateMap_baseMap_base{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 6vh;
+    color: white;
+    z-index: 100;
+    /* background-position: 25% 0px; */
+    /* background-size: 300px 200px; */
+    /* background-size: 400% 400%; */
+}
+/* ------------------- */

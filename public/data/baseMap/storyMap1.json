@@ -1,0 +1,38 @@
+[
+    {
+        "name":"0_00_start",
+        "lx":"no-0_00_start-Story",
+        "url": "img/base.png",
+        "column": 0,
+        "pos": 0,
+        "width":1,
+        "height":1
+    },
+    {
+        "name":"0_01",
+        "lx":"no-0_01-Story",
+        "url": "img/base.png",
+        "column": 0,
+        "pos": 0,
+        "width":1,
+        "height":1
+    },
+    {
+        "name":"0_02",
+        "lx":"no-0_02-Story",
+        "url": "img/base.png",
+        "column": 0,
+        "pos": 0,
+        "width":1,
+        "height":1
+    },
+    {
+        "name":"0_03",
+        "lx":"no-0_03-Story",
+        "url": "img/base.png",
+        "column": 0,
+        "pos": 0,
+        "width":1,
+        "height":1
+    }
+]

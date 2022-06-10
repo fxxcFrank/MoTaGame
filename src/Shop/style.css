@@ -1,0 +1,143 @@
+/* ---------商店样式---------- */
+.Shop_Row{
+    position: absolute;
+    top: 13vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 2000;
+}
+.Shop_Main{
+    /* position: absolute; */
+    width: max-content;
+    height: max-content;
+    min-width: 20vw;
+    max-width: 60vw;
+    min-height: 10vh;
+    max-height: 50vh;
+    /* left: 24vw; */
+    /* top: 13vh; */
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 10;
+}
+.Shop_Main_Title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+}
+.Shop_Main_Tip{
+
+}
+
+.Shop_Main_Goods{
+    padding: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+}
+.Shop_Main_Goods_select, .Shop_Main_Goods_life, .Shop_Main_Goods_gong, .Shop_Main_Goods_fang, .Shop_Main_Goods_exit, .Shop_Main_Goods_select_focus, .Shop_Main_Goods_life_focus, .Shop_Main_Goods_gong_focus, .Shop_Main_Goods_fang_focus, .Shop_Main_Goods_exit_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+.Shop_Main_Goods_life{
+}
+.Shop_Main_Goods_gong{
+}
+.Shop_Main_Goods_fang{
+}
+.Shop_Main_Goods_exit{
+}
+
+@keyframes shopGoodsBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Shop_Main_Goods_select_focus, .Shop_Main_Goods_life_focus, .Shop_Main_Goods_gong_focus, .Shop_Main_Goods_fang_focus, .Shop_Main_Goods_exit_focus{
+    animation: shopGoodsBorder_showAndHide .5s linear 0s normal none infinite;
+}
+.Shop_Main_Goods_life_focus{
+
+}
+.Shop_Main_Goods_gong_focus{
+
+}
+.Shop_Main_Goods_fang_focus{
+
+}
+.Shop_Main_Goods_exit_focus{
+
+}
+/* ------------------- */
+@keyframes Animation_NormalMap_ShopMap_1{ /* npc1.jpg 红色商人  */
+    0%{
+        background-position: -700% -400%;
+    }
+    49.99%{
+        background-position: -700% -400%;
+    }
+    50%{
+        background-position: -700% -500%;
+    }
+    100%{
+        background-position: -700% -500%;
+    }
+}  
+.NormalMap_ShopMap_1 {
+    animation: Animation_NormalMap_ShopMap_1 1s linear 0s normal none infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    z-index: 100;
+}
+.NormalMap_ShopMap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+}
+.NormalMap_ShopMap_base{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 5vw; */
+    /* height: 6vh; */
+    width: inherit;
+    height: inherit;
+    color: white;
+    z-index: 100;
+}
+.NormalMap_ShopMap_base_complex{
+    position: relative;
+    display: flex;
+    width: inherit;
+    height: inherit;
+}

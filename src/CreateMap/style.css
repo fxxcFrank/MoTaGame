@@ -1,0 +1,75 @@
+/* ---------创建地图样式---------- */
+.CreateMap_Main{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 100;
+}
+
+/* 左侧菜单 */
+.CreateMap_LeftMenu{
+    width: 10vw;
+}
+.CreateMap_LeftMenu_TreeDir{
+
+}
+
+.CreateMap_LeftMenu_Buttons{
+
+}
+.CreateMap_LeftMenu_Button{
+    cursor: pointer;
+    user-select: none;
+}
+.CreateMap_LeftMenu_Button:hover{
+    background: rgb(28, 216, 200);
+}
+/**/
+/* 中间地图 */
+.CreateMap_MiddleContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 20vw);
+    height: 100%;
+    background: wheat;
+    user-select: none;
+}
+.MapColumn{
+    width: inherit;
+    height: inherit;
+    display: flex;
+}
+
+.CreateMap_baseMap{
+    user-select: none;
+}
+.CreateMap_baseMap_base_complex{
+    position: relative;
+    display: flex;
+    width: 5vw;
+    height: 6vh;
+}
+/* .CreateMap_baseMap_base{
+
+} */
+/**/
+/* 右侧菜单 */
+.CreateMap_RightMenu{
+    
+}
+.CreateMap_RightMenu_Tabs{
+    display: flex;
+}
+.CreateMap_RightMenu_Tab, .CreateMap_RightMenu_Tab_Click{
+    background: white;
+    cursor: pointer;
+    user-select: none;
+}   
+.CreateMap_RightMenu_Tab_Click{
+    background: rgb(59, 144, 228);
+}
+/**/
+/* ------------------- */

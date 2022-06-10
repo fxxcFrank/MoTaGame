@@ -1,0 +1,42 @@
+[
+    {
+        "name":"古斯的能力商店",
+        "lx":"GS_gold-Shop",
+        "url": "img/npc1.jpg",
+        "column": 4,
+        "pos": 7,
+        "width":10,
+        "height":10,
+        "baseMap":["no"]
+    },
+    {
+        "name":"古斯的钥匙商店",
+        "lx":"GS_key-Shop",
+        "url": "img/npc1.jpg",
+        "column": 4,
+        "pos": 7,
+        "width":10,
+        "height":10,
+        "baseMap":["no"]
+    },
+    {
+        "name":"古斯的升级商店",
+        "lx":"GS_goldToLevelNum-Shop",
+        "url": "img/npc1.jpg",
+        "column": 4,
+        "pos": 7,
+        "width":10,
+        "height":10,
+        "baseMap":["no"]
+    },
+    {
+        "name":"古斯的换现商店",
+        "lx":"GS_levelNumToGold-Shop",
+        "url": "img/npc1.jpg",
+        "column": 4,
+        "pos": 7,
+        "width":10,
+        "height":10,
+        "baseMap":["no"]
+    }
+]

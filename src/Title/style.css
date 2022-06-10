@@ -1,0 +1,872 @@
+/* 标题页面 */
+.MainTitleWindow{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.MainTitleWindow_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50vh;
+    font-size: 5vw;
+    user-select: none;
+}
+
+.MainTitleWindow_Menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+.MainTitleWindow_Menu_start, .MainTitleWindow_Menu_explain{
+    margin-bottom: 2vh;
+    font-size: 2vw;
+    cursor: pointer;
+    user-select: none;
+}
+.MainTitleWindow_Menu_explain{
+    /* font-size: 2vw; */
+}
+/* ---------------- */
+
+/* 说明界面 */
+.MainExplainWindow{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: white;
+}
+.MainExplainWindow_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 10vh;
+    font-size: 5vw;
+    user-select: none;
+}
+.MainExplainWindow_Content, .MainExplainWindow_Buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    font-size: 2vw;
+    user-select: none;
+}
+.MainExplainWindow_Content{
+    padding-top: 5vh;
+    height: 70vh;
+    justify-content: flex-start;
+}
+@keyframes twinkle_white{
+    0%{
+        background: rgba(0,0,0,0);
+    }
+    50%{
+        background: rgba(0,0,0,0.5);
+    }
+    100%{
+        background: rgba(0,0,0,0);
+    }
+}
+.MainExplainWindow_Button_Close{
+    animation: twinkle_white 1.5s linear 0s normal none infinite;
+    padding: 1vh 1vw;
+    background: rgba(0,0,0,0);
+    opacity: 1;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* ---------------- */
+
+/* 主要页面 */
+.MainAll{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.MainMap{
+    /* position: absolute; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 20vw);
+    height: 100%;
+}
+.NowMap{
+    /* position: absolute;
+    width: 30vw;
+    height: 30vh; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: wheat;;
+}
+.MapColumn{
+    width: inherit;
+    height: inherit;
+    display: flex;
+}
+.NormalMap{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: black;
+}
+
+/* 勇者相关 */
+.mtYS{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 6vw;
+    height: 6vh; */
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+.mtYS_Img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    background-size: 400% 400%;
+    z-index: 100;
+}
+
+@keyframes Animation_mtYS_down{
+    0%{
+        background-position: 0 0px;
+    }
+    12.49%{
+        background-position: 0 0px;
+    }
+    12.5%{
+        background-position: -100% 0px;
+    }
+    37.49%{
+        background-position: -100% 0px;
+    }
+    37.5%{
+        background-position: -200% 0px;
+    }
+    62.49%{
+        background-position: -200% 0px;
+    }
+    62.5%{
+        background-position: -300% 0px;
+    }
+    87.49%{
+        background-position: -300% 0px;
+    }
+    87.5%{
+        background-position: 0 0px;
+    }
+    100%{
+        background-position: 0 0px;
+    }
+}
+.mtYS_Img_down{
+    animation: Animation_mtYS_down 0.5s linear 0s normal none 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    background-size: 400% 400%;
+    background-position: 0 0;
+    z-index: 100;
+}
+
+@keyframes Animation_mtYS_up{
+    0%{
+        background-position: 0 -300%;
+    }
+    12.49%{
+        background-position: 0 -300%;
+    }
+    12.5%{
+        background-position: -100% -300%;
+    }
+    37.49%{
+        background-position: -100% -300%;
+    }
+    37.5%{
+        background-position: -200% -300%;
+    }
+    62.49%{
+        background-position: -200% -300%;
+    }
+    62.5%{
+        background-position: -300% -300%;
+    }
+    87.49%{
+        background-position: -300% -300%;
+    }
+    87.5%{
+        background-position: 0 -300%;
+    }
+    100%{
+        background-position: 0 -300%;
+    }
+}
+.mtYS_Img_up{
+    animation: Animation_mtYS_up 0.5s linear 0s normal none 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    background-size: 400% 400%;
+    background-position: 0 -300%;
+    z-index: 100;
+}
+
+@keyframes Animation_mtYS_left{
+    0%{
+        background-position: 0 -100%;
+    }
+    12.49%{
+        background-position: 0 -100%;
+    }
+    12.5%{
+        background-position: -100% -100%;
+    }
+    37.49%{
+        background-position: -100% -100%;
+    }
+    37.5%{
+        background-position: -200% -100%;
+    }
+    62.49%{
+        background-position: -200% -100%;
+    }
+    62.5%{
+        background-position: -300% -100%;
+    }
+    87.49%{
+        background-position: -300% -100%;
+    }
+    87.5%{
+        background-position: 0 -100%;
+    }
+    100%{
+        background-position: 0 -100%;
+    }
+}
+.mtYS_Img_left{
+    animation: Animation_mtYS_left 0.5s linear 0s normal none 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    background-size: 400% 400%;
+    background-position: 0 -100%;
+    z-index: 100;
+}
+
+@keyframes Animation_mtYS_right{
+    0%{
+        background-position: 0 -200%;
+    }
+    12.49%{
+        background-position: 0 -200%;
+    }
+    12.5%{
+        background-position: -100% -200%;
+    }
+    37.49%{
+        background-position: -100% -200%;
+    }
+    37.5%{
+        background-position: -200% -200%;
+    }
+    62.49%{
+        background-position: -200% -200%;
+    }
+    62.5%{
+        background-position: -300% -200%;
+    }
+    87.49%{
+        background-position: -300% -200%;
+    }
+    87.5%{
+        background-position: 0 -200%;
+    }
+    100%{
+        background-position: 0 -200%;
+    }
+}
+.mtYS_Img_right{
+    animation: Animation_mtYS_right 0.5s linear 0s normal none 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    background-size: 400% 400%;
+    background-position: 0 -200%;
+    z-index: 100;
+}
+/*--------------------*/
+@keyframes Animation_NormalMap_Monster_0_0{
+    0%{
+        background-position: 0 0px;
+    }
+    12.49%{
+        background-position: 0 0px;
+    }
+    12.5%{
+        background-position: 100% 0px;
+    }
+    37.49%{
+        background-position: 100% 0px;
+    }
+    37.5%{
+        background-position: 200% 0px;
+    }
+    62.49%{
+        background-position: 200% 0px;
+    }
+    62.5%{
+        background-position: 300% 0px;
+    }
+    87.49%{
+        background-position: 300% 0px;
+    }
+    87.5%{
+        background-position: 0 0px;
+    }
+    100%{
+        background-position: 0 0px;
+    }
+}  
+.NormalMap_Monster_0_0 {
+    animation: Animation_NormalMap_Monster_0_0 1s linear 0s normal none infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    /* background-position: 25% 0px; */
+    /* background-size: 300px 200px; */
+    background-size: 400% 400%;
+}
+
+@keyframes Animation_NormalMap_Monster_0_1{
+    0%{
+        background-position: 0 100%;
+    }
+    12.49%{
+        background-position: 0 100%;
+    }
+    12.5%{
+        background-position: 100% 100%;
+    }
+    37.49%{
+        background-position: 100% 100%;
+    }
+    37.5%{
+        background-position: 200% 100%;
+    }
+    62.49%{
+        background-position: 200% 100%;
+    }
+    62.5%{
+        background-position: 300% 100%;
+    }
+    87.49%{
+        background-position: 300% 100%;
+    }
+    87.5%{
+        background-position: 0 100%;
+    }
+    100%{
+        background-position: 0 100%;
+    }
+}  
+.NormalMap_Monster_0_1 {
+    animation: Animation_NormalMap_Monster_0_1 1s linear 0s normal none infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    /* background-position: 25% 0px; */
+    /* background-size: 300px 200px; */
+    background-size: 400% 400%;
+}
+
+@keyframes Animation_NormalMap_Monster_0_2{
+    0%{
+        background-position: 0 200%;
+    }
+    12.49%{
+        background-position: 0 200%;
+    }
+    12.5%{
+        background-position: 100% 200%;
+    }
+    37.49%{
+        background-position: 100% 200%;
+    }
+    37.5%{
+        background-position: 200% 200%;
+    }
+    62.49%{
+        background-position: 200% 200%;
+    }
+    62.5%{
+        background-position: 300% 200%;
+    }
+    87.49%{
+        background-position: 300% 200%;
+    }
+    87.5%{
+        background-position: 0 200%;
+    }
+    100%{
+        background-position: 0 200%;
+    }
+}  
+.NormalMap_Monster_0_2 {
+    animation: Animation_NormalMap_Monster_0_2 1s linear 0s normal none infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    /* background-position: 25% 0px; */
+    /* background-size: 300px 200px; */
+    background-size: 400% 400%;
+}
+
+@keyframes Animation_NormalMap_Monster_0_3{
+    0%{
+        background-position: 0 300%;
+    }
+    12.49%{
+        background-position: 0 300%;
+    }
+    12.5%{
+        background-position: 100% 300%;
+    }
+    37.49%{
+        background-position: 100% 300%;
+    }
+    37.5%{
+        background-position: 200% 300%;
+    }
+    62.49%{
+        background-position: 200% 300%;
+    }
+    62.5%{
+        background-position: 300% 300%;
+    }
+    87.49%{
+        background-position: 300% 300%;
+    }
+    87.5%{
+        background-position: 0 300%;
+    }
+    100%{
+        background-position: 0 300%;
+    }
+}  
+.NormalMap_Monster_0_3 {
+    animation: Animation_NormalMap_Monster_0_3 1s linear 0s normal none infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+    height: inherit;
+    color: white;
+    /* background-position: 25% 0px; */
+    /* background-size: 300px 200px; */
+    background-size: 400% 400%;
+}
+/**/
+
+/* 状态栏 */
+.Status{
+    padding-bottom: 5vh;
+    position: relative;
+    width: 20vw;
+    /* height: 100%; */
+    background: wheat;
+    border-right: 1px solid;
+    user-select: none;
+}
+.Status_title{
+    font-size: 2vw;
+    font-weight: bold;
+}
+.Status_num{
+    padding: 0.5vh 1vw;
+    font-size: 1.5vw;
+}
+.Status_floorNum{
+    position: absolute;
+    bottom: 2vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5vw;
+}
+/* -------------------- */
+/* 战斗部分 */
+.Status_fight_main{
+    position: absolute;
+    top: 10vh;
+    left: 10%;
+    width: 80%;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(127,127,127,1);
+    border: 3px solid white;
+    z-index: 1000;
+}
+
+.Status_fight_main_left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+
+.Status_fight_main_left_mc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+.Status_fight_main_left_mcText{
+    font-size: 2vw;
+}
+.Status_fight_main_left_Img{
+    width: 15vw;
+    height: 30vh;
+}
+
+.Status_fight_main_left_num{
+
+}
+.Status_fight_main_left_num_fight{
+    font-size: 1.5vw;
+}
+
+.Status_fight_main_middle{
+    position: absolute;
+    user-select: none;
+}
+
+.Status_fight_main_right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+
+.Status_fight_main_right_mc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+.Status_fight_main_right_mcText{
+    font-size: 2vw;
+}
+.Status_fight_main_right_Img{
+    width: 15vw;
+    height: 30vh;
+}
+
+.Status_fight_main_right_num{
+
+}
+.Status_fight_main_right_num_fight{
+    font-size: 1.5vw;
+}
+/*  -----------------------  */
+
+/* 消息提示 */
+@keyframes showAndHide{
+    0%{
+        width: 0%;
+        opacity: 1;
+    }
+    50%{
+        width: 75%;
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+/* 通过裁剪效果控制父节点初始以及最后显示部分，可以实现类似如同画卷展开一样的效果 */
+@keyframes showAndHide2{
+    0%{
+        /* clip-path:ellipse(50% 0, 50% 100%); */
+        /* left:50%;
+        width: 0%; */
+        opacity: 1;
+        clip-path: polygon(50% 0,50% 0,50% 100%,50% 100%);
+    }
+    50%{
+        /* clip-path:ellipse(0 0, 100% 0, 100% 100%, 0 100%); */
+        /* left:0; */
+        /* width: 100%; */
+        clip-path: polygon(0% 0,100% 0,100% 100%,0% 100%);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+/* 战斗消息提示 */
+.fightTipText_main{
+    animation: showAndHide2 .5s linear 0s normal none 1;
+    position: absolute;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 1100;
+    opacity: 0;
+}
+.fightTipText_text{
+    /* animation: showAndHide .5s linear 0s normal none 1; */
+    margin-top: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: silver;
+    width: 75vw;
+    height: 20vh;
+    border: 3px solid white;
+    word-break: break-all;
+    /* border-left: 0;
+    border-right: 0; */
+    font-size: 5vw;
+    /* opacity: 0; */
+    z-index: 1100;
+}
+.fightTipText_Hide1{
+    
+}
+.fightTipText_Hide2{
+
+}
+
+/* 通用消息提示 */
+@keyframes tip_showAndHide{
+    0%{
+        margin-top: 10vh;
+        opacity: 1;
+    }
+    /* 50%{
+        margin-top: -10vh;
+        opacity: 1;
+    } */
+    100%{
+        margin-top: 0vh;
+        opacity: 0;
+    }
+}
+.tipText_main{
+    animation: tip_showAndHide 0.75s linear 0s normal none 1;
+    position: absolute;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 2100;
+    opacity: 0;
+}
+.tipText_text{
+    /* animation: showAndHide .5s linear 0s normal none 1; */
+    margin-top: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: silver;
+    min-width: 50vw;
+    width: max-content;
+    height: 20vh;
+    border: 3px solid white;
+    word-break: break-all;
+    /* border-left: 0;
+    border-right: 0; */
+    font-size: 3vw;
+    /* opacity: 0; */
+    z-index: 1100;
+}
+.tipText_Hide1{
+    
+}
+.tipText_Hide2{
+
+}
+/*
+.fightTipText_main{
+    animation: showAndHide2 .5s linear 0s normal none 1;
+    position: absolute;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 11;
+    opacity: 0;
+}
+.fightTipText_text{
+    /* animation: showAndHide .5s linear 0s normal none 1; */
+    /* margin-top: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: silver;
+    width: 75vw;
+    height: 20vh;
+    border: 3px solid white; */
+    /* border-left: 0;
+    border-right: 0; */
+    /* font-size: 5vw; */
+    /* opacity: 0; */
+/* } */
+/* ------------------- */
+
+/* ---------商店样式---------- */
+/* .Shop_Main{
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    left: 24vw;
+    top: 13vh;
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 10;
+}
+.Shop_Main_Title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+}
+.Shop_Main_Tip{
+
+}
+
+.Shop_Main_Goods{
+    padding: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+}
+.Shop_Main_Goods_life, .Shop_Main_Goods_gong, .Shop_Main_Goods_fang, .Shop_Main_Goods_exit, .Shop_Main_Goods_life_focus, .Shop_Main_Goods_gong_focus, .Shop_Main_Goods_fang_focus, .Shop_Main_Goods_exit_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+.Shop_Main_Goods_life{
+}
+.Shop_Main_Goods_gong{
+}
+.Shop_Main_Goods_fang{
+}
+.Shop_Main_Goods_exit{
+}
+
+@keyframes shopGoodsBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Shop_Main_Goods_life_focus, .Shop_Main_Goods_gong_focus, .Shop_Main_Goods_fang_focus, .Shop_Main_Goods_exit_focus{
+    animation: shopGoodsBorder_showAndHide .5s linear 0s normal none infinite;
+}
+.Shop_Main_Goods_life_focus{
+
+}
+.Shop_Main_Goods_gong_focus{
+
+}
+.Shop_Main_Goods_fang_focus{
+
+}
+.Shop_Main_Goods_exit_focus{
+
+} */
+/* ------------------- */
+.floorNum{
+    position: absolute;
+    bottom: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 1vw;
+}
+.victory, .game_over{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: wheat;
+    width: 100%;
+    height: 100%;
+    font-size: 3vw;
+}

@@ -1,0 +1,174 @@
+[
+    {
+        "name": "1",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no-0_02-Story", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "GS_levelNumToGoldShop", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "RDoor", "GS_goldToLevelNumShop", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "BDoor", "GS_keyShop", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "YDoor", "GS_goldShop", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "YKey", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "2",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "YKey", "BKey", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "3",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "YKey", "BKey", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "4",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "YDoor", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "YKey", "RKey", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "5",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "GS_goldShop", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "YDoor", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "6",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "RDoor", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "YKey", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "7",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "8",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster2", "Monster1", "Monster2", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster1", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "9",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster4", "Monster4", "Monster4", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster3", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "10",
+        "map": [
+            "wall", "wall", "end", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster4", "Monster4", "Monster4", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster3", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    },
+    {
+        "name": "11",
+        "map": [
+            "wall", "wall", "victory", "wall", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "Monster5", "Monster5", "Monster5", "wall", "wall", "wall", "wall", "wall", "wall",
+            "key1", "no", "Monster4", "no", "key2", "wall", "wall", "wall", "wall", "wall",
+            "wall", "sword", "no", "def", "wall", "wall", "wall", "wall", "wall", "wall",
+            "wall", "wall", "no", "no", "no", "no", "wall", "wall", "wall", "wall",
+            "wall", "wall", "start", "wall", "wall", "wall", "wall", "wall", "wall", "wall"
+        ],
+        "width": 10
+    }
+]

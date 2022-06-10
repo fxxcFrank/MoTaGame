@@ -1,0 +1,87 @@
+[
+    {
+        "name":"绿史莱姆",
+        "lx":"Monster1",
+        "url":"img/monster/02_01-04.jpg",
+        "column": 0,
+        "pos": 0,
+        "width":4,
+        "height":4,
+        "baseMap":["no"]
+    },
+    {
+        "name":"蓝史莱姆",
+        "lx":"Monster2",
+        "url":"img/monster/02_01-04.jpg",
+        "column": 1,
+        "pos": 0,
+        "width":4,
+        "height":4,
+        "baseMap":["no"]
+    },
+    {
+        "name":"红史莱姆",
+        "lx":"Monster3",
+        "url":"img/monster/02_01-04.jpg",
+        "column": 2,
+        "pos": 0,
+        "width":4,
+        "height":4,
+        "baseMap":["no"]
+    },
+    {
+        "name":"黑史莱姆",
+        "lx":"Monster4",
+        "url":"img/monster/02_01-04.jpg",
+        "column": 3,
+        "pos": 0,
+        "width":4,
+        "height":4,
+        "baseMap":["no"]
+    },
+    {
+        "name":"小蝙蝠",
+        "lx":"Monster5",
+        "url":"img/monster/Monster5.jpg"
+    },
+    {
+        "name":"骷髅兵",
+        "lx":"Monster6",
+        "url":"img/monster/Monster6.jpg"
+    },
+    {
+        "name":"巫师",
+        "lx":"Monster7",
+        "url":"img/monster/Monster7.jpg"
+    },
+    {
+        "name":"骷髅队长",
+        "lx":"Monster8",
+        "url":"img/monster/Monster8.jpg"
+    },
+    {
+        "name":"石头人",
+        "lx":"Monster9",
+        "url":"img/monster/Monster9.jpg"
+    },
+    {
+        "name":"大蝙蝠",
+        "lx":"Monster10",
+        "url":"img/monster/Monster10.jpg"
+    },
+    {
+        "name":"半兽人",
+        "lx":"Monster11",
+        "url":"img/monster/Monster11.jpg"
+    },
+    {
+        "name":"红蝙蝠",
+        "lx":"Monster12",
+        "url":"img/monster/Monster12.jpg"
+    },
+    {
+        "name":"骑士",
+        "lx":"Monster13",
+        "url":"img/monster/Monster13.jpg"
+    }
+]
