@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import StoryMode0 from './StoryMode0'
 import './style.css'
 import axios from 'axios'

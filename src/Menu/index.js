@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 
@@ -244,7 +245,7 @@ class Menu extends Component {
     /* 保存相关功能 */
     Save = () => {
         this.setState({ saveFlag: true });
-        window.electron.ipcRenderer.send("getAllSaveData");
+        window.electron ? window.electron.ipcRenderer.send("getAllSaveData") : null;
     }
     SaveDataToLocal = (index) => {
         let plugin = document.getElementById("mtYS");

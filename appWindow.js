@@ -18,11 +18,11 @@ ipcMain.on("f5", function () {  //应用刷新
     mainWindow.reload();
 })
 ipcMain.on("f11", function () {//应用放大、复原
-    if(sizeFlag)
+    if (sizeFlag)
         mainWindow.restore();
     else
         mainWindow.maximize();
-    sizeFlag=!sizeFlag;
+    sizeFlag = !sizeFlag;
 })
 ipcMain.on("f12", function () {//应用打开调试工具
     mainWindow.openDevTools();
@@ -41,7 +41,20 @@ ipcMain.on("Save", function (e, name, data) {
 })
 ipcMain.on("SaveCreateMap", function (e, name, data) {
     // console.log("data", name);
-    fs.writeFile(path.join(__dirname, 'public/data/createMap/' + name + '.json'), data, (err) => {
+    // fs.writeFile(path.join(__dirname, 'public/data/createMap/' + name + '.json'), data, (err) => {
+    fs.writeFile(path.join(__dirname, 'public/data/createMap/' + name), data, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("SaveCreateMap------save success!");
+            // getAllSaveData();
+        }
+    })
+})
+ipcMain.on("SaveCreateMap_new", function (e, name, data, url) {
+    // console.log("data", name);
+    fs.writeFile(path.join(__dirname, url), data, (err) => {
         if (err) {
             console.log(err);
         }
@@ -53,6 +66,13 @@ ipcMain.on("SaveCreateMap", function (e, name, data) {
 })
 ipcMain.on("getAllSaveData", function () {
     getAllSaveData();
+})
+
+ipcMain.on("getAllMapData", function (e, url) {
+    getAllMapData(url);
+})
+ipcMain.on("getMapData_json", function (e, url) {
+    getMapData_json(url);
 })
 
 app.on('ready', () => {
@@ -71,7 +91,7 @@ app.on('ready', () => {
     // const urlLocation = './webpackBuild/index.html';
     mainWindow.loadURL(urlLocation);
     // 打开开发工具
-    // mainWindow.openDevTools();
+    mainWindow.openDevTools();
 
 
 
@@ -85,30 +105,6 @@ app.on('ready', () => {
 })
 
 function getAllSaveData() {
-    /* 读取存档目录下所有的存档 */
-    // fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
-    //     if (err) {
-    //         console.log('读取目录出错!', err);
-    //     } else {
-    //         console.log("读取目录成功！");
-    //         console.log(data);
-    //         let dataList = [];
-    //         for (let i = 0; i < data.length; i++) {
-    //             fs.readFile(path.join(__dirname, 'public/data/saveData/' + data[i]), (err2, fileData) => {
-    //                 if (err2) {
-    //                     console.log('读取文件出错!', err2);
-    //                 } else {
-    //                     let jsonData = JSON.parse(fileData);
-    //                     console.log("读取文件成功！");
-    //                     console.log(jsonData);
-    //                     dataList.push(jsonData);
-    //                 }
-    //             })
-    //         }
-    //         mainWindow.webContents.send('saveData', dataList);
-    //     }
-    // })
-
     fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
         if (err) {
             console.log('读取目录出错!', err);
@@ -124,7 +120,6 @@ function getAllSaveData() {
             const fetchFile = async (filename) => {
                 return new Promise((resolve, reject) => {
                     const path1 = path.join(__dirname, 'public/data/saveData/' + filename);
-                    // console.log(filename, '------', 'public/data/saveData/' + filename);
                     try {
                         const data = fsPromises.readFile(path1); // make sure path is correct
                         resolve(data);
@@ -166,4 +161,74 @@ function getAllSaveData() {
     //     console.log("data-----", data)
     // }).catch(e => console.log(e));
 }
+
+function getAllMapData(url) {
+    // fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
+    fs.readdir(path.join(__dirname, url), (err, data) => {
+        if (err) {
+            console.log('读取目录出错!', err);
+        } else {
+            const fsPromises = require('fs').promises,
+                files = data,
+                response = [];
+
+            let fileNameList = [];
+            const fetchFile = async (filename) => {
+                return new Promise((resolve, reject) => {
+                    // const path1 = path.join(__dirname, 'public/data/saveData/' + filename);
+                    const path1 = path.join(__dirname, url + "/" + filename);
+                    try {
+                        const data = fsPromises.readFile(path1); // make sure path is correct
+                        fileNameList.push(filename);
+                        resolve(data);
+                    } catch (e) {
+                        reject(e)
+                    }
+                });
+            }
+            files.forEach((fileName) => response.push(fetchFile(fileName)));
+            Promise.all(response).then((saveData) => {
+                // console.log("saveData-----", saveData);
+                let dataList = [];
+                saveData.forEach((json, index) => { dataList.push({ fileName: fileNameList[index], data: JSON.parse(json) }) });
+                // console.log("dataList-----", dataList);
+                mainWindow.webContents.send('loadMap', dataList);
+            }).catch(e => console.log(e));
+        }
+    })
+}
+function getMapData_json(url) {
+    // fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
+    fs.readdir(path.join(__dirname, url), (err, data) => {
+        if (err) {
+            console.log('读取目录出错!', err);
+        } else {
+            const fsPromises = require('fs').promises,
+                files = data,
+                response = [];
+
+            const fetchFile = async (filename) => {
+                return new Promise((resolve, reject) => {
+                    // const path1 = path.join(__dirname, 'public/data/saveData/' + filename);
+                    const path1 = path.join(__dirname, url + "/" + filename);
+                    try {
+                        const data = fsPromises.readFile(path1); // make sure path is correct
+                        resolve(data);
+                    } catch (e) {
+                        reject(e)
+                    }
+                });
+            }
+            files.forEach((fileName) => response.push(fetchFile(fileName)));
+            Promise.all(response).then((saveData) => {
+                // console.log("saveData-----", saveData);
+                let dataList = [];
+                saveData.forEach((json) => { dataList.push(JSON.parse(json)) });
+                // console.log("dataList-----", dataList);
+                mainWindow.webContents.send('loadMap', dataList);
+            }).catch(e => console.log(e));
+        }
+    })
+}
+
 

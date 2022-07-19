@@ -58,7 +58,7 @@
 /**/
 /* 右侧菜单 */
 .CreateMap_RightMenu{
-    
+    width: 25%;
 }
 .CreateMap_RightMenu_Tabs{
     display: flex;

@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
+import LeftSilder from "./LeftSilder";
 import ReturnMap from "./ReturnMap";
 import BaseMap from "./BaseMap";
 import MonsterMap from "./MonsterMap";
@@ -13,6 +15,8 @@ class CreateMap extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loadMapList: [],
+
             nowMap: [],
             nowMapNum: 0,
             middleWidth: 10,
@@ -27,16 +31,19 @@ class CreateMap extends Component {
             saveMapName: 0,
 
             showMiddleFlag: false,
-            mouseDownFlag: false
+            mouseDownFlag: false,
+            onChangeMapFlag:false,
         }
+        let _this = this;
+        window.electron ? window.electron.ipcRenderer.on('loadMap', function (event, loadMap) {
+            console.log('所有地图-----', loadMap);
+            _this.setState({ loadMapList: loadMap });
+        }) : null;
     }
-
-    // componentWillMount = () => {
-
-    // }
 
     componentDidMount = () => {
         const { middleWidth, middleHeight } = this.state;
+        this.loadMap();
         let map = [];
         for (let i = 0; i < middleWidth; i++) {
             for (let j = 0; j < middleHeight; j++) {
@@ -68,25 +75,18 @@ class CreateMap extends Component {
                 console.log(e);
             })
         setTimeout(() => {      //权宜之计
-            this.setState({showMiddleFlag:true});
+            this.setState({ showMiddleFlag: true });
         }, 1000);
     }
 
     render() {
-        const { nowMap, nowMapNum, middleWidth, nowShowTab } = this.state;
+        const { nowMap, nowMapNum, middleWidth, nowShowTab,onChangeMapFlag } = this.state;
         let num = JSON.parse(JSON.stringify(this.state.middleWidth));
         return (
             <Fragment>
                 {this.props.createMapFlag ?
                     <div className="CreateMap_Main" >
-                        <div className="CreateMap_LeftMenu">
-                            <div className="CreateMap_LeftMenu_TreeDir"></div>
-                            <input onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} />
-                            <div className="CreateMap_LeftMenu_Buttons">
-                                <div className="CreateMap_LeftMenu_Button" onClick={() => this.saveNowMap()}>保存</div>
-                                <div className="CreateMap_LeftMenu_Button">读取（暂未实现）</div>
-                            </div>
-                        </div>
+                        <LeftSilder nowMap={nowMap} setMap={this.setMap} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit}/>
                         <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
                             {nowMap.map((map, index) => {
                                 if (index + 1 == num) {
@@ -112,9 +112,7 @@ class CreateMap extends Component {
                                 })}
                             </div>
                             <div className="CreateMap_RightMenu_Content">
-                                {/* {this.state.showMiddleFlag ? this.returnRightContent() : null} */}
                                 {this.returnRightContent()}
-                                {/* <BaseMap clickAddMap={this.clickAddMap} baseMapComponentOnRef={this.baseMapComponentOnRef} /> */}
                             </div>
                         </div>
                     </div>
@@ -129,12 +127,16 @@ class CreateMap extends Component {
         let data = this.state.nowMap;
         let jsonData = JSON.stringify(data);
         let saveData = this.splitStringData(jsonData);
-        // let jsonData2 = JSON.stringify(data, null, "\t");
-        // let jsonData2 = JSON.stringify(data, (e) => this.open(e, data), "\t");
-        // console.log("jsonData2",jsonData,jsonData2);
         let filename = this.state.saveMapName;
-        // let fileData = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-        window.electron.ipcRenderer.send("SaveCreateMap", filename, saveData);
+        window.electron ? window.electron.ipcRenderer.send("SaveCreateMap", filename, saveData) : null;
+    }
+    loadMap = () => {           //读取地图
+        let url = "public/data/createMap";
+        window.electron ? window.electron.ipcRenderer.send("getAllMapData", url) : null;
+    }
+    loadMap_json = () => {           //读取地图
+        let url = "public/data/createMap";
+        window.electron ? window.electron.ipcRenderer.send("getMapData_json", url) : null;
     }
     open = (e, data) => {       //原用以测试‘JSON.stringify()’函数的功能，现暂未测试成功
         console.log("e", e, data);
@@ -153,7 +155,6 @@ class CreateMap extends Component {
             if ((i + 1) % widthNum === 0)
                 saveData += "\n"
         }
-        // console.log("splitStringData", string, list, saveData);
         return saveData;
     }
     /* */
@@ -161,37 +162,18 @@ class CreateMap extends Component {
     /* 返回地图块的主函数 */
     returnMap(map, index) {
         let nowMapNum = this.state.nowMapNum;
-
         return this.returnMapComponent.returnMap(map, index);
-        // /* 返回怪物 */
-        // if (map.includes("Monster")) {
-        //     return this.returnMapComponent.returnMonsterMap(map, index);
-        // }
-        // /* 返回商店 */
-        // else if (map.includes("Shop")) {
-        //     return this.returnMapComponent.returnShopMap(map, index);
-        // }
-        // /* 返回剧情块 */
-        // else if (map.includes("Story")) {
-        //     return this.returnMapComponent.returnStoryMap(map, index);
-        // }
-        // /* 返回基础图元 */
-        // else {
-        //     // console.log(map, this.returnMapComponent);
-        //     if (this.returnMapComponent) {
-        //         return this.returnMapComponent.returnBaseMap(map, index);
-        //     }
-        // }
     }
     changeMiddleMap = (index) => {
         let nowClickAddMap = this.state.nowClickAddMap;
         if (!nowClickAddMap)
             return;
         let nowMap = [...this.state.nowMap];
-
         nowMap[index] = nowClickAddMap.lx;
-        console.log("changeMiddleMap", index, nowClickAddMap, nowMap[index]);
-        this.setState({ nowMap: nowMap });
+        this.setState({ nowMap: nowMap,onChangeMapFlag:true });
+    }
+    setMap=(map)=>{
+        this.setState({ nowMap: map,onChangeMapFlag:false });
     }
 
     /* 右侧菜单相关 */
@@ -209,7 +191,6 @@ class CreateMap extends Component {
             case 4:
                 return <StoryMap clickAddMap={this.clickAddMap} />;
             default:
-                // return <BaseMap clickAddMap={this.clickAddMap} baseMapComponentOnRef={this.baseMapComponentOnRef} />;
                 return;
         }
     }
@@ -228,18 +209,6 @@ class CreateMap extends Component {
     returnMapComponentOnRef = (ref) => {
         this.returnMapComponent = ref;
     }
-    // /*2，怪物 */
-    // monsterComponentOnRef = (ref) => {
-    //     this.monsterComponent = ref;
-    // }
-    // /*3，剧情 */
-    // storyComponentOnRef = (ref) => {
-    //     this.storyComponent = ref;
-    // }
-    // /*4，菜单 */
-    // baseMapComponentOnRef = (ref) => {
-    //     this.baseMapComponent = ref;
-    // }
     /********    ********/
 }
 

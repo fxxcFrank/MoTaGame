@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 // import style from './style.css'
@@ -154,6 +154,8 @@ class Shop extends Component {
     }
 
     changeShopGoods = (num) => {
+        // this.palyVoice('voice/event_03.mp3');
+        this.palyVoice('voice/event_01.ogg');
         let nowShopGoodsNum = this.state.nowShopGoodsNum;
         let nowShopGoodsLength = this.state.nowShopGoodsLength;
         let nextNum = nowShopGoodsNum + num;
@@ -168,6 +170,8 @@ class Shop extends Component {
         }
     }
     selectGoods = (spend, get) => {
+        // this.palyVoice('voice/event_04.mp3');
+        this.palyVoice('voice/event_02.ogg');
         this.props.selectGoods(spend, get);
     }
     exitShop = () => {
@@ -323,6 +327,22 @@ class Shop extends Component {
         })
         this.setState({ baseMapList: baseMapList });
     }
+
+    /* 播放音效 */
+    palyVoice = (url) => {      //(未测试)效果存疑，之后加入音效再行测试
+        const myAudio = new Audio()
+        myAudio.preload = true; //
+        // myAudio.controls = true;
+        myAudio.loop = false;
+        myAudio.src = url;
+        // 播完时候播放下一首
+        // myAudio.addEventListener('ended', this.ChangeMusic.bind(this, myAudio), false);
+        myAudio.play();
+        // setTimeout(() => {
+        //     myAudio.pause();
+        // }, 5000);
+    }
+    /*  */
 }
 
 const mapState = (state) => ({

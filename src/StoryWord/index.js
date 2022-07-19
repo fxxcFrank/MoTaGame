@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import StoryMode0 from './StoryMode0'
 import StoryMode2 from './StoryMode2'
 import './style.css'

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 
@@ -26,7 +27,7 @@ class BaseMap extends Component {
     }
 
     render() {
-        console.log("this.state.baseMap1List", this.state.baseMap1List);
+        // console.log("this.state.baseMap1List", this.state.baseMap1List);
         return (
             <Fragment>
                 {this.state.baseMap1List.map((baseMap, index) => {
@@ -35,8 +36,8 @@ class BaseMap extends Component {
                     return (
                         // <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
                         // <img className="CreateMap_baseMap_base" style={{ backgroundImage: "url(data:image/png;base64," + this.changeImage(baseMap.url, baseMap.width, baseMap.height) + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
-                        this.returnImg(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
-                        // <canvas onLoad={(e)=>this.getImg(e)}></canvas>
+                        // this.returnImg(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
+                        this.returnImg_simple(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
                     )
                 })}
             </Fragment>
@@ -47,12 +48,20 @@ class BaseMap extends Component {
         console.log("e", e);
     }
 
+    returnImg_simple = (dataImg, width, height, index, baseMap, backgroundSize, backgroundPosition) => {
+        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        return (
+            <Fragment>
+                {div}
+            </Fragment>
+        );
+    }
     returnImg = (dataImg, width, height, index, baseMap, backgroundSize, backgroundPosition) => {
-        console.log("dataImg", dataImg);
+        // console.log("dataImg", dataImg);
         //backgroundImage: "URL(" + this.changeImage(baseMap.url) + ")"
         //backgroundImage: "url(data:image/png;base64," + this.changeImage(baseMap.url, baseMap.width, baseMap.height) + ")"
         let self = this;
-        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
         let canvas = document.createElement("canvas");
         canvas.className = "CreateMap_baseMap_base";
         // canvas.style.position = "absolute";
@@ -65,7 +74,7 @@ class BaseMap extends Component {
         // img.src = "img/doors--.png";
         img.src = dataImg;
         img.onload = function () {
-            console.log("img", img, img.width, img.height, img.naturalWidth, img.naturalHeight);
+            // console.log("img", img, img.width, img.height, img.naturalWidth, img.naturalHeight);
             // canvas.width = img.width / baseMap.width;
             // canvas.height = img.height / baseMap.height;
             canvas.width = img.width ;
@@ -93,7 +102,7 @@ class BaseMap extends Component {
             // img.src = canvas.toDataURL("image/png").slice(22);//返回base64
 
             let div1 = document.getElementById("BaseMap_rightMenu-" + index);
-            div1.style.backgroundImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
+            div1 ? div1.style.backgroundImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")" : null;
         };
         return (
             <Fragment>

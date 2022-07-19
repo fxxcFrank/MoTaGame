@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 
@@ -60,7 +61,6 @@ class MainWindow extends Component {
             finish: false,
             victory: false,
         }
-        // eslint-disable-next-line no-unused-expressions
         this.props.mainWindowComponentOnRef ? this.props.mainWindowComponentOnRef(this) : null;
         axios.get('data/map.json')
             .then((res) => {
@@ -228,10 +228,8 @@ class MainWindow extends Component {
         let doc;
         for (let i = 0; i < list.length; i++) {
             let div = list[i];
-            // console.log('div',div);
             if (!div.attributes["index"])
                 continue;
-            // console.log('id',id,div.attributes["index"] * 1,div.attributes["index"]);
             if (id == div.attributes["index"].nodeValue * 1) {
                 doc = div;
                 break;
@@ -241,7 +239,6 @@ class MainWindow extends Component {
     }
 
     move = (doc1) => {
-        // debugger
         let plugin = document.getElementById("mtYS");
         let list = document.getElementsByTagName("div");
         let id = doc1.attributes["index"].nodeValue;    //因为采用了复合图层的原因，会导致部分dom刷新后doc的指向不明确，导致无法正常添加div，所以采用这种麻烦的方式，应该对效率有所影响，但目前看来不大。
@@ -264,7 +261,6 @@ class MainWindow extends Component {
         let nowMap = [...this.state.mapList[nowMapNum].map];
         let id = doc.attributes["index"].nodeValue;
         doc.attributes["lx"].nodeValue = "no";
-        // doc.innerText = "无";
         nowMap[id] = "no";
         mapList[nowMapNum].map = nowMap;
         this.setState({ mapList: mapList });
@@ -292,7 +288,6 @@ class MainWindow extends Component {
         let mImgMode = doc.attributes["imgMode"].nodeValue;
         let mImgPos = doc.attributes["imgPos"].nodeValue;
         let mImgUrl = doc.attributes["imgUrl"].nodeValue;
-        // debugger
         /* 战斗处理 */
         let mc = doc.innerText;
         this.setState({ nowM: { life: mLife, gong: mGong, fang: mFnag, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
@@ -305,13 +300,10 @@ class MainWindow extends Component {
                     this.setState({ finish: true });
                 }
                 else {
-                    console.log("nowM", this.state.nowM);
-                    // debugger
                     this.setState({ fightTipFlag: true, fightTipWord: "战斗胜利！", fightStatusShowFlag: false });
                     this.remove(doc);
                     this.move(doc);
                     if (ysLevelNum + mLevelNum >= ysNextLevelAllNum) {
-                        // debugger
                         ysLevel += 1;
                         ysLevelNum = ysLevelNum + mLevelNum - ysNextLevelAllNum;
                         ysNextLevelAllNum = ysLevel * 121;  //等级与下一等级之间的跨度差值在此定义
@@ -346,9 +338,7 @@ class MainWindow extends Component {
                             life: ysLife,
                         })
                     }
-
                     setTimeout(() => {
-                        // debugger
                         this.setState({
                             fightTipFlag: false,
                             fightFlag: false,
@@ -357,12 +347,10 @@ class MainWindow extends Component {
                 }
             }
             else if (flag) {
-                // debugger
                 if (ysGong > mFnag) {
                     let sh = (ysGong - mFnag);
                     let a = Math.random();
                     sh = a < bjl ? sh = Math.ceil(sh * (1 + bjsh)) : sh;
-                    // console.log('a', a, bjl, sh)
                     mLife = mLife - sh;
                 }
                 else
@@ -372,7 +360,6 @@ class MainWindow extends Component {
                     mLife = 0
             }
             else {
-                // debugger
                 if (mGong > ysFang)
                     ysLife = ysLife - (mGong - ysFang);
                 else
@@ -381,7 +368,6 @@ class MainWindow extends Component {
                 if (ysLife < 0)
                     ysLife = 0;
             }
-            // debugger
             this.setState({ life: ysLife });
             this.setState({ nowM: { life: mLife, gong: mGong, fang: mFnag, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
         }, 300);
@@ -432,7 +418,6 @@ class MainWindow extends Component {
     selectGoods = (spend, get) => {
         let flag = true;
         for (let i in spend) {
-            // eslint-disable-next-line no-unused-expressions
             let have = this.state[i];
             if (have < spend[i]) {
                 flag = false;
@@ -442,10 +427,8 @@ class MainWindow extends Component {
             }
         }
         if (flag) {
-            // debugger
             for (let i in spend) {
                 let state = {};
-                // eslint-disable-next-line no-unused-expressions
                 let have = this.state[i];
                 have -= spend[i];
                 state[i] = have;
@@ -480,7 +463,6 @@ class MainWindow extends Component {
         let root = document.getElementById("MainAll");
         let tempPlugin = document.createElement("div");
         tempPlugin.className = "tipText_main";
-        // tempPlugin.id = "tip";
         tempPlugin.innerHTML =
             `<div class="tipText_text">${text}</div>`
         root.appendChild(tempPlugin);
@@ -492,7 +474,6 @@ class MainWindow extends Component {
         let root = document.getElementById("MainAll");
         let tempPlugin = document.createElement("div");
         tempPlugin.className = "fightTipText_main";
-        // tempPlugin.id = "tip";
         tempPlugin.innerHTML =
             `<div class="fightTipText_text">${text}</div>`
         root.appendChild(tempPlugin);
@@ -503,7 +484,6 @@ class MainWindow extends Component {
     /* */
     setMapList = (mapList) => {
         let plugin = document.getElementById("mtYS");
-        // let plugin = this.createYS();
         let id = plugin.attributes["index"].nodeValue;
         this.setState({ mapList: mapList });        //本函数除去这一句之外的其他逻辑，老实说虽然达到了效果，但果然还是很不安，因为逻辑跟react的初衷几乎完全背离了（虽然从操作dom开始就已经是了）。但这个更甚，我甚至把运行代码成功的基础建立在setstate和dom遍历的时间差上，虽然效果达到了，但……之后的确需要进行修改，此处存在很大的问题
         let list = document.getElementsByTagName("div");
@@ -548,25 +528,23 @@ class MainWindow extends Component {
         let id = parseInt(allState.posId);
         let plugin = document.getElementById("mtYS");
 
-        this.setState(data);    //因为设置state是异步操作，可能会存在因为异步和电脑运行速度导致和下方的函数无法顺序对应上，从而使得读档时会发生‘勇者’消失的情况————之后考虑一下吧，现在预读取出了‘勇者’块，并在地图更新之后获取更新之后的对应移动的‘地图’块，使得读档时即便存档中相应位置上有其他复合地图块存在，也能正常运行……吧
-
-        // setTimeout(() => {
-        let list = document.getElementsByTagName("div");
-        let doc;
-        for (let i = 0; i < list.length; i++) {
-            let div = list[i];
-            if (!div.attributes["index"])
-                continue;
-            if (id == div.attributes["index"].nodeValue * 1) {
-                doc = div;
-                break;
+        this.setState(data, () => {
+            let list = document.getElementsByTagName("div");
+            let doc;
+            for (let i = 0; i < list.length; i++) {
+                let div = list[i];
+                if (!div.attributes["index"])
+                    continue;
+                if (id == div.attributes["index"].nodeValue * 1) {
+                    doc = div;
+                    break;
+                }
             }
-        }
-        // console.log("setAllState", doc, id);
-        // debugger
-        plugin.attributes["index"].nodeValue = id;
-        doc.appendChild(plugin);
-        // }, 1000);
+            plugin.attributes["index"].nodeValue = id;
+            doc.appendChild(plugin);
+        });    //已解决
+
+
     }
     /* 处理地图之间移动的函数 */
     upMap(doc) {

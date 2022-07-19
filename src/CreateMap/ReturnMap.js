@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 
@@ -15,7 +16,6 @@ class ReturnMap extends Component {
     }
 
     componentWillMount = () => {
-        // eslint-disable-next-line no-unused-expressions
         this.props.returnMapComponentOnRef ? this.props.returnMapComponentOnRef(this) : null;
         axios.get('data/baseMap/baseMap1.json')
             .then((res) => {
@@ -82,16 +82,14 @@ class ReturnMap extends Component {
                 let mapList = baseMap.baseMap;
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
-                this.returnImg(baseMap.url,baseMapIndex);
+                // this.returnImg(baseMap.url,baseMapIndex);
                 let tempMap2 = <img className="CreateMap_baseMap_base" id={"CreateMap_baseMap_base-" + baseMapIndex} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name}
-                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={(e) => {this.setState({ mouseDownFlag: true },()=>this.mouseDownAndMove(e, index))}} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType, mapTypeIndex) => {
                         list.map((tempMap,tempIndex) => {
                             if (tempMap.lx === mapType) {
-                                // debugger
-                                console.log("tempMap",list,tempMap,mapType);
                                 let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
                                 let tempBackgroundPosition = tempMap.pos * 100 + "% " + tempMap.column * 100 + "%";
                                 let temp = <div className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition , position:"absolute",zIndex:mapTypeIndex}} lx={tempMap.lx} title={tempMap.name} />
@@ -100,7 +98,6 @@ class ReturnMap extends Component {
                         })
                     })
                     baseMapList.push(tempMap2);
-                    console.log("baseMapList",baseMapList);
                     map = <div className="CreateMap_baseMap_base_complex">
                         {baseMapList.map((map)=>{
                             return map;
@@ -112,7 +109,6 @@ class ReturnMap extends Component {
                 }
             }
         })
-        // debugger
         return map;
     }
     /* 返回基础地图 */
@@ -125,7 +121,7 @@ class ReturnMap extends Component {
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let tempMap2 = <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name}
-                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={(e) => {this.setState({ mouseDownFlag: true },()=>this.mouseDownAndMove(e, index))}} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType) => {
@@ -150,7 +146,6 @@ class ReturnMap extends Component {
                 }
             }
         })
-        // debugger
         return map;
     }
 
@@ -164,7 +159,7 @@ class ReturnMap extends Component {
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let tempMap2 = <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name}
-                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={(e) => {this.setState({ mouseDownFlag: true },()=>this.mouseDownAndMove(e, index))}} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType) => {
@@ -188,11 +183,7 @@ class ReturnMap extends Component {
                     map = tempMap2;
                 }
             }
-            // if (baseMap.lx === lx)
-            //     map = <img className="CreateMap_baseMap" lx={baseMap.lx} src={baseMap.url} title={baseMap.name} onClick={() => this.props.changeMiddleMap(index)}
-            //         onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
         })
-        // debugger
         return map;
     }
 
@@ -206,7 +197,7 @@ class ReturnMap extends Component {
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let tempMap2 = <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name}
-                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={(e) => {this.setState({ mouseDownFlag: true },()=>this.mouseDownAndMove(e, index))}} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType) => {
@@ -229,12 +220,8 @@ class ReturnMap extends Component {
                 else {
                     map = tempMap2;
                 }
-            }
-            // if (baseMap.lx === lx)
-            //     map = <img className="CreateMap_baseMap" lx={baseMap.lx} src={baseMap.url} title={baseMap.name} onClick={() => this.props.changeMiddleMap(index)}
-            //         onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+            }   
         })
-        // debugger
         return map;
     }
 
@@ -242,15 +229,13 @@ class ReturnMap extends Component {
     returnStoryMap(lx, index) {
         let storyMap1List = this.state.storyMap1List;
         let map = null;
-        // let story = lx.split("-");
-        // let storyId = story[1];
         storyMap1List.map((baseMap) => {
             if (baseMap.lx === lx) {
                 let mapList = baseMap.baseMap;
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let tempMap2 = <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name}
-                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
+                    onClick={() => this.props.changeMiddleMap(index)} onMouseDown={(e) => {this.setState({ mouseDownFlag: true },()=>this.mouseDownAndMove(e, index))}} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType) => {
@@ -274,18 +259,12 @@ class ReturnMap extends Component {
                     map = tempMap2;
                 }
             }
-            // if (baseMap.lx === lx)
-            //     map = <img className="CreateMap_baseMap" lx={baseMap.lx} src={baseMap.url} title={baseMap.name} onClick={() => this.props.changeMiddleMap(index)}
-            //         onMouseOver={(e) => this.mouseDownAndMove(e, index)} />
         })
-        // debugger
         return map;
     }
 
     mouseDownAndMove = (e, index) => {
-        console.log(this.props.mouseDownFlag);
         if (this.props.mouseDownFlag) {
-            // console.log("mouseDownAndMove",e,index);
             this.props.changeMiddleMap(index)
         }
     }
@@ -323,7 +302,7 @@ class ReturnMap extends Component {
             }
             canvas.getContext("2d").putImageData(imageData, 0, 0);
             let div = document.getElementById("CreateMap_baseMap_base-" + index);
-            div.style.backgroundImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
+            div ? div.style.backgroundImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")" : null;
         };
     }
 }
@@ -333,8 +312,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(ReturnMap);

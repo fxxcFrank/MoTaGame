@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 import axios from 'axios'
 
@@ -19,7 +19,7 @@ class Monster extends Component {
             .then((res) => {
                 const result = res.data;
                 this.setState({ monsterMapList: result });
-                this.returnImg(result);
+                // this.returnImg(result);
             })
             .catch((error) => {
                 console.log(error)
@@ -70,7 +70,8 @@ class Monster extends Component {
                 })
                 let mapList = baseMap.baseMap;
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + monster.imgUrl + ")";
-                let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}>{monster.monsterName}</div>;
+                // let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}>{monster.monsterName}</div>;
+                let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}></div>;
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType, mapTypeIndex) => {
@@ -119,10 +120,10 @@ class Monster extends Component {
         let numLength = monsterMapList.length;
         let numCount = 0;
         monsterMapList.map((baseMap) => {
-            if (baseMap == undefined){
-                numCount+=1;
+            if (baseMap == undefined) {
+                numCount += 1;
                 return;
-            } 
+            }
             let dataImg = baseMap.url;
             let canvas = document.createElement("canvas");
             var img = new Image();
@@ -142,6 +143,9 @@ class Monster extends Component {
                 for (var i = 0; i < imageData.data.length; i += 4) {
                     //rgb小于40的透明度y均设置成0 即将黑色和近灰色都调整成透明
                     if (
+                        // imageData.data[i] === 0 &&
+                        // imageData.data[i + 1] === 0 &&
+                        // imageData.data[i + 2] === 0 
                         imageData.data[i] < 1 &&
                         imageData.data[i + 1] < 1 &&
                         imageData.data[i + 2] < 1
@@ -149,22 +153,68 @@ class Monster extends Component {
                         // imageData.data[i + 1] <= 10 &&
                         // imageData.data[i + 2] <= 10
                     ) {
+                        if (_this.imageDataCloseCompare(imageData.data, i)) {
+                            continue;
+                        }
                         imageData.data[i + 3] = 0;
                         // imageData.data[i + 3] = 100;
                     }
                 }
                 canvas.getContext("2d").putImageData(imageData, 0, 0);
                 baseMap.urlImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
-                numCount+=1;
-                if(numCount===numLength){
+                numCount += 1;
+                if (numCount === numLength) {
                     _this.props.setPreloadFlag("monsterPreloadFlag", true);
                 }
             };
-            if(numCount===numLength){
+            if (numCount === numLength) {
                 _this.props.setPreloadFlag("monsterPreloadFlag", true);
             }
         })
         this.setState({ monsterMapList: monsterMapList });
+    }
+
+    imageDataCloseCompare = (imageData, index) => {
+        let mainLength = imageData.length;
+        let mainWidth = Math.sqrt(mainLength);
+        let nowColumn = Math.floor(index / mainWidth);
+        let flag = false, flag1 = false, flag2 = false;
+        for (let i = nowColumn; i > nowColumn - 1; i--) {
+            let width = mainWidth * i;
+            if (index < width || i < 0) {
+                break;
+            }
+            let upIndex = index >= width ? index - width : index;
+            // console.log("imageDataCloseCompare", imageData, width, mainLength);
+            if (
+                imageData[upIndex] >= 33 &&
+                imageData[upIndex + 1] >= 33 &&
+                imageData[upIndex + 2] >= 33
+            ) {
+                // console.log(imageData[upIndex], imageData[upIndex + 1], imageData[upIndex + 2], imageData[upIndex + 3]);
+                flag1 = true;
+                break;
+            }
+        }
+        for (let j = nowColumn; j < nowColumn + 1; j++) {
+            let width = mainWidth * j;
+            if (index + width > 65535 || j > 65535) {
+                break;
+            }
+            let downIndex = index + width <= 65535 ? index + width : index;
+            if (
+                imageData[downIndex] >= 33 &&
+                imageData[downIndex + 1] >= 33 &&
+                imageData[downIndex + 2] >= 33
+            ) {
+                flag2 = true;
+                break;
+            }
+        }
+        // console.log("flag1,flag2", flag1, flag2);
+        if (flag1 || flag2)
+            flag = true;
+        return flag;
     }
 
     returnImg2 = (baseMapList) => {
