@@ -9,16 +9,22 @@ Q打开菜单，里面有‘保存’、‘读取’。
 如需使用对应的地图，则将json中对应的数据拷贝到上一级public/data/map.json中对应楼层的位置，记得保证楼层不要重复、不要跳层，因为还未测试相关功能。
 
 项目使用前置说明：
+
 1，本项目在window10、node12.8.3环境下开发生成，请程序员在编写前确保前置环境是否已完备。
+
 2，因为上传GitHub的是项目的程序及数据文件，clone到本地后，如要在开发环境下运行，请确保npm i了所有node_modules依赖。
+
 3，本项目以react框架为核心，开发了仅用前端实现的魔塔游戏或者半个魔塔引擎，而前端本身是不允许随意访问、修改用户本地文件的。
 针对这个问题，本项目使用了electron作为基底，代为实现魔塔游戏的‘保存’、‘读取’功能，同时将网页嵌入形成桌面应用一样的存在，可谓是客户端。
 所以，在开发环境下，如果仅仅npm run webpackStart项目的话，启动的是react基底的项目主体，这个状态下去使用菜单中的‘保存’、‘读取’功能，我记得是会崩溃来着。
+
 下面是我常规启动项目调试的流程：
 vscode————>项目————>打开两个集成终端————>第一个集成终端npm run webpackStart项目————>等待项目启动完成后，在第二个集成终端中npm run electron————>这样就打开了调试状态下的项目桌面应用，因为设置了快捷键，可以f12打开网页调试工具。在未崩溃的情况下，f5可以刷新页面。
 
 我本机有保存一个打包好的本项目，打个压缩包后差不多就可以当做是一个已完成的简陋单机魔塔游戏了。
 -_-如果之后有需要的话，再行开个仓库上传吧，老实说体积不算小，估计删去不需要的多余文件，大小总共也有200M呢。
+
+另：因为没有找到好的透明背景素材，所以对背景黑色的素材使用了统一颜色通道替换，在项目中使用时临时调整为透明背景。大致逻辑为将RGB三个数值均低于某个数值时，设置为透明背景，部分为32和1，基础地形中设置为100.
 
 
 以下是百度翻译：
@@ -37,3 +43,5 @@ The following is the process of my regular startup project debugging:
 Vscode -- > Project -- > open two integration terminals -- > NPM run webpackstart project of the first integration terminal -- > after the project is started, NPM run electron -- > in the second integration terminal opens the project desktop application in the debugging state. Because the shortcut key is set, you can press F12 to open the web page debugging tool. F5 can refresh the page without crashing.
 I have saved a packed project on this computer. After playing a compressed package, it can almost be regarded as a completed simple stand-alone magic tower game.
 -_- If you need it later, open a warehouse to upload it. To be honest, the volume is not small. It is estimated that deleting unnecessary redundant files will have a total size of 200m.
+
+In addition: because no good transparent background material is found, the material with black background is replaced by a unified color channel, which is temporarily adjusted to a transparent background when used in the project. The approximate logic is that when the three RGB values are lower than a certain value, it is set as a transparent background, part of which is 32 and 1, and the basic terrain is set as 100
