@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
@@ -13,13 +14,11 @@ class Monster extends Component {
 
             baseMapList: [],
         }
-        // eslint-disable-next-line no-unused-expressions
         this.props.monsterComponentOnRef ? this.props.monsterComponentOnRef(this) : null;
         axios.get('data/baseMap/monsterMap1.json')
             .then((res) => {
                 const result = res.data;
                 this.setState({ monsterMapList: result });
-                // this.returnImg(result);
             })
             .catch((error) => {
                 console.log(error)
@@ -29,18 +28,14 @@ class Monster extends Component {
                 const result = res.data;
                 this.setState({ baseMapList: result });
                 this.returnImg2(result);
-                // this.props.setPreloadFlag("monsterPreloadFlag", true);
             })
             .catch((error) => {
                 console.log(error)
             })
         axios.get('data/monsterList.json')
             .then((res) => {
-                // debugger
                 const result = res.data;
-                // console.log("Monster-----",result);
                 this.setState({ monsterList: result });
-                // this.props.setPreloadFlag("monsterPreloadFlag", true);
             })
             .catch((error) => {
                 console.log(error)
@@ -70,7 +65,6 @@ class Monster extends Component {
                 })
                 let mapList = baseMap.baseMap;
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + monster.imgUrl + ")";
-                // let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}>{monster.monsterName}</div>;
                 let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}></div>;
                 if (mapList) {
                     let baseMapList = [];
@@ -100,18 +94,6 @@ class Monster extends Component {
         return map;
     }
 
-    // returnMonsterMap = (map, index, nowMapNum) => {
-    //     let monsterList = this.state.monsterList;
-    //     let monster = {};
-    //     // console.log(map, index, nowMapNum,monsterList);
-    //     monsterList.map((m) => {
-    //         if (m.monsterID === map) {
-    //             monster = m;
-    //         }
-    //     })
-    //     return <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: "URL(" + monster.imgUrl + ")" }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}>{monster.monsterName}</div>;
-    // }
-
     /* 通过将图片加载到canvas里面，使用canvas的函数改变画布中特定范围内的颜色通道，使得特定范围内的像素点颜色变得透明 
         目前是将素材中黑色背景替换成透明背景，准确率和召回率还算可以，有空的话再行优化吧。
     */
@@ -139,25 +121,17 @@ class Monster extends Component {
                     canvas.width,
                     canvas.height
                 );
-                // console.log("imageData.data",imageData,imageData.data);
                 for (var i = 0; i < imageData.data.length; i += 4) {
                     //rgb小于40的透明度y均设置成0 即将黑色和近灰色都调整成透明
                     if (
-                        // imageData.data[i] === 0 &&
-                        // imageData.data[i + 1] === 0 &&
-                        // imageData.data[i + 2] === 0 
                         imageData.data[i] < 1 &&
                         imageData.data[i + 1] < 1 &&
                         imageData.data[i + 2] < 1
-                        // imageData.data[i] <= 10 &&
-                        // imageData.data[i + 1] <= 10 &&
-                        // imageData.data[i + 2] <= 10
                     ) {
                         if (_this.imageDataCloseCompare(imageData.data, i)) {
                             continue;
                         }
                         imageData.data[i + 3] = 0;
-                        // imageData.data[i + 3] = 100;
                     }
                 }
                 canvas.getContext("2d").putImageData(imageData, 0, 0);
@@ -185,13 +159,11 @@ class Monster extends Component {
                 break;
             }
             let upIndex = index >= width ? index - width : index;
-            // console.log("imageDataCloseCompare", imageData, width, mainLength);
             if (
                 imageData[upIndex] >= 33 &&
                 imageData[upIndex + 1] >= 33 &&
                 imageData[upIndex + 2] >= 33
             ) {
-                // console.log(imageData[upIndex], imageData[upIndex + 1], imageData[upIndex + 2], imageData[upIndex + 3]);
                 flag1 = true;
                 break;
             }
@@ -211,7 +183,6 @@ class Monster extends Component {
                 break;
             }
         }
-        // console.log("flag1,flag2", flag1, flag2);
         if (flag1 || flag2)
             flag = true;
         return flag;
@@ -261,8 +232,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(Monster);

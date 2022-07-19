@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
 import './style.css'
 import axios from 'axios'
-// import style from './style.css'
 
 class Shop extends Component {
     constructor(props) {
@@ -23,7 +23,6 @@ class Shop extends Component {
             shopGoodsList: [],
             spendGold: null,
         }
-        // eslint-disable-next-line no-unused-expressions
         this.props.shopComponentOnRef ? this.props.shopComponentOnRef(this) : null;
         axios.get('data/baseMap/shopMap1.json')
             .then((res) => {
@@ -39,7 +38,6 @@ class Shop extends Component {
                 const result = res.data;
                 this.setState({ baseMapList: result });
                 this.returnImg2(result);
-                // this.props.setPreloadFlag("monsterPreloadFlag", true);
             })
             .catch((error) => {
                 console.log(error)
@@ -47,7 +45,6 @@ class Shop extends Component {
         axios.get('data/shopList.json')
             .then((res) => {
                 const result = res.data;
-                // console.log('res', res, result);
                 let shopList = this.state.shopList;
                 shopList.map((shop) => {
                     if (shop.shopType === this.props.shopType) {
@@ -58,7 +55,6 @@ class Shop extends Component {
                             shopExplain: shop.shopExplain,
                             shopGoodsList: shop.shopGoodsList,
                         })
-                        // this.props.setPreloadFlag("shopPreloadFlag", true);
                     }
                 })
                 this.setState({ shopList: result });
@@ -68,40 +64,8 @@ class Shop extends Component {
             })
     }
 
-    // componentWillMount() {
-    // }
-    // componentDidMount() {
-    //     // debugger
-    //     // eslint-disable-next-line no-unused-expressions
-    //     this.props.shopComponentOnRef ? this.props.shopComponentOnRef(this) : null;
-    //     axios.get('data/shopList.json')
-    //         .then((res) => {
-    //             // debugger
-    //             const result = res.data;
-    //             // console.log('res', res, result);
-    //             let shopList = this.state.shopList;
-    //             shopList.map((shop) => {
-    //                 if (shop.shopType === this.props.shopType) {
-    //                     this.setState({
-    //                         nowShop: shop,
-    //                         nowShopGoodsLength: shop.shopGoodsList.length,
-    //                         shopTitle: shop.shopTitle,
-    //                         shopExplain: shop.shopExplain,
-    //                         shopGoodsList: shop.shopGoodsList,
-    //                     })
-    //                 }
-    //             })
-    //             this.setState({ shopList: result });
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //         })
-    // }
-
     /* 该时间周期函数中不能使用this */
     static getDerivedStateFromProps(props, state) {
-        // console.log("getDerivedStateFromProps", props, state);
-        // debugger
         if (props.shopType !== state.shopType) {
             return {
                 shopType: props.shopType
@@ -111,8 +75,6 @@ class Shop extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // debugger
-        // console.log("componentDidUpdate", prevProps, prevState, this.props, this.state);
         if (prevState.shopType !== this.state.shopType) {
             let shopList = this.state.shopList;
             shopList.map((shop) => {
@@ -177,9 +139,7 @@ class Shop extends Component {
     exitShop = () => {
         this.props.exitShop();
         this.setState({
-            // nowShop: {},
             nowShopGoodsNum: 0,
-            // nowShopGoodsLength: 0,
         })
     }
 
@@ -199,7 +159,6 @@ class Shop extends Component {
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + baseMap.url + ")";
-                // let tempMap2 = <div className={"NormalMap_BaseMap"} id={"NormalMap_BaseMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>{baseMap.name}</div>;
                 let tempMap2 = <div className={"NormalMap_ShopMap_1"} id={"NormalMap_ShopMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index} />;
                 if (mapList) {
                     let baseMapList = [];
@@ -207,8 +166,6 @@ class Shop extends Component {
                         let tempList = [...this.state.baseMapList];
                         tempList.map((tempMap, tempIndex) => {
                             if (tempMap.lx === mapType) {
-                                // debugger
-                                // console.log("tempMap", list, tempMap, mapType);
                                 let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
                                 let tempBackgroundPosition = tempMap.pos * 100 + "% " + tempMap.column * 100 + "%";
                                 let temp = <div className="NormalMap_ShopMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition, position: "absolute", zIndex: mapTypeIndex }} lx={tempMap.lx} title={tempMap.name} />
@@ -217,7 +174,6 @@ class Shop extends Component {
                         })
                     })
                     baseMapList.push(tempMap2);
-                    // console.log("baseMapList", baseMapList);
                     map = <div className="NormalMap_ShopMap_base_complex">
                         {baseMapList.map((map) => {
                             return map;
@@ -230,14 +186,6 @@ class Shop extends Component {
             }
         })
         return map;
-        // let shopList = this.state.shopList;
-        // let shop = {};
-        // shopList.map((s) => {
-        //     if (s.shopType === map) {
-        //         shop = s;
-        //     }
-        // })
-        // return <div className="NormalMap" index={index} lx={shop.shopType} key={nowMapNum + "个" + index}>{shop.shopTitle}</div>;
     }
 
     /* 通过将图片加载到canvas里面，使用canvas的函数改变画布中特定范围内的颜色通道，使得特定范围内的像素点颜色变得透明 
@@ -350,8 +298,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(Shop);

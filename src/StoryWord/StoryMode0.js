@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
@@ -19,9 +20,7 @@ class StoryMode0 extends Component {
     }
 
     componentWillMount = () => {
-        // eslint-disable-next-line no-unused-expressions
         this.props.StoryMode0_OnRef ? this.props.StoryMode0_OnRef(this) : null;
-        // eslint-disable-next-line no-unused-expressions
         this.props.nowStory ? this.getDataFromModeStory0(this.props.nowStory) : null;
     }
     componentDidUpdate(prevProps, prevState) {
@@ -125,7 +124,6 @@ class StoryMode0 extends Component {
             for (let i = 0; i <= num; i++) {
                 list.push(word[i]);
             }
-            // console.log("list", num, list);
             return list;
         }
         else {
@@ -140,12 +138,10 @@ class StoryMode0 extends Component {
     setIntervalWord_Mode0 = (word) => {
         let num = this.state.nowStoryWordIndex_InWord_WordIndex_Mode0;
         let max = word.length;
-        // console.log("word",word);
         this.storyWordTimer_Mode0 = setInterval(() => {
             if (num >= max - 2) {
                 this.setState({ showSpanLastFlag_Mode0: true });
                 clearInterval(this.storyWordTimer_Mode0);
-                // return;
             }
             num += 1;
             this.setState({ nowStoryWordIndex_InWord_WordIndex_Mode0: num })
@@ -160,8 +156,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(StoryMode0);

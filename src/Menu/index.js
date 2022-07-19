@@ -40,7 +40,6 @@ class Menu extends Component {
             spaceFlag: false, //控制键盘事件的占位
         }
         let _this = this;
-        // eslint-disable-next-line no-unused-expressions
         window.electron ? window.electron.ipcRenderer.on('saveData', function (event, saveData) {
             console.log('所有存档-----', saveData);
             _this.setState({ saveDataList: saveData });
@@ -67,9 +66,6 @@ class Menu extends Component {
         }, 1000);
         this.props.setPreloadFlag("menuPreloadFlag", true);
     }
-    // componentWillMount() {
-
-    // }
     componentWillUnmount() {
         document.removeEventListener("keydown", this.keyOn);
     }
@@ -88,9 +84,6 @@ class Menu extends Component {
                                 )
                             })}
                         </div>
-                        {/* <div className="Menu_Save">保存</div>
-                        <div className="Menu_Load">载入</div>
-                        <div className="Menu_Exit">退出</div> */}
                     </div>
                     : null
                 }
@@ -216,7 +209,6 @@ class Menu extends Component {
     }
 
     clickMenuButton = (nowMenuButtonIndex) => {
-        // let nowMenuButtonIndex = this.state.nowMenuButtonIndex;
         let menuButtonList = this.state.menuButtonList;
         let nowMenuButton = menuButtonList[nowMenuButtonIndex];
         switch (nowMenuButton.text) {
@@ -250,7 +242,6 @@ class Menu extends Component {
     SaveDataToLocal = (index) => {
         let plugin = document.getElementById("mtYS");
         let posId = plugin.attributes["index"].nodeValue * 1;
-        // console.log("SaveDataToLocal",plugin,posId);
         let allState = this.props.allState;
         let data = {
             nowGameTime: this.state.nowGameTime,
@@ -330,7 +321,6 @@ class Menu extends Component {
         }
     }
     clickMenuSaveButton = (nowMenuSaveIndex) => {
-        // let nowMenuSaveIndex = this.state.nowMenuSaveIndex;
         let saveListLength = this.state.saveList.length;
         if (nowMenuSaveIndex < saveListLength) {
             this.SaveDataToLocal(nowMenuSaveIndex);
@@ -377,7 +367,6 @@ class Menu extends Component {
         }
     }
     clickMenuLoadButton = (nowMenuLoadIndex) => {
-        // let nowMenuSaveIndex = this.state.nowMenuSaveIndex;
         let loadListLength = this.state.loadList.length;
         if (nowMenuLoadIndex < loadListLength) {
             this.LoadDataToLocal(nowMenuLoadIndex);
@@ -425,8 +414,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(Menu);

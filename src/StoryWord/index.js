@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
@@ -21,7 +22,6 @@ class StoryWord extends Component {
             nowWord: "",
             showStoryMode: -1,
         }
-        // eslint-disable-next-line no-unused-expressions
         this.props.storyWordComponentOnRef ? this.props.storyWordComponentOnRef(this) : null;
         axios.get('data/baseMap/storyMap1.json')
             .then((res) => {
@@ -60,7 +60,6 @@ class StoryWord extends Component {
 
     /* 该时间周期函数中不能使用this */
     static getDerivedStateFromProps(props, state) {
-        // console.log("getDerivedStateFromProps", props, state);
         if (props.nowStoryId !== state.nowStoryId) {
             return {
                 nowStoryId: props.nowStoryId
@@ -70,7 +69,6 @@ class StoryWord extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // console.log("componentDidUpdate", prevProps, prevState, this.props, this.state);
         if (prevState.nowStoryId !== this.state.nowStoryId) {
             let storyList = this.state.storyList;
             storyList.map((story) => {
@@ -164,17 +162,8 @@ class StoryWord extends Component {
     closeStory = (flag) => {
         if (flag && this.state.nowStoryId !== "0_00_start" && this.state.nowStoryId !== "0_01") {
             //对是否存在返回的故事块进行判断，不存在则不作为，存在则将该触发过的故事块置换为普通的地图块。
-            // let nowMapNum = this.props.nowMapNum;
-            // let mapList = [...this.props.mapList];
-            // let nowMap = [...this.props.mapList[nowMapNum].map];
-            // let doc = this.props.nowMeetMap;
-            // let id = doc.attributes["index"].nodeValue;
-            // // doc.attributes["lx"].nodeValue = "no";
-            // // doc.innerText = "无";
-            // nowMap[id] = "no";      //之后可在此针对复合地图块进行修正，或许需要新建storyMode，也需要在title中新建返回复合地图块的地图块控制元素
-            // //所谓复合地图块，例子————（底层）地板、（高层）物体块二者的叠加，其实三者、四者、五者、多者都可以（开发中的预想）。
-            // mapList[nowMapNum].map = nowMap;
-            // this.props.setMapList(mapList);
+            //之后可在此针对复合地图块进行修正，或许需要新建storyMode，也需要在title中新建返回复合地图块的地图块控制元素
+            //所谓复合地图块，例子————（底层）地板、（高层）物体块二者的叠加，其实三者、四者、五者、多者都可以（开发中的预想）。
             this.props.remove(this.props.nowMeetMap);
         }
         this.props.closeStory();
@@ -196,8 +185,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(StoryWord);

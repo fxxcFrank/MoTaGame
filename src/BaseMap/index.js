@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 // import * as actionCreators from '../Action/store/actionCreators'
@@ -10,17 +11,12 @@ class BaseMap extends Component {
         this.state = {
             baseMapList: [],
         }
-        // eslint-disable-next-line no-unused-expressions
         this.props.baseMapComponentOnRef ? this.props.baseMapComponentOnRef(this) : null;
         axios.get('data/baseMap/baseMap1.json')
             .then((res) => {
-                // debugger
                 const result = res.data;
-                // console.log("Monster-----",result);
                 this.setState({ baseMapList: result });
                 this.returnImg(result);
-                // console.log("BaseMap-----",result);
-                // this.props.setPreloadFlag("baseMapPreloadFlag", true);
             })
             .catch((error) => {
                 console.log(error)
@@ -46,14 +42,9 @@ class BaseMap extends Component {
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                 let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + baseMap.url + ")";
-                // let tempMap2 = <div className={"NormalMap_BaseMap"} id={"NormalMap_BaseMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>{baseMap.name}</div>;
                 let tempMap2 = <div className={"NormalMap_BaseMap"} id={"NormalMap_BaseMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index} />;
                 if (lx == "start") {
                     tempMap2 = <div className={"NormalMap_BaseMap"} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>
-                        {/* {baseMap.name} */}
-                        {/* <div className="mtYS" id="mtYS" index={index}>
-                            <div className="mtYS_Img_down" style={{ backgroundImage: "URL(img/ys.png)" }}></div>
-                        </div> */}
                         <div className="mtYS_Img_down" id="mtYS" index={index} style={{ backgroundImage: "URL(img/ys.png)" }}></div>
                     </div>;
                 }
@@ -63,8 +54,6 @@ class BaseMap extends Component {
                     mapList.map((mapType, mapTypeIndex) => {
                         list.map((tempMap, tempIndex) => {
                             if (tempMap.lx === mapType) {
-                                // debugger
-                                // console.log("tempMap", list, tempMap, mapType);
                                 let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
                                 let tempBackgroundPosition = tempMap.pos * 100 + "% " + tempMap.column * 100 + "%";
                                 let temp = <div className="NormalMap_BaseMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition, position: "absolute", zIndex: mapTypeIndex }} lx={tempMap.lx} title={tempMap.name} />
@@ -73,7 +62,6 @@ class BaseMap extends Component {
                         })
                     })
                     baseMapList.push(tempMap2);
-                    // console.log("baseMapList", baseMapList);
                     map = <div className="NormalMap_BaseMap_base_complex">
                         {baseMapList.map((map) => {
                             return map;
@@ -85,19 +73,7 @@ class BaseMap extends Component {
                 }
             }
         })
-        // debugger
-        return map;
-
-        // let baseMapList = this.state.baseMapList;
-        // let baseMap = {};
-        // baseMapList.map((m) => {
-        //     if (m.lx === map) {
-        //         baseMap = m;
-        //     }
-        // })
-        // let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
-        // let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
-        // return <div className={"NormalMap_BaseMap"} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>{baseMap.name}</div>;
+        return map; 
     }
 
     /* 通过将图片加载到canvas里面，使用canvas的函数改变画布中特定范围内的颜色通道，使得特定范围内的像素点颜色变得透明 
@@ -140,9 +116,7 @@ class BaseMap extends Component {
                 canvas.getContext("2d").putImageData(imageData, 0, 0);
                 baseMap.urlImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
                 numCount+=1;
-                // console.log("returnImg-----",numCount);
                 if(numCount===numLength){
-                    // console.log("returnImg-----numCount",numCount);
                     _this.props.setPreloadFlag("baseMapPreloadFlag", true);
                 }
             };
@@ -155,8 +129,6 @@ class BaseMap extends Component {
 
     returnImg2 = (dataImg, index, tempMap2) => {
         let canvas = document.createElement("canvas");
-        // canvas.className = "CreateMap_baseMap_base";
-        // canvas.style.border = "1px solid #d3d3d3";
         // 创建新图片
         var img = new Image();
         img.src = dataImg;
@@ -182,10 +154,6 @@ class BaseMap extends Component {
                 }
             }
             canvas.getContext("2d").putImageData(imageData, 0, 0);
-            // let div = document.getElementById("NormalMap_BaseMap-" + index);
-            // eslint-disable-next-line no-unused-expressions
-            // div ? div.style.backgroundImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")" : null;
-
         };
     }
 }
@@ -195,8 +163,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(BaseMap);

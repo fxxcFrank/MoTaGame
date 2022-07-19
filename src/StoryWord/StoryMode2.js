@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
@@ -19,9 +20,7 @@ class StoryMode2 extends Component {
     }
 
     componentWillMount = () => {
-        // eslint-disable-next-line no-unused-expressions
         this.props.StoryMode2_OnRef ? this.props.StoryMode2_OnRef(this) : null;
-        // eslint-disable-next-line no-unused-expressions
         this.props.nowStory ? this.getDataFromModeStory2(this.props.nowStory) : null;
     }
     componentDidUpdate(prevProps, prevState) {
@@ -45,7 +44,6 @@ class StoryMode2 extends Component {
         let storyWordList = [];
         storyContent.map((data) => {
             let wordList = data.word.split("\n");
-            // console.log("wordList", wordList, wordList.length);
             storyWordList.push({ name: data.name, wordList: wordList });
         })
         this.setIntervalWord_Mode2(storyWordList[0].wordList[0]);
@@ -134,7 +132,6 @@ class StoryMode2 extends Component {
             if (num >= max-2) {
                 this.setState({ showSpanLastFlag_Mode2: true });
                 clearInterval(this.storyWordTimer_Mode2);
-                // return;
             }
             num += 1;
             this.setState({ nowStoryWordIndex_InWord_WordIndex_Mode2: num })
@@ -149,8 +146,5 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
 });
 export default connect(mapState, mapProps)(StoryMode2);
