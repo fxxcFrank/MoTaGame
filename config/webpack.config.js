@@ -36,7 +36,7 @@ module.exports = {
                     'css-loader',
                     'less-loader'
                 ],
-                include: path.resolve(__dirname, '../src'),
+                include: [path.resolve(__dirname, '../src'),path.resolve(__dirname, '../public/css')],
                 // exclude: [path.resolve(__dirname, '../public'),'public','../public']
             },
             {

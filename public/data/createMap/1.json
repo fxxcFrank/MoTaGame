@@ -1,10 +1,1 @@
-["end","Monster3","wall","wall","YKey","no","wall","no","YKey","wall",
-"wall","Monster2","no","YKey","no","no","Monster1","no","no","wall",
-"wall","wall","wall","wall","wall","wall","no","wall","wall","wall",
-"wall","sword","wall","BKey","YKey","wall","Monster1","no","Monster1","wall",
-"wall","Monster3","wall","Monster3","Monster3","wall","wall","wall","no","wall",
-"wall","no","no","no","no","no","no","no","no","wall",
-"wall","wall","YDoor","wall","wall","wall","YDoor","wall","wall","wall",
-"wall","Monster2","no","no","Monster2","wall","sword","Monster1","YKey","wall",
-"wall","def","Monster2","Monster2","sword","wall","YKey","Monster1","Monster2","wall",
-"wall","wall","wall","wall","wall","wall","wall","wall","no","start"]
+[{"name":"1","map":["no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no"],"width":10},{"name":"2","map":["no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no"],"width":10}]

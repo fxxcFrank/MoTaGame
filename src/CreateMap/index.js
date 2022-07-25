@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-
+// import '../../public/css/antd.css'
 import './style.css'
 import axios from 'axios'
 import LeftSilder from "./LeftSilder";

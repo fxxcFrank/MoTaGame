@@ -1,18 +1,35 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-import { Tree,message } from 'antd'
+import { Tree, Modal, message, Button } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
-// import * as actionCreators from '../Action/store/actionCreators'
+
 import './style.css'
 
 class LeftSilder extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            middleWidth: 10,
+            middleHeight: 10,
+            defaultMap: [],
+
             loadMapList: [],
             selectedMap: [],
-            selectedInfo:{},
+            selectedInfo: {},
+
+            saveModelFlag: false,
+            saveFileName: "",
+            saveMode: 1,
+
+            sortModelFlag: false,
+
+            deleteFileName: "",
+            deleteFlag: false,
+            deleteMode: "",
+            deleteWord: "",
+
+            exitModelFlag: false,
         }
         let _this = this;
         window.electron ? window.electron.ipcRenderer.on('loadMap', function (event, loadMap) {
@@ -23,36 +40,69 @@ class LeftSilder extends Component {
     }
 
     componentDidMount = () => {
+        const { middleWidth, middleHeight } = this.state;
+        let map = [];
+        for (let i = 0; i < middleWidth; i++) {
+            for (let j = 0; j < middleHeight; j++) {
+                map.push("no");
+            }
+        }
+        this.setState({ defaultMap: map })
     }
 
     render() {
-        const { selectedMap } = this.state;
+        const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, deleteFlag, deleteWord, exitModelFlag } = this.state;
         return (
             <Fragment>
                 <div className="CreateMap_LeftMenu">
                     <div className="CreateMap_LeftMenu_TreeDir">
-                        <Tree
+                        <Tree       //记得解决一下点击地图文件抬头会崩的问题，因为它没有地图文件
                             showLine
                             switcherIcon={<DownOutlined />}
                             onSelect={this.onSelect}
                             selectedKeys={selectedMap}
                             treeData={this.returnMapData()}
+                            draggable
+                            onDrop={this.onMapDrop}
                         />
                     </div>
-                    <input onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} />
+                    {/* <input className="CreateMap_LeftMenu_fileNameInput" onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} /> */}
                     <div className="CreateMap_LeftMenu_Buttons">
-                        <div className="CreateMap_LeftMenu_Button" onClick={() => this.saveNowMap()}>保存</div>
-                        <div className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取（暂未实现）</div>
-                        <div className="CreateMap_LeftMenu_Button" onClick={() => this.props.Exit()}>推出编辑</div>
+                        {/* <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>
+                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取</Button> */}
+                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMapJson("2.json")}>创建地图文件</Button>
+                        <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMap()}>新增地图</Button>
+                        <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSort()}>地图排序</Button>
+
+                        <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openDelete("all")}>删除地图文件</Button>
+                        <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openDelete("one")}>删除地图</Button>
+                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.openExit()}>退出编辑</Button>
                     </div>
                 </div>
+                <Modal className="CreateMap_LeftMenu_SaveModel" visible={saveModelFlag} onOk={() => this.saveNowMap()} onCancel={() => this.closeSave()}
+                    footer={this.returnSaveModelFooter()}
+                >
+                    当前选择保存的文件名为：{saveFileName},请选择保存类型————
+                </Modal>
+
+                <Modal className="CreateMap_LeftMenu_SaveModel" visible={sortModelFlag} onOk={() => this.clickSortMap()} onCancel={() => this.closeSort()} okText="排序" cancelText="取消">
+                    是否以当前顺序对地图{saveFileName}进行排序？
+                </Modal>
+
+                <Modal className="CreateMap_LeftMenu_SaveModel" visible={deleteFlag} onOk={() => this.selectModeDeleteMap()} onCancel={() => this.closeDelete()} okText="删除" cancelText="取消">
+                    {deleteWord}
+                </Modal>
+
+                <Modal className="CreateMap_LeftMenu_SaveModel" visible={exitModelFlag} onOk={() => this.clickExitOk()} onCancel={() => this.closeExit()} okText="确认退出" cancelText="取消">
+                    是否退出编辑
+                </Modal>
             </Fragment>
         )
     }
 
     onSelect = (selectedKeysValue, info) => {
-        console.log('onSelect', selectedKeysValue,info);
-        this.setState({ selectedMap: selectedKeysValue,selectedInfo:info });
+        console.log('onSelect', selectedKeysValue, info);
+        this.setState({ selectedMap: selectedKeysValue, selectedInfo: info });
         this.props.setMap(info.node.map);
     };
     returnMapData = () => {
@@ -60,21 +110,22 @@ class LeftSilder extends Component {
         let treeList = [];
         loadMapList.map((map, index) => {
             let children = [];
-            if (map.data[0].name) {
+            if (map.data[0] && map.data[0].name) {
                 map.data.map((data, index1) => {
                     let middleMap = {
                         title: data.name,
                         key: 'tree-' + index + "-" + index1,
-                        map:data.map,
-                        parentFileName:map.fileName,
-                        mapIndex:index1,
-                        parentIndex:index,
+                        map: data.map,
+                        parentFileName: map.fileName,
+                        mapIndex: index1,
+                        parentIndex: index,
                     }
                     children.push(middleMap);
                 })
                 let data = {
                     title: map.fileName,
                     key: 'tree-' + index,
+                    selectable: false,      //之后或者把它改成根据选择的是父节点还是子节点进行相应的地图数据处理
                     children: [...children]
                 }
                 treeList.push(data);
@@ -82,31 +133,57 @@ class LeftSilder extends Component {
         })
         return treeList;
     }
+
+    onMapDrop = (event) => {        //拖拽树节点改变，改变树节点地图位置。
+        console.log("onMapDrop-----event", event);
+        const { loadMapList } = this.state;
+        let dragNode = event.dragNode;
+        let node = event.node;
+        if (dragNode.parentIndex) {
+            let nowLoadMapList = [...loadMapList];
+            let sendLoadMapList = [...nowLoadMapList[dragNode.parentIndex].data];
+            if (node.mapIndex) {
+                let dragMap = JSON.parse(JSON.stringify(sendLoadMapList[dragNode.mapIndex]));
+                sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[node.mapIndex];
+                sendLoadMapList[node.mapIndex] = dragMap;
+            }
+            else {
+                let dragMap = JSON.parse(JSON.stringify(sendLoadMapList[dragNode.mapIndex]));
+                sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[0];
+                sendLoadMapList[0] = dragMap;
+            }
+            nowLoadMapList[dragNode.parentIndex].data = sendLoadMapList;
+            this.setState({ loadMapList: [...nowLoadMapList] })
+        }
+    }
+
     /* 左侧菜单 */
-    saveNowMap = () => {    //之后给保存成功做界面显示反馈
-        const {selectedInfo,loadMapList} =this.state;
-        if(selectedInfo && selectedInfo!={}){
+    saveNowMap = () => {    //保存创建的地图
+        const { selectedInfo, loadMapList } = this.state;
+        if (selectedInfo && selectedInfo != {}) {
             let data = this.props.nowMap;
-            let sendLoadMapList=[...loadMapList[selectedInfo.node.parentIndex].data];
-            sendLoadMapList[selectedInfo.node.mapIndex].map=data;
+            let sendLoadMapList = [...loadMapList[selectedInfo.node.parentIndex].data];
+            sendLoadMapList[selectedInfo.node.mapIndex].map = data;
             let jsonData = JSON.stringify(sendLoadMapList);
             // let saveData = this.splitStringData(jsonData);
             let filename = selectedInfo.node.parentFileName;
             // let filename = "112.json";
             window.electron ? window.electron.ipcRenderer.send("SaveCreateMap", filename, jsonData) : null;
-            message.error('保存成功！');
+            message.success('保存成功！');
+            this.setState({ saveModelFlag: false });
         }
-        else{
+        else {
             message.error('保存失败！');
         }
     }
-    loadMap = () => {           //读取地图
+    loadMap = () => {           //读取地图（主要）
         let url = "public/data/createMap";
         window.electron ? window.electron.ipcRenderer.send("getAllMapData", url) : null;
     }
     loadMap_json = () => {           //读取地图
-        let url = "public/data/createMap";
-        window.electron ? window.electron.ipcRenderer.send("getMapData_json", url) : null;
+        console.log("loadMap_json",);
+        // let url = "public/data/createMap";
+        // window.electron ? window.electron.ipcRenderer.send("getMapData_json", url) : null;
     }
     open = (e, data) => {       //原用以测试‘JSON.stringify()’函数的功能，现暂未测试成功
         console.log("e", e, data);
@@ -128,6 +205,188 @@ class LeftSilder extends Component {
         return saveData;
     }
     /* */
+
+    /* 保存的对话框 */
+    openSave = () => {
+        const { selectedInfo, loadMapList } = this.state;
+        let fileName = loadMapList[selectedInfo.node.parentIndex].fileName;
+        this.setState({ saveFileName: fileName, saveModelFlag: true });
+    }
+    closeSave = () => {
+        this.setState({ saveModelFlag: false });
+    }
+    saveAs = () => {  //另存为  
+        const { selectedInfo, loadMapList } = this.state;
+        if (selectedInfo && selectedInfo != {}) {
+            let data = this.props.nowMap;
+            let sendLoadMapList = [...loadMapList[selectedInfo.node.parentIndex].data];
+            sendLoadMapList[selectedInfo.node.mapIndex].map = data;
+            let jsonData = JSON.stringify(sendLoadMapList);
+            let filename = selectedInfo.node.parentFileName;
+            window.electron ? window.electron.ipcRenderer.send("SaveAs", filename, jsonData) : null;
+            this.setState({ saveModelFlag: false });
+        }
+        else {
+            message.error('保存失败！');
+        }
+
+    }
+    returnSaveModelFooter = () => {
+        const { saveMode } = this.state;
+        return (
+            <Fragment>
+                <Button onClick={this.closeSave}>取消</Button>
+                <Button type="primary" onClick={this.saveAs}>另存为</Button>
+                {saveMode === 1 ? <Button type="primary" onClick={this.saveNowMap}>保存</Button> : null}
+            </Fragment>
+        )
+    }
+    /* ------------------- */
+
+    /* 删除的对话框*/
+    openDelete = (deleteMode) => {
+        const { selectedInfo, loadMapList } = this.state;
+        let fileName = loadMapList[selectedInfo.node.parentIndex].fileName;
+        let deleteWord = "";
+        switch (deleteMode) {
+            case "all":
+                deleteWord = "当前选择地图文件名为：" + fileName + ",是否删除该地图文件？";
+                break;
+            case "one":
+                let mapLevel = loadMapList[selectedInfo.node.parentIndex].data[selectedInfo.node.mapIndex].name;
+                deleteWord = "当前选择地图为：" + fileName + "文件中的第" + mapLevel + "层,是否删除该地图？";
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            deleteFileName: fileName,
+            deleteFlag: true,
+            deleteMode: deleteMode,
+            deleteWord: deleteWord,
+        });
+    }
+    closeDelete = () => {
+        this.setState({ deleteFlag: false });
+    }
+    selectModeDeleteMap = () => {
+        const { deleteMode } = this.state;
+        switch (deleteMode) {
+            case "all":
+                this.deleteMapJson();
+                break;
+            case "one":
+                this.deleteMap();
+                break;
+            default:
+                break;
+        }
+        this.setState({ deleteFlag: false });
+    }
+    /* ------------------- */
+
+    /* 排序的对话框*/
+    openSort = () => {
+        const { selectedInfo, loadMapList } = this.state;
+        let fileName = loadMapList[selectedInfo.node.parentIndex].fileName;
+        this.setState({ saveFileName: fileName, sortModelFlag: true });
+    }
+    closeSort = () => {
+        this.setState({ sortModelFlag: false });
+    }
+    clickSortMap = () => {
+        const { selectedInfo, loadMapList } = this.state;
+        if (selectedInfo && selectedInfo !== {}) {
+            let nowLoadMapList = [...loadMapList];
+            let sendLoadMapList = [...nowLoadMapList[selectedInfo.node.parentIndex].data];
+            sendLoadMapList.map((data, index) => {
+                data.name = index + 1;
+            });
+            nowLoadMapList[selectedInfo.node.parentIndex].data = sendLoadMapList;
+            this.setState({ loadMapList: nowLoadMapList, sortModelFlag: false });
+        }
+    }
+    /* ------------------- */
+
+    /* 新建地图文件和在已有地图文件中新增地图 */
+    createNewMapJson = (fileName) => {
+        const { selectedInfo, loadMapList, middleWidth, defaultMap } = this.state;
+        let changeLoadMapList = [...loadMapList];
+        let sendLoadMapList = [];
+        let newMap = {
+            name: sendLoadMapList.length + 1 + "",
+            map: defaultMap,
+            width: middleWidth,
+        }
+        sendLoadMapList.push(newMap);
+        let newMapJson = {
+            fileName: fileName,
+            data: sendLoadMapList,
+        }
+        changeLoadMapList.push(newMapJson);
+        this.setState({ loadMapList: changeLoadMapList });
+    }
+    createNewMap = () => {
+        const { selectedInfo, loadMapList, middleWidth, defaultMap } = this.state;
+        if (selectedInfo && selectedInfo != {}) {
+            let changeLoadMapList = [...loadMapList]
+            let sendLoadMapList = [...changeLoadMapList[selectedInfo.node.parentIndex].data];
+            let newMap = {
+                name: sendLoadMapList.length + 1 + "",
+                map: defaultMap,
+                width: middleWidth,
+            }
+            sendLoadMapList.push(newMap);
+            changeLoadMapList[selectedInfo.node.parentIndex].data = sendLoadMapList;
+            this.setState({ loadMapList: changeLoadMapList });
+        }
+    }
+    /*------------*/
+
+
+    deleteMapJson = () => {         //目前的删除仅针对缓存，未正真删除实际的文件
+        const { selectedInfo, loadMapList, } = this.state;
+        if (selectedInfo && selectedInfo != {}) {
+            let changeLoadMapList = loadMapList.filter((data, index) => index !== selectedInfo.node.parentIndex);
+            this.setState({
+                loadMapList: changeLoadMapList,
+                selectedMap: [],
+                selectedInfo: {},
+            });
+            // let filename = selectedInfo.node.parentFileName;
+            // let url = "public/data/saveData/";
+            // window.electron ? window.electron.ipcRenderer.send("DeleteMapJson", filename, url) : null;
+        }
+    }
+    deleteMap = () => {             //目前的删除仅针对缓存，未正真删除实际的文件
+        const { selectedInfo, loadMapList, } = this.state;
+        if (selectedInfo && selectedInfo != {}) {
+            console.log("deleteMap", selectedInfo);
+            let changeLoadMapList = [...loadMapList]
+            let sendLoadMapList = [...changeLoadMapList[selectedInfo.node.parentIndex].data];
+            sendLoadMapList = sendLoadMapList.filter((data, index) => index !== selectedInfo.node.mapIndex);
+            changeLoadMapList[selectedInfo.node.parentIndex].data = sendLoadMapList;
+            this.setState({
+                loadMapList: changeLoadMapList,
+                selectedMap: [],
+                selectedInfo: {},
+            });
+
+        }
+    }
+    /* ------------------- */
+
+    /* 退出编辑 */
+    openExit = () => {
+        this.setState({ exitModelFlag: true });
+    }
+    closeExit = () => {
+        this.setState({ exitModelFlag: false });
+    }
+    clickExitOk = () => {
+        this.props.Exit();
+    }
+    /* ------------------- */
 }
 
 const mapState = (state) => ({
