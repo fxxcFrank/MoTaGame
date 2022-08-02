@@ -73,7 +73,8 @@ class StoryWord extends Component {
             let storyList = this.state.storyList;
             storyList.map((story) => {
                 if (story.storyId === this.state.nowStoryId) {
-                    if (story.storyId !== "0_00_start" && story.storyId !== "0_01") {
+                    // if (story.storyId !== "0_00_start" && story.storyId !== "0_01") {
+                    if (this.returnModeIfMove()) {
                         this.props.move(this.props.nowMeetMap);  //之后可以在此添加判断，判断哪些mode可以在事件开始前move到事件块上，哪些不能
                     }
 
@@ -96,7 +97,7 @@ class StoryWord extends Component {
                             <div className="PreLoadStory" >
                                 <div className="PreLoadStory_Load">
                                     {/* <div className="PreLoadStory_Load_Img" style={{backgroundImage:"URL(img/up_floor.png)"}}/> */}
-                                    <img className="PreLoadStory_Load_Img" src="img/up_floor.png"/>
+                                    <img className="PreLoadStory_Load_Img" src="img/up_floor.png" />
                                     <div className="PreLoadStory_Load_Text">正在加载中……</div>
                                 </div>
                             </div>)
@@ -126,8 +127,23 @@ class StoryWord extends Component {
                 return this.StoryMode0.nextWord_ModeStory0();
             case 2:
                 return this.StoryMode2.nextWord_ModeStory2();
+            case 3:
+                return this.StoryMode2.nextWord_ModeStory2();
             default:
                 return;
+        }
+    }
+    returnModeIfMove = () => {
+        let mode = this.state.nowStory.storyMode;
+        switch (mode) {
+            case 0:
+                return false;
+            case 2:
+                return true;
+            case 3:
+                return false;
+            default:
+                return false;
         }
     }
     /* 返回故事块 */

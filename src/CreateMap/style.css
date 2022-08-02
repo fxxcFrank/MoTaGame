@@ -10,6 +10,7 @@
 /* 左侧菜单 */
 .CreateMap_LeftMenu{
     width: 10vw;
+    overflow: auto;
 }
 .CreateMap_LeftMenu_TreeDir{
 

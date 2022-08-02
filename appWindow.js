@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 // const url = require('url');
-const fs = require('fs')
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 const { dialog } = require('electron');
 const isDev = require('electron-is-dev');
 let mainWindow;
@@ -71,20 +72,44 @@ ipcMain.on("SaveAs", function (e, name, data) {
     }).then(result => {
         fs.writeFileSync(result.filePath, data);
         console.log("SaveAs------SaveAs success!");
+        mainWindow.webContents.send('Refresh');
     }).catch(err => {
         console.log(err)
     })
 })
-ipcMain.on("DeleteMapJson", function (e, name, url) {
+ipcMain.on("LoadMap", function (e,) {
+    dialog.showOpenDialog({
+        title: "请选择要读取的地图文件",
+        defaultPath: path.join(__dirname, 'public/data/createMap'),
+        buttonLabel: "读取",
+        filters: [
+            { name: '地图格式类型', extensions: ['json'] },
+        ]
+    }).then(result => {
+        console.log("LoadMap------LoadMap success!");
+        let path = result.filePaths[0];
+        let fileName = path.split("\\").pop();
+        let filePromise = fetchFile(path);
+        filePromise.then((data) => {
+            mainWindow.webContents.send('addLoadMap', { fileName: fileName, data: JSON.parse(data) });
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+})
+ipcMain.on("DeleteMapJson", function (e, mode, url) {       //应该可用，但是想了想，还是不用了，需要删除手动删，页面上提供从列表删除就行了
     console.log("DeleteMapJson");
-    // fs.writeFile(path.join(__dirname, 'public/data/saveData/' + name + '.json'), data, (err) => {
-    //     if (err) {
-    //         console.log(err);
-    //     }
-    //     else {
-    //         console.log("DeleteMapJson------DeleteMapJson success!");
-    //     }
-    // })
+    // var file = path.join(__dirname, 'public/data/createMap/' + url);
+    // if (mode === "absolutePath") {
+    //     file = url;
+    // }
+    // if (fs.existsSync(file)) {
+    //     fs.unlink(file, function (err) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     })
+    // }
 })
 
 ipcMain.on("SaveCreateMap", function (e, name, data) {
@@ -94,6 +119,7 @@ ipcMain.on("SaveCreateMap", function (e, name, data) {
         }
         else {
             console.log("SaveCreateMap------save success!");
+            mainWindow.webContents.send('Refresh');
         }
     })
 })
@@ -104,6 +130,7 @@ ipcMain.on("SaveCreateMap_new", function (e, name, data, url) {
         }
         else {
             console.log("SaveCreateMap_new------save success!");
+            mainWindow.webContents.send('Refresh');
             // getAllSaveData();
         }
     })
@@ -145,7 +172,20 @@ app.on('ready', () => {
     });
 })
 
-function getAllSaveData() {
+
+const fetchFile = async (url) => {
+    return new Promise((resolve, reject) => {
+        try {
+            const data = fsPromises.readFile(url); // make sure path is correct
+            resolve(data);
+        } catch (e) {
+            reject(e)
+        }
+    });
+}
+
+/* 读取保存文件 */
+function getAllSaveData() {     
     fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
         if (err) {
             console.log('读取目录出错!', err);
@@ -173,7 +213,9 @@ function getAllSaveData() {
         }
     })
 }
+/* ---------------- */
 
+/* 创建地图————读取地图文件 */
 function getAllMapData(url) {
     fs.readdir(path.join(__dirname, url), (err, data) => {
         if (err) {
@@ -206,7 +248,10 @@ function getAllMapData(url) {
         }
     })
 }
-function getMapData_json(url) {
+/* ---------------- */
+
+
+function getMapData_json(url) {     //暂时未用到
     fs.readdir(path.join(__dirname, url), (err, data) => {
         if (err) {
             console.log('读取目录出错!', err);
@@ -236,4 +281,76 @@ function getMapData_json(url) {
     })
 }
 
+
+
+/* 创建地图————读取故事文件 */
+ipcMain.on("getAllStoryData", function (e, url) {
+    getAllStoryData(url);
+})
+function getAllStoryData(url) {
+    fs.readdir(path.join(__dirname, url), (err, data) => {
+        if (err) {
+            console.log('读取目录出错!', err);
+        } else {
+            const fsPromises = require('fs').promises,
+                files = data,
+                response = [];
+
+            // console.log("data", data);
+            let fileNameList = [];
+            const fetchFile = async (filename) => {
+                return new Promise((resolve, reject) => {
+                    const path1 = path.join(__dirname, url + "/" + filename);
+                    try {
+                        const data = fsPromises.readFile(path1); // make sure path is correct
+                        fileNameList.push(filename);
+                        resolve(data);
+                    } catch (e) {
+                        reject(e)
+                    }
+                });
+            }
+            files.forEach((fileName) => response.push(fetchFile(fileName)));
+            Promise.all(response).then((saveData) => {
+                let dataList = [];
+                saveData.forEach((json, index) => { dataList.push({ fileName: fileNameList[index], data: JSON.parse(json) }) });
+                mainWindow.webContents.send('loadStory', dataList);
+            }).catch(e => console.log(e));
+        }
+    })
+}
+
+ipcMain.on("SaveCreateStory", function (e, name, data) {
+    fs.writeFile(path.join(__dirname, 'public/data/createStory/' + name), data, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("SaveCreateStory------save success!");
+            mainWindow.webContents.send('Refresh');
+        }
+    })
+})
+
+ipcMain.on("LoadStory", function (e,) {
+    dialog.showOpenDialog({
+        title: "请选择要读取的故事文件",
+        defaultPath: path.join(__dirname, 'public/data/createStory'),
+        buttonLabel: "读取",
+        filters: [
+            { name: '故事格式类型', extensions: ['json'] },
+        ]
+    }).then(result => {
+        console.log("LoadStory------LoadStory success!");
+        let path = result.filePaths[0];
+        let fileName = path.split("\\").pop();
+        let filePromise = fetchFile(path);
+        filePromise.then((data) => {
+            mainWindow.webContents.send('addLoadStory', { fileName: fileName, data: JSON.parse(data) });
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+})
+/* ---------------- */
 

@@ -84,7 +84,7 @@ class CreateMap extends Component {
         let num = JSON.parse(JSON.stringify(this.state.middleWidth));
         return (
             <Fragment>
-                {this.props.createMapFlag ?
+                {/* {this.props.createMapFlag ? */}
                     <div className="CreateMap_Main" >
                         <LeftSilder nowMap={nowMap} setMap={this.setMap} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit}/>
                         <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
@@ -116,7 +116,7 @@ class CreateMap extends Component {
                             </div>
                         </div>
                     </div>
-                    : null}
+                    {/* : null} */}
                 <ReturnMap changeMiddleMap={this.changeMiddleMap} mouseDownFlag={this.state.mouseDownFlag} returnMapComponentOnRef={this.returnMapComponentOnRef} />
             </Fragment>
         )
@@ -201,7 +201,8 @@ class CreateMap extends Component {
     /**/
 
     Exit = () => {
-        this.props.closeCreateMap();
+        this.props.history.push("/");
+        // this.props.closeCreateMap();
     }
 
     /********  各类子组件  ********/

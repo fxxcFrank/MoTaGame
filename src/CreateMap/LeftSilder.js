@@ -36,6 +36,18 @@ class LeftSilder extends Component {
             console.log('所有地图-----', loadMap);
             _this.setState({ loadMapList: loadMap });
         }) : null;
+        window.electron ? window.electron.ipcRenderer.on('addLoadMap', function (event, loadMap) {
+            console.log('读取地图-----', loadMap);
+            const { loadMapList } = _this.state;
+            let flag = true;
+            loadMapList.map((map) => {
+                if (map.fileName === loadMap.fileName) {
+                    flag = false;
+                    message.error("读取的地图文件已存在或重名！");
+                }
+            })
+            flag ? _this.setState({ loadMapList: [...loadMapList, loadMap] }) : null;
+        }) : null;
         this.loadMap();
     }
 
@@ -68,8 +80,8 @@ class LeftSilder extends Component {
                     </div>
                     {/* <input className="CreateMap_LeftMenu_fileNameInput" onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} /> */}
                     <div className="CreateMap_LeftMenu_Buttons">
-                        {/* <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>
-                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取</Button> */}
+                        {/* <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>*/}
+                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取</Button>
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMapJson("2.json")}>创建地图文件</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMap()}>新增地图</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSort()}>地图排序</Button>
@@ -101,7 +113,7 @@ class LeftSilder extends Component {
     }
 
     onSelect = (selectedKeysValue, info) => {
-        console.log('onSelect', selectedKeysValue, info);
+        // console.log('onSelect', selectedKeysValue, info);
         this.setState({ selectedMap: selectedKeysValue, selectedInfo: info });
         this.props.setMap(info.node.map);
     };
@@ -182,8 +194,7 @@ class LeftSilder extends Component {
     }
     loadMap_json = () => {           //读取地图
         console.log("loadMap_json",);
-        // let url = "public/data/createMap";
-        // window.electron ? window.electron.ipcRenderer.send("getMapData_json", url) : null;
+        window.electron ? window.electron.ipcRenderer.send("LoadMap") : null;
     }
     open = (e, data) => {       //原用以测试‘JSON.stringify()’函数的功能，现暂未测试成功
         console.log("e", e, data);

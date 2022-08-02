@@ -22,6 +22,7 @@ class Title extends Component {
             startFlag: false,
             explainFlag: false,
             createMapFlag: false,
+            createStoryFlag:false,
 
             menuPreloadFlag: false,
             storyPreloadFlag: false,
@@ -55,10 +56,10 @@ class Title extends Component {
     }
 
     render() {
-        const { createMapFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag } = this.state;
+        const { createMapFlag, createStoryFlag,menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag } = this.state;
         return (
             <Fragment>
-                {!createMapFlag ?
+                {/* {!createMapFlag ? */}
                     <Fragment>
                         {this.state.startFlag ?
                             <MainWindow setStory={this.setStory} setMapList={this.setMapList} setAllState={this.setAllState} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef} menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent} shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} />
@@ -71,6 +72,7 @@ class Title extends Component {
                                     <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>测试开始</div>
                                     {/* <div className="MainTitleWindow_Menu_explain" onClick={() => this.openExplain()}>游戏说明</div> */}
                                     <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateMap()}>创建地图</div>
+                                    <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateStory()}>创建故事</div>
                                 </div>
                             </div>
                         }
@@ -91,8 +93,8 @@ class Title extends Component {
                         <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                         <Monster monsterComponentOnRef={this.monsterComponentOnRef} monsterPreloadFlag={monsterPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     </Fragment>
-                    :
-                    <CreateMap createMapFlag={this.state.createMapFlag} closeCreateMap={this.closeCreateMap} />}
+                    {/* :
+                    <CreateMap createMapFlag={this.state.createMapFlag} closeCreateMap={this.closeCreateMap} />} */}
             </Fragment>
         )
     }
@@ -113,7 +115,11 @@ class Title extends Component {
     }
 
     openCreateMap = () => {
+        this.props.history.push("/CreateMap");
         this.setState({ createMapFlag: true });
+    }
+    openCreateStory=()=>{
+        this.props.history.push("/CreateStory");
     }
     closeCreateMap = () => {
         this.setState({ createMapFlag: false });
