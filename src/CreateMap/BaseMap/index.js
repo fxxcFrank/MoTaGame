@@ -50,6 +50,7 @@ class BaseMap extends Component {
 
     returnImg_simple = (dataImg, width, height, index, baseMap, backgroundSize, backgroundPosition) => {
         let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        // let div = <div className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
         return (
             <Fragment>
                 {div}
@@ -61,7 +62,7 @@ class BaseMap extends Component {
         //backgroundImage: "URL(" + this.changeImage(baseMap.url) + ")"
         //backgroundImage: "url(data:image/png;base64," + this.changeImage(baseMap.url, baseMap.width, baseMap.height) + ")"
         let self = this;
-        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        let div = <img  className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
         let canvas = document.createElement("canvas");
         canvas.className = "CreateMap_baseMap_base";
         // canvas.style.position = "absolute";

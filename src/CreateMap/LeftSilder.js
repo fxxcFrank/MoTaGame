@@ -3,7 +3,7 @@ import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 import { Tree, Modal, message, Button } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
-
+import AddNewMap from './AddNewMap'
 import './style.css'
 
 class LeftSilder extends Component {
@@ -18,11 +18,15 @@ class LeftSilder extends Component {
             selectedMap: [],
             selectedInfo: {},
 
+            loadNewBaseMap: {},
+
             saveModelFlag: false,
             saveFileName: "",
             saveMode: 1,
 
             sortModelFlag: false,
+
+            createNewMapModelFlag: false,
 
             deleteFileName: "",
             deleteFlag: false,
@@ -48,6 +52,12 @@ class LeftSilder extends Component {
             })
             flag ? _this.setState({ loadMapList: [...loadMapList, loadMap] }) : null;
         }) : null;
+        window.electron ? window.electron.ipcRenderer.on('addNewLoadMap', function (event, loadMap) {
+            console.log('导入地图图片-----', loadMap);
+            _this.setState({ loadNewBaseMap: loadMap }, () => {
+                _this.setCreateNewMapModelFlag(true);
+            })
+        }) : null;
         this.loadMap();
     }
 
@@ -63,7 +73,9 @@ class LeftSilder extends Component {
     }
 
     render() {
-        const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, deleteFlag, deleteWord, exitModelFlag } = this.state;
+        const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, createNewMapModelFlag, loadNewBaseMap,
+            deleteFlag, deleteWord, exitModelFlag } = this.state;
+        const { RightMenu_TabList, nowShowTab } = this.props;
         return (
             <Fragment>
                 <div className="CreateMap_LeftMenu">
@@ -85,6 +97,8 @@ class LeftSilder extends Component {
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMapJson("2.json")}>创建地图文件</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMap()}>新增地图</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSort()}>地图排序</Button>
+                        <Button className="CreateMap_LeftMenu_Button" onClick={() => this.openLoadNewMap()}>导入地图块</Button>
+                        {/* <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSort()}>删除地图块</Button> */}
 
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openDelete("all")}>删除地图文件</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openDelete("one")}>删除地图</Button>
@@ -108,6 +122,9 @@ class LeftSilder extends Component {
                 <Modal className="CreateMap_LeftMenu_SaveModel" visible={exitModelFlag} onOk={() => this.clickExitOk()} onCancel={() => this.closeExit()} okText="确认退出" cancelText="取消">
                     是否退出编辑
                 </Modal>
+
+                <AddNewMap createNewMapModelFlag={createNewMapModelFlag} setCreateNewMapModelFlag={this.setCreateNewMapModelFlag} addNewMap={this.addNewMap} loadNewBaseMap={loadNewBaseMap}
+                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} />
             </Fragment>
         )
     }
@@ -254,6 +271,47 @@ class LeftSilder extends Component {
     }
     /* ------------------- */
 
+    /*导入新的地图块*/
+    openLoadNewMap = () => {
+        console.log("LoadNewBaseMap",);
+        window.electron ? window.electron.ipcRenderer.send("LoadNewBaseMap") : null;
+    }
+    setCreateNewMapModelFlag = (flag) => {
+        this.setState({ createNewMapModelFlag: flag })
+    }
+    addNewMap = (form) => {
+        console.log("addNewMap", form);
+        const { RightMenu_TabList, nowShowTab } = this.props;
+        let data = {
+            name: form.name,
+            lx: form.lx,
+            url: this.returnFormUrl(form.url),
+            column: form.column,
+            pos: form.pos,
+            width: form.width,
+            height: form.height
+        }
+        window.electron ? window.electron.ipcRenderer.send("SaveCreateMap_new", data, "public/" + RightMenu_TabList[nowShowTab].url) : null;
+    }
+    returnFormUrl = (url) => {
+        let uesUrl = "";
+        let uesUrlList = url.split("\\");
+        let flag = false;
+        uesUrlList.map((data, index) => {
+            if (data === "public" && uesUrlList[index + 1] === "img") {
+                flag = true;
+            }
+            if (flag && index !== uesUrlList.length - 1) {
+                uesUrl += data + "/";
+            }
+            else if (flag) {
+                uesUrl += data;
+            }
+        })
+        return uesUrl;
+    }
+    /* -------------- */
+
     /* 删除的对话框*/
     openDelete = (deleteMode) => {
         const { selectedInfo, loadMapList } = this.state;
@@ -395,7 +453,8 @@ class LeftSilder extends Component {
         this.setState({ exitModelFlag: false });
     }
     clickExitOk = () => {
-        this.props.Exit();
+        // this.props.Exit();
+        this.props.history.push("/");
     }
     /* ------------------- */
 }

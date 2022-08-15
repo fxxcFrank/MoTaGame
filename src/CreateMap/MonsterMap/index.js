@@ -33,6 +33,7 @@ class MonsterMap extends Component {
                     let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                     return (
                         <img className="CreateMap_baseMap_moster" style={{ backgroundImage: "URL(" + baseMap.url + ")",backgroundSize: backgroundSize, backgroundPosition: backgroundPosition}} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+                        // <div className="CreateMap_baseMap_moster" style={{ backgroundImage: "URL(" + baseMap.url + ")",backgroundSize: backgroundSize, backgroundPosition: backgroundPosition}} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
                     )
                     // return (
                     //     <img className="CreateMap_baseMap" lx={baseMap.lx} src={baseMap.url} title={baseMap.name} onClick={()=>this.props.clickAddMap(baseMap)} />

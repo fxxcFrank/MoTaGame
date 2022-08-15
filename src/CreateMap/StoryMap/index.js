@@ -30,9 +30,10 @@ class ShopMap extends Component {
             <Fragment>
                 {this.state.storyMap1List.map((baseMap) => {
                     let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
-                    let backgroundPosition = baseMap.pos * 100 + "% " + baseMap.column * 100 + "%";
+                    let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                     return (
                         <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")",backgroundSize: backgroundSize, backgroundPosition: backgroundPosition}} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+                        // <div className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")",backgroundSize: backgroundSize, backgroundPosition: backgroundPosition}} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
                     )
                     // return (
                     //     <img className="CreateMap_baseMap" lx={baseMap.lx} src={baseMap.url} title={baseMap.name} onClick={()=>this.props.clickAddMap(baseMap)} />

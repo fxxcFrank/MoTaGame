@@ -77,7 +77,7 @@ ipcMain.on("SaveAs", function (e, name, data) {
         console.log(err)
     })
 })
-ipcMain.on("LoadMap", function (e,) {
+ipcMain.on("LoadMap", function (e,) {       //读取地图文件，json
     dialog.showOpenDialog({
         title: "请选择要读取的地图文件",
         defaultPath: path.join(__dirname, 'public/data/createMap'),
@@ -93,6 +93,23 @@ ipcMain.on("LoadMap", function (e,) {
         filePromise.then((data) => {
             mainWindow.webContents.send('addLoadMap', { fileName: fileName, data: JSON.parse(data) });
         })
+    }).catch(err => {
+        console.log(err)
+    })
+})
+ipcMain.on("LoadNewBaseMap", function (e,) {       //读取准备加入的地图图片，因为只有png格式拥有透明背景，暂且只允许png格式的图片
+    dialog.showOpenDialog({
+        title: "请选择要读取的地图文件",
+        defaultPath: path.join(__dirname, 'public/img'),
+        buttonLabel: "读取",
+        filters: [
+            { name: '地图格式类型', extensions: ['png',] },
+        ]
+    }).then(result => {
+        console.log("LoadNewBaseMap------LoadNewBaseMap success!");
+        let path = result.filePaths[0];
+        let fileName = path.split("\\").pop();
+        mainWindow.webContents.send('addNewLoadMap', { fileName: fileName, imgURL: path, });
     }).catch(err => {
         console.log(err)
     })
@@ -123,16 +140,27 @@ ipcMain.on("SaveCreateMap", function (e, name, data) {
         }
     })
 })
-ipcMain.on("SaveCreateMap_new", function (e, name, data, url) {
-    fs.writeFile(path.join(__dirname, url), data, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("SaveCreateMap_new------save success!");
-            mainWindow.webContents.send('Refresh');
-            // getAllSaveData();
-        }
+ipcMain.on("SaveCreateMap_new", function (e, data, url) {
+    // let path0 = path.join(__dirname, url).replace(/\\/g, "\\\\");
+    let path0 = path.join(__dirname, url);
+    console.log("data, url", data, url);
+    console.log("path", path.join(__dirname));
+    console.log("path0", path0);
+    let filePromise = fetchFile(path.join(__dirname, url));
+    filePromise.then((data1) => {
+        let data2 = JSON.parse(data1);
+        data2.push(data);
+        fs.writeFile(path.join(__dirname, url), JSON.stringify(data2), (err) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("SaveCreateMap_new------save success!");
+                mainWindow.webContents.send('Refresh');
+                // getAllSaveData();
+            }
+        })
+        // mainWindow.webContents.send('addLoadStory', { fileName: fileName, data: JSON.parse(data) });
     })
 })
 ipcMain.on("getAllSaveData", function () {
@@ -174,6 +202,7 @@ app.on('ready', () => {
 
 
 const fetchFile = async (url) => {
+    console.log("url", url);
     return new Promise((resolve, reject) => {
         try {
             const data = fsPromises.readFile(url); // make sure path is correct
@@ -185,7 +214,7 @@ const fetchFile = async (url) => {
 }
 
 /* 读取保存文件 */
-function getAllSaveData() {     
+function getAllSaveData() {
     fs.readdir(path.join(__dirname, 'public/data/saveData'), (err, data) => {
         if (err) {
             console.log('读取目录出错!', err);

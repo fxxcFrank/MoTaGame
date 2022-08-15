@@ -24,7 +24,13 @@ class CreateMap extends Component {
             shopList: [],
             monsterList: [],
             storyList: [],
-            RightMenu_TabList: ["常用", "基础", "怪物", "商店", "事件",],
+            RightMenu_TabList: [
+                { name: "常用", url: "data/baseMap/baseMap1.json" },
+                { name: "基础", url: "data/baseMap/baseMap1.json" },
+                { name: "怪物", url: "data/baseMap/monsterMap1.json" },
+                { name: "商店", url: "data/baseMap/shopMap1.json" },
+                { name: "事件", url: "data/baseMap/storyMap1.json" },
+            ],
             nowShowTab: 0,
             nowClickAddMap: undefined,  //{}
 
@@ -32,92 +38,67 @@ class CreateMap extends Component {
 
             showMiddleFlag: false,
             mouseDownFlag: false,
-            onChangeMapFlag:false,
+            onChangeMapFlag: false,
+
+            rightMenuRefreshFlag: false,
         }
         let _this = this;
         window.electron ? window.electron.ipcRenderer.on('loadMap', function (event, loadMap) {
             console.log('所有地图-----', loadMap);
             _this.setState({ loadMapList: loadMap });
         }) : null;
+        window.electron ? window.electron.ipcRenderer.on('Refresh', function (event) {
+            _this.initValues();
+            console.log("aaaaaaaaaaaa-----------------------");
+            _this.setState({ rightMenuRefreshFlag: true }, () => {
+                _this.setState({ rightMenuRefreshFlag: false })
+            })
+        }) : null;
     }
 
     componentDidMount = () => {
-        const { middleWidth, middleHeight } = this.state;
-        this.loadMap();
-        let map = [];
-        for (let i = 0; i < middleWidth; i++) {
-            for (let j = 0; j < middleHeight; j++) {
-                map.push("no");
-            }
-        }
-        this.setState({ nowMap: map });
-        axios.get('data/shopList.json')
-            .then((res) => {
-                const result = res.data;
-                this.setState({ shopList: result });
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        axios.get('data/monsterList.json')
-            .then((res) => {
-                const result = res.data;
-                this.setState({ monsterList: result });
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        axios.get("data/story/storyList.json")
-            .then((res) => {
-                const result = res.data;
-                this.setState({ storyList: result })
-            }).catch((e) => {
-                console.log(e);
-            })
-        setTimeout(() => {      //权宜之计
-            this.setState({ showMiddleFlag: true });
-        }, 1000);
+        this.initValues();
     }
 
     render() {
-        const { nowMap, nowMapNum, middleWidth, nowShowTab,onChangeMapFlag } = this.state;
+        const { nowMap, nowMapNum, middleWidth, RightMenu_TabList, nowShowTab, onChangeMapFlag, rightMenuRefreshFlag } = this.state;
         let num = JSON.parse(JSON.stringify(this.state.middleWidth));
         return (
             <Fragment>
                 {/* {this.props.createMapFlag ? */}
-                    <div className="CreateMap_Main" >
-                        <LeftSilder nowMap={nowMap} setMap={this.setMap} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit}/>
-                        <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
-                            {nowMap.map((map, index) => {
-                                if (index + 1 == num) {
-                                    num += middleWidth;
-                                    return (
-                                        <div className="MapColumn" key={nowMapNum + "行" + Math.floor(num / middleWidth)}>
-                                            {nowMap.map((map2, index2) => {
-                                                if (index2 >= index + 1 - middleWidth && index2 <= index) {
-                                                    return this.returnMap(map2, index2);
-                                                }
-                                            })}
-                                        </div>
-                                    )
-                                }
+                <div className="CreateMap_Main" >
+                    <LeftSilder nowMap={nowMap} setMap={this.setMap} RightMenu_TabList={RightMenu_TabList} nowShowTab={nowShowTab} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit} />
+                    <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
+                        {nowMap.map((map, index) => {
+                            if (index + 1 == num) {
+                                num += middleWidth;
+                                return (
+                                    <div className="MapColumn" key={nowMapNum + "行" + Math.floor(num / middleWidth)}>
+                                        {nowMap.map((map2, index2) => {
+                                            if (index2 >= index + 1 - middleWidth && index2 <= index) {
+                                                return this.returnMap(map2, index2);
+                                            }
+                                        })}
+                                    </div>
+                                )
+                            }
+                        })}
+                    </div>
+                    <div className="CreateMap_RightMenu">
+                        <div className="CreateMap_RightMenu_Tabs">
+                            {RightMenu_TabList.map((tab, index) => {
+                                return (
+                                    <div className={nowShowTab === index ? "CreateMap_RightMenu_Tab_Click" : "CreateMap_RightMenu_Tab"} onClick={() => this.setState({ nowShowTab: index })}>{tab.name}</div>
+                                )
                             })}
                         </div>
-                        <div className="CreateMap_RightMenu">
-                            <div className="CreateMap_RightMenu_Tabs">
-                                {this.state.RightMenu_TabList.map((tab, index) => {
-                                    return (
-                                        <div className={nowShowTab === index ? "CreateMap_RightMenu_Tab_Click" : "CreateMap_RightMenu_Tab"} onClick={() => this.setState({ nowShowTab: index })}>{tab}</div>
-                                    )
-                                })}
-                            </div>
-                            <div className="CreateMap_RightMenu_Content">
-                                {this.returnRightContent()}
-                            </div>
+                        <div className="CreateMap_RightMenu_Content">
+                            {!rightMenuRefreshFlag ? this.returnRightContent() : null}
                         </div>
                     </div>
-                    {/* : null} */}
-                <ReturnMap changeMiddleMap={this.changeMiddleMap} mouseDownFlag={this.state.mouseDownFlag} returnMapComponentOnRef={this.returnMapComponentOnRef} />
+                </div>
+                {/* : null} */}
+                {!rightMenuRefreshFlag ? <ReturnMap changeMiddleMap={this.changeMiddleMap} mouseDownFlag={this.state.mouseDownFlag} returnMapComponentOnRef={this.returnMapComponentOnRef} /> : null}
             </Fragment>
         )
     }
@@ -170,10 +151,10 @@ class CreateMap extends Component {
             return;
         let nowMap = [...this.state.nowMap];
         nowMap[index] = nowClickAddMap.lx;
-        this.setState({ nowMap: nowMap,onChangeMapFlag:true });
+        this.setState({ nowMap: nowMap, onChangeMapFlag: true });
     }
-    setMap=(map)=>{
-        this.setState({ nowMap: map,onChangeMapFlag:false });
+    setMap = (map) => {
+        this.setState({ nowMap: map, onChangeMapFlag: false });
     }
 
     /* 右侧菜单相关 */
@@ -203,6 +184,44 @@ class CreateMap extends Component {
     Exit = () => {
         this.props.history.push("/");
         // this.props.closeCreateMap();
+    }
+
+    initValues = () => {
+        const { middleWidth, middleHeight } = this.state;
+        this.loadMap();
+        let map = [];
+        for (let i = 0; i < middleWidth; i++) {
+            for (let j = 0; j < middleHeight; j++) {
+                map.push("no");
+            }
+        }
+        this.setState({ nowMap: map });
+        axios.get('data/shopList.json')
+            .then((res) => {
+                const result = res.data;
+                this.setState({ shopList: result });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        axios.get('data/monsterList.json')
+            .then((res) => {
+                const result = res.data;
+                this.setState({ monsterList: result });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        axios.get("data/story/storyList.json")
+            .then((res) => {
+                const result = res.data;
+                this.setState({ storyList: result })
+            }).catch((e) => {
+                console.log(e);
+            })
+        setTimeout(() => {      //权宜之计
+            this.setState({ showMiddleFlag: true });
+        }, 1000);
     }
 
     /********  各类子组件  ********/

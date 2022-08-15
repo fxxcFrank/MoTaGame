@@ -25,7 +25,7 @@ class CreateStory extends Component {
         return (
             <Fragment>
                 <div className="CreateStory_Main" >
-                    <LeftSilder nowStory={nowStory} setNowStory={this.setNowStory} />
+                    <LeftSilder nowStory={nowStory} setNowStory={this.setNowStory} Exit={this.Exit}/>
                     <div className="CreateStory_MiddleContent">
                         {nowStory ? nowStory.map((story, index) => {
                             return (
