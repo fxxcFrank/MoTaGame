@@ -142,10 +142,10 @@ ipcMain.on("SaveCreateMap", function (e, name, data) {
 })
 ipcMain.on("SaveCreateMap_new", function (e, data, url) {
     // let path0 = path.join(__dirname, url).replace(/\\/g, "\\\\");
-    let path0 = path.join(__dirname, url);
-    console.log("data, url", data, url);
-    console.log("path", path.join(__dirname));
-    console.log("path0", path0);
+    // let path0 = path.join(__dirname, url);
+    // console.log("data, url", data, url);
+    // console.log("path", path.join(__dirname));
+    // console.log("path0", path0);
     let filePromise = fetchFile(path.join(__dirname, url));
     filePromise.then((data1) => {
         let data2 = JSON.parse(data1);

@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-import { Modal, message, Button, Input, Form, InputNumber, Select } from 'antd';
+import { Modal, message, Button, Input, Form, InputNumber, Select, Radio } from 'antd';
 const { Item } = Form;
 const { Option } = Select;
 class AddNewMap extends Component {
@@ -24,6 +24,9 @@ class AddNewMap extends Component {
             cursorLeft: undefined,
             cursorTop: undefined,
 
+            complexNumValue: 2,
+            complexMapModalFlag: false,
+
             widthCount: undefined,
             heightCount: undefined,
             refresh: undefined,
@@ -37,18 +40,19 @@ class AddNewMap extends Component {
 
     render() {
         const { modeOptionList, showFlag, preViewFlag, selectColumn, selectPos, widthCount, heightCount,
-            cursorWidth, cursorHeight, cursorLeft, cursorTop } = this.state;
+            cursorWidth, cursorHeight, cursorLeft, cursorTop, complexNumValue, complexMapModalFlag } = this.state;
+        const { nowClickAddMap } = this.props;
         const refForm = this.refForm;
         return (
             this.props.createNewMapModelFlag ?
                 <Modal visible={this.props.createNewMapModelFlag} title="新增故事" onOk={this.clickOk} onCancel={this.clickCancel} okText="创建" cancelText="取消" closable={false}>
                     <Form ref={(val) => { this.refForm = val }} onFinish={(form) => this.onSubmit(form)}
-                        initialValues={{ url: this.props.loadNewBaseMap.imgURL, lxMap:this.props.lxMap,lxMapURL:this.props.lxMapURL}}>
+                        initialValues={{ url: this.props.loadNewBaseMap.imgURL, lxMap: this.props.lxMap, lxMapURL: this.props.lxMapURL }}>
                         <Item name="lxMap" label="导入地图块类型" rules={[{ required: true, message: "请确认导入地图块类型！" }]}>
-                            <Input disabled/>
+                            <Input disabled />
                         </Item>
                         <Item name="lxMapURL" label="导入地图块类型文件" rules={[{ required: true, message: "请确认地图块类型文件！" }]}>
-                            <Input disabled/>
+                            <Input disabled />
                         </Item>
                         <Item name="name" label="地图块名" rules={[{ required: true, message: "请输入地图块名！" }]}>
                             <Input />
@@ -59,59 +63,109 @@ class AddNewMap extends Component {
                         <Item name="url" label="地图块源" rules={[{ required: true, message: "请选择地图块源！" }]}>
                             <Input disabled />
                         </Item>
+                        <Item name="complex" label="复合图块" rules={[{ required: complexNumValue === 1 ? true : false, message: "请选择复合图块！" }]}>
+                            <Radio.Group onChange={this.complexSelect} defaultValue={complexNumValue} value={complexNumValue}>
+                                <Radio value={1}>是</Radio>
+                                <Radio value={2}>否</Radio>
+                            </Radio.Group>
+                        </Item>
+                        {complexNumValue === 1 ? <Fragment>
+                            <Button onClick={() => this.openSelectComplexMap()}>选择复合地图块</Button>
+                            {nowClickAddMap ?
+                                <Fragment>
+                                    {/* <Item name="complexName" label="复合图块名" rules={[{ required: true, message: "请选择复合图块！" }]}> */}
+                                    <Item name="complexName" label="复合图块名">
+                                        <Input disabled value={nowClickAddMap.name}/>
+                                    </Item>
+                                    <div className="CreateMap_LeftMenu_PreView">
+                                        <div className="CreateMap_LeftMenu_PreViewText">预览</div>
+                                        <div className="CreateMap_LeftMenu_BaseMap_PreView"
+                                            style={{
+                                                backgroundImage: "URL(" + nowClickAddMap.url + ")",
+                                                backgroundSize: nowClickAddMap.width * 100 + "% " + nowClickAddMap.height * 100 + "%",
+                                                backgroundPosition: nowClickAddMap.pos * -100 + "% " + nowClickAddMap.column * -100 + "%",
+                                                zIndex: nowClickAddMap.width * (nowClickAddMap.column + 1) + nowClickAddMap.pos + 1
+                                            }} lx={nowClickAddMap.lx} title={nowClickAddMap.name} />
+                                    </div>
+                                </Fragment>
+                                : null}
+                            <Modal visible={complexMapModalFlag} onOk={this.selectComplexMap} onCancel={this.closeSelectComplexMap} title={"选择复合图层"} okText="确定" cancelText="取消">
+                                {this.props.returnRightContent()}
+                                {nowClickAddMap ?
+                                    <div className="CreateMap_LeftMenu_PreView">
+                                        <div className="CreateMap_LeftMenu_PreViewText">预览</div>
+                                        <div className="CreateMap_LeftMenu_BaseMap_PreView"
+                                            style={{
+                                                backgroundImage: "URL(" + nowClickAddMap.url + ")",
+                                                backgroundSize: nowClickAddMap.width * 100 + "% " + nowClickAddMap.height * 100 + "%",
+                                                backgroundPosition: nowClickAddMap.pos * -100 + "% " + nowClickAddMap.column * -100 + "%",
+                                                zIndex: nowClickAddMap.width * (nowClickAddMap.column + 1) + nowClickAddMap.pos + 1
+                                            }} lx={nowClickAddMap.lx} title={nowClickAddMap.name} />
+                                    </div>
+                                    : null}
+                                {/* <div className="CreateMap_LeftMenu_ComplexMap_Cursor"
+                                    style={{
+                                        // width: cursorWidth, height: cursorHeight,
+                                        // left: cursorLeft, top: cursorTop
+                                    }} />
+                                {selectColumn !== undefined && selectPos !== undefined ?
+                                    <div className="CreateMap_LeftMenu_ComplexMap_CursorClick"
+                                        style={{
+                                            // width: cursorWidth, height: cursorHeight,
+                                            // left: selectPos * cursorWidth, top: selectColumn * cursorHeight
+                                        }} /> : null} */}
+                            </Modal>
+                        </Fragment> : null}
+
                         <Item name="column" label="选择行" rules={[{ required: true, message: "请选择地图块！" }]}>
                             <InputNumber disabled />
                         </Item>
                         <Item name="pos" label="选择列" rules={[{ required: true, message: "请选择地图块！" }]}>
                             <InputNumber disabled />
                         </Item>
-                        <Item name="width" label="图片内块行数" rules={[{ required: true, message: "请输入图片内块行数！" }]}>
+                        <Item name="width" label="图片内块列数" rules={[{ required: true, message: "请输入图片内块行数！" }]}>
                             <InputNumber onChange={(e) => this.setState({ widthCount: e })} />
                         </Item>
-                        <Item name="height" label="图片内块列数" rules={[{ required: true, message: "请输入图片内块列数！" }]}>
+                        <Item name="height" label="图片内块行数" rules={[{ required: true, message: "请输入图片内块列数！" }]}>
                             <InputNumber onChange={(e) => this.setState({ heightCount: e })} />
                         </Item>
                         <Button onClick={() => this.openSelectNewMap()} disabled={!(widthCount !== undefined && heightCount !== undefined)}>选择地图块</Button>
-                        {refForm.getFieldValue ? !(refForm.getFieldValue("width") && refForm.getFieldValue("height") ?
-                            <div>请输入导入地图图片的方块数行数和列数</div> : null)
-                            : null}
-                        {preViewFlag && refForm.getFieldValue ?
-                            <div className="CreateMap_LeftMenu_PreView">
-                                <div className="CreateMap_LeftMenu_PreViewText">预览</div>
-                                <div className="CreateMap_LeftMenu_BaseMap_PreView"
-                                    style={{
-                                        backgroundImage: "URL(" + this.renturnImgUrl() + ")",
-                                        backgroundSize: refForm.getFieldValue("width") * 100 + "% " + refForm.getFieldValue("height") * 100 + "%",
-                                        backgroundPosition: refForm.getFieldValue("pos") * -100 + "% " + refForm.getFieldValue("column") * -100 + "%",
-                                        zIndex: refForm.getFieldValue("width") * (refForm.getFieldValue("column") + 1) + refForm.getFieldValue("pos") + 1
-                                    }} lx={refForm.getFieldValue("lx")} title={refForm.getFieldValue("name")} />
-                            </div> : null}
-                        {refForm.getFieldValue ?
-                            <Modal id="CreateMap_NowLoadNewMap_Modal" visible={showFlag} onOk={this.selectMap} onCancel={this.closeSelectMap} title={this.props.loadNewBaseMap.fileName} okText="确定" cancelText="取消">
-                                {/* <div className="CreateMap_LeftMenu_BaseMap" id="CreateMap_NowLoadNewMap"
-                                style={{
-                                    backgroundImage: "URL(" + renturnImgUrl() + ")",
-                                    // backgroundSize: refForm.getFieldValue("width") * 100 + "% " + refForm.getFieldValue("height") * 100 + "%",
-                                    backgroundSize:"100% 100%"
-                                }} onClick={(e) => clickMap(e)} onMouseMove={(e) => moveOnMap(e)}>
-                                <div className="CreateMap_LeftMenu_BaseMap_Cursor" />
-                            </div> */}
-                                <div className="CreateMap_LeftMenu_BaseMapDiv" onClick={(e) => this.clickMap(e)}>
-                                    <img className="CreateMap_LeftMenu_BaseMap_Img" id="CreateMap_NowLoadNewMap" src={this.renturnImgUrl()}
-                                        onMouseMove={(e) => this.moveOnMap(e)} />
-                                    <div className="CreateMap_LeftMenu_BaseMap_Cursor"
-                                        style={{
-                                            width: cursorWidth, height: cursorHeight,
-                                            left: cursorLeft, top: cursorTop
-                                        }} />
-                                    {selectColumn !== undefined && selectPos !== undefined ?
-                                        <div className="CreateMap_LeftMenu_BaseMap_CursorClick"
+                        {refForm ?
+                            <Fragment>
+                                {refForm.getFieldValue ? !(refForm.getFieldValue("width") && refForm.getFieldValue("height") ?
+                                    <div>请输入导入地图图片的方块数行数和列数</div> : null)
+                                    : null}
+                                {preViewFlag && refForm.getFieldValue ?
+                                    <div className="CreateMap_LeftMenu_PreView">
+                                        <div className="CreateMap_LeftMenu_PreViewText">预览</div>
+                                        <div className="CreateMap_LeftMenu_BaseMap_PreView"
                                             style={{
-                                                width: cursorWidth, height: cursorHeight,
-                                                left: selectPos * cursorWidth, top: selectColumn * cursorHeight
-                                            }} /> : null}
-                                </div>
-                            </Modal> : null}
+                                                backgroundImage: "URL(" + this.renturnImgUrl() + ")",
+                                                backgroundSize: refForm.getFieldValue("width") * 100 + "% " + refForm.getFieldValue("height") * 100 + "%",
+                                                backgroundPosition: refForm.getFieldValue("pos") * -100 + "% " + refForm.getFieldValue("column") * -100 + "%",
+                                                zIndex: refForm.getFieldValue("width") * (refForm.getFieldValue("column") + 1) + refForm.getFieldValue("pos") + 1
+                                            }} lx={refForm.getFieldValue("lx")} title={refForm.getFieldValue("name")} />
+                                    </div> : null}
+                                {refForm.getFieldValue ?
+                                    <Modal id="CreateMap_NowLoadNewMap_Modal" visible={showFlag} onOk={this.selectMap} onCancel={this.closeSelectMap} title={this.props.loadNewBaseMap.fileName} okText="确定" cancelText="取消">
+                                        <div className="CreateMap_LeftMenu_BaseMapDiv" onClick={(e) => this.clickMap(e)}>
+                                            <img className="CreateMap_LeftMenu_BaseMap_Img" id="CreateMap_NowLoadNewMap" src={this.renturnImgUrl()}
+                                                onMouseMove={(e) => this.moveOnMap(e)} />
+                                            <div className="CreateMap_LeftMenu_BaseMap_Cursor"
+                                                style={{
+                                                    width: cursorWidth, height: cursorHeight,
+                                                    left: cursorLeft, top: cursorTop
+                                                }} />
+                                            {selectColumn !== undefined && selectPos !== undefined ?
+                                                <div className="CreateMap_LeftMenu_BaseMap_CursorClick"
+                                                    style={{
+                                                        width: cursorWidth, height: cursorHeight,
+                                                        left: selectPos * cursorWidth, top: selectColumn * cursorHeight
+                                                    }} /> : null}
+                                        </div>
+                                    </Modal> : null}
+                            </Fragment>
+                            : null}
                     </Form>
                 </Modal > : null
         )
@@ -123,10 +177,18 @@ class AddNewMap extends Component {
     }
     clickCancel = () => {
         this.props.setCreateNewMapModelFlag(false);
+        this.refForm = {};
     }
     onSubmit = (form) => {
-        this.props.addNewMap(form);
+        let dataForm = { ...form };
+        if (this.state.complexNumValue === 1) {
+            let baseMap=[];
+            baseMap.push(this.props.nowClickAddMap.lx)
+            dataForm.baseMap=baseMap;
+        }
+        this.props.addNewMap(dataForm);
         this.props.setCreateNewMapModelFlag(false);
+        this.refForm = {};
         this.setState({
             preViewFlag: false,
             selectColumn: undefined,
@@ -170,8 +232,8 @@ class AddNewMap extends Component {
         this.setState({ showFlag: true }, () => {
             let plugin = document.getElementById("CreateMap_NowLoadNewMap");
             let data = {
-                x: plugin.x,
-                y: plugin.y,
+                x: plugin.getBoundingClientRect().left,
+                y: plugin.getBoundingClientRect().top,
                 width: plugin.width,
                 height: plugin.height,
             }
@@ -193,14 +255,17 @@ class AddNewMap extends Component {
         let plugin = document.getElementById("CreateMap_NowLoadNewMap");
         let width = plugin.width;
         let height = plugin.height;
-        let columnCount = refForm.getFieldValue("width");
-        let rowCount = refForm.getFieldValue("height");
-        let ceilWidth = width / columnCount;
-        let ceilHeight = height / rowCount;
+        let rowCount = refForm.getFieldValue("width");
+        let columnCount = refForm.getFieldValue("height");
+        let ceilHeight = height / columnCount;
+        let ceilWidth = width / rowCount;
         // let offLeft = e.clientX - plugin.x;      //偏移的缘由————不知道dom节点属性的x和y究竟是根据什么来进行判定的，其下那个是真实距离浏览器视口左侧和右侧的距离
         // let offTop = e.clientY - plugin.y;
         let offLeft = e.clientX - plugin.getBoundingClientRect().left;
         let offTop = e.clientY - plugin.getBoundingClientRect().top;
+        console.log("e.clientX,e.clientY", e.clientX, e.clientY);
+        console.log("plugin.getBoundingClientRect().left", plugin.getBoundingClientRect().left, plugin.getBoundingClientRect().top);
+        console.log("offLeft,offTop", offLeft, offTop);
         offLeft < 0 ? offLeft = 0 : null;
         offTop < 0 ? offTop = 0 : null;
         let column = Math.floor(offTop / ceilHeight);
@@ -209,6 +274,7 @@ class AddNewMap extends Component {
         row < 0 ? row = 0 : null;
         column >= columnCount ? column = columnCount - 1 : null;
         row >= rowCount ? row = rowCount - 1 : null;
+        console.log("column,row", column, row, columnCount, rowCount);
         let borderTop = column * ceilHeight;
         let borderLeft = row * ceilWidth;
         this.setState({
@@ -221,6 +287,21 @@ class AddNewMap extends Component {
             tempColumn: column,
             tempRow: row,
         })
+    }
+
+    //是否为复合图层
+    complexSelect = (e) => {
+        this.setState({ complexNumValue: e.target.value })
+    }
+    openSelectComplexMap = () => {
+        this.setState({ complexMapModalFlag: true });
+    }
+    selectComplexMap = () => {
+
+        this.setState({ complexMapModalFlag: false });
+    }
+    closeSelectComplexMap = () => {
+        this.setState({ complexMapModalFlag: false });
     }
 }
 const mapState = (state) => ({

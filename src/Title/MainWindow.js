@@ -696,40 +696,6 @@ class MainWindow extends Component {
     }
     /* */
 
-    /* 返回类型对应的图片地址 */
-    returnTypeImg = (img) => {
-        switch (img) {
-            case "wall":
-                return "img/no.png";
-            case "no":
-                return "img/no.png";
-            case "YDoor":
-                return "img/no.png";
-            case "BDoor":
-                return "img/no.png";
-            case "RDoor":
-                return "img/no.png";
-            case "YKey":
-                return "img/no.png";
-            case "BKey":
-                return "img/no.png";
-            case "RKey":
-                return "img/no.png";
-            case "sword":
-                return "img/no.png";
-            case "def":
-                return "img/no.png";
-            case "start":
-                return "img/no.png";
-            case "end":
-                return "img/no.png";
-            case "victory":
-                return "img/no.png";
-            default:
-                return "img/no.png";
-        }
-    }
-
 }
 
 const mapState = (state) => ({

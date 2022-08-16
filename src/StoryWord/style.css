@@ -168,6 +168,27 @@
 /*------------------------------*/
 
 /* 故事模式2 */
+.StoryWord_Main_Mode2 {
+    position: absolute;
+    padding: 1vh 0.5vw;
+    left: 20vw;
+    bottom: 0;
+    width: 80%;
+    height: 25vh;
+    background: rgba(172, 172, 172, 0.6);
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 4000;
+}
+
+.StoryWord_Title_Mode2 {
+    font-size: 1.6vw;
+}
+
+.StoryWord_Text_Colomn_Mode2 {
+    font-size: 1.6vw;
+}
 .StoryWord_Text_Mode2 {}
 
 .StoryWord_Text_Word_Mode2 {

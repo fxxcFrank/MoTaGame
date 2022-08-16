@@ -124,7 +124,7 @@ class LeftSilder extends Component {
                 </Modal>
 
                 <AddNewMap createNewMapModelFlag={createNewMapModelFlag} setCreateNewMapModelFlag={this.setCreateNewMapModelFlag} addNewMap={this.addNewMap} loadNewBaseMap={loadNewBaseMap}
-                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} />
+                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap}/>
             </Fragment>
         )
     }
@@ -289,7 +289,8 @@ class LeftSilder extends Component {
             column: form.column,
             pos: form.pos,
             width: form.width,
-            height: form.height
+            height: form.height,
+            baseMap: [...form.baseMap],
         }
         window.electron ? window.electron.ipcRenderer.send("SaveCreateMap_new", data, "public/" + RightMenu_TabList[nowShowTab].url) : null;
     }
@@ -453,8 +454,8 @@ class LeftSilder extends Component {
         this.setState({ exitModelFlag: false });
     }
     clickExitOk = () => {
-        // this.props.Exit();
-        this.props.history.push("/");
+        this.props.Exit();
+        // this.props.history.push("/");
     }
     /* ------------------- */
 }

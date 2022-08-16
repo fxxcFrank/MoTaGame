@@ -49,7 +49,6 @@ class CreateMap extends Component {
         }) : null;
         window.electron ? window.electron.ipcRenderer.on('Refresh', function (event) {
             _this.initValues();
-            console.log("aaaaaaaaaaaa-----------------------");
             _this.setState({ rightMenuRefreshFlag: true }, () => {
                 _this.setState({ rightMenuRefreshFlag: false })
             })
@@ -61,13 +60,13 @@ class CreateMap extends Component {
     }
 
     render() {
-        const { nowMap, nowMapNum, middleWidth, RightMenu_TabList, nowShowTab, onChangeMapFlag, rightMenuRefreshFlag } = this.state;
+        const { nowMap, nowMapNum, middleWidth, RightMenu_TabList, nowShowTab, onChangeMapFlag, rightMenuRefreshFlag,nowClickAddMap } = this.state;
         let num = JSON.parse(JSON.stringify(this.state.middleWidth));
         return (
             <Fragment>
                 {/* {this.props.createMapFlag ? */}
                 <div className="CreateMap_Main" >
-                    <LeftSilder nowMap={nowMap} setMap={this.setMap} RightMenu_TabList={RightMenu_TabList} nowShowTab={nowShowTab} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit} />
+                    <LeftSilder nowMap={nowMap} setMap={this.setMap} RightMenu_TabList={RightMenu_TabList} nowShowTab={nowShowTab} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit} returnRightContent={this.returnRightContent} nowClickAddMap={nowClickAddMap}/>
                     <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
                         {nowMap.map((map, index) => {
                             if (index + 1 == num) {

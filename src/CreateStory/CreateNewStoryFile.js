@@ -26,8 +26,8 @@ const createNewStory = (props) => {
     }
     return (
         <Modal visible={props.createFileModelFlag} title="创建故事文件" onOk={clickOk} onCancel={clickCancel} okText="创建" cancelText="取消" closable={false}>
-            <Form ref={(val) => { setRefForm(val) }} onFinish={(form) => onSubmit(form)}
-                initialValues={{ storyContentChapter: 0, }}>
+            <Form ref={(val) => { setRefForm(val) }} onFinish={(form) => onSubmit(form)}>
+                 {/* initialValues={{ storyContentChapter: 0, }}> */}
                 <Item name="storyFileName" label="故事文件名" rules={[{ required: true, message: "请输入故事文件名！" }]}>
                     <Input />
                 </Item>

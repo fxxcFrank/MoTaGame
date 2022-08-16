@@ -60,11 +60,11 @@ class StoryMode2 extends Component {
     ModeStory2 = () => {
         const { nowStoryWordList_Mode2, nowStoryWordIndex_Mode2, nowStoryWordIndex_InWord_Mode2,showSpanLastFlag_Mode2 } = this.state;
         let plugin =
-            <div className="StoryWord_Main">
-                <div className="StoryWord_Title">
+            <div className="StoryWord_Main_Mode2">
+                <div className="StoryWord_Title_Mode2">
                     {nowStoryWordList_Mode2[nowStoryWordIndex_Mode2].name}
                 </div>
-                <div className="StoryWord_Text">
+                <div className="StoryWord_Text_Colomn_Mode2">
                     {nowStoryWordList_Mode2[nowStoryWordIndex_Mode2].wordList.map((word, index1) => {
                         if (index1 <= nowStoryWordIndex_InWord_Mode2) {
                             return (

@@ -333,8 +333,8 @@ class LeftSilder extends Component {
                 baseMapList.map((map) => {
                     if (map.lx === story.storyMap) {
                         let tempData = {
-                            name: story.storyId,
-                            lx: map.lx,
+                            name: story.storyId + "-Story",
+                            lx: map.lx + "-" + story.storyId + "-Story",
                             url: map.url,
                             column: map.column,
                             pos: map.pos,

@@ -60,6 +60,19 @@
     background: rgba(255,255,255,0.2);
 }
 
+.CreateMap_LeftMenu_ComplexMap_Cursor, .CreateMap_LeftMenu_ComplexMap_CursorClick{
+    position: absolute;
+    width: 5vw;
+    height: 6vh;
+    color: white;
+    border: 0.5vw solid;
+    background-color: rgba(255,255,255,0.4);
+}
+.CreateMap_LeftMenu_ComplexMap_CursorClick{
+    border: 0.5vw solid white;
+    background: rgba(255,255,255,0.2);
+}
+
 .CreateMap_LeftMenu_TreeDir{
 
 }
