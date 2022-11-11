@@ -1,0 +1,115 @@
+/* 能力————探查  */
+.Exploration_Main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* display: flex; */
+    width: max-content;
+    max-width: 50vw;
+    max-height: 50vh;
+    height: max-content;
+    transform: translate(-50%, -50%);
+    background: #a2adad;
+    border: 5px solid white;
+    color: white;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    overflow: auto;
+    z-index: 100;
+}
+
+.Exploration_Title {
+    padding: 1vh 0.5vw;
+}
+
+.Exploration_ButtonList {
+    margin-bottom: 1vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Exploration_Button {}
+
+.Exploration_Target,
+.Exploration_Target_focus {
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255, 255, 255, 0);
+    user-select: none;
+    cursor: pointer;
+}
+
+@keyframes explorationTargetBorder_showAndHide {
+    0% {
+        border: 0.2vw solid rgba(255, 255, 255, 0.2);
+    }
+
+    50% {
+        border: 0.2vw solid rgba(255, 255, 255, 1);
+    }
+
+    100% {
+        border: 0.2vw solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+.Exploration_Target_focus {
+    animation: explorationTargetBorder_showAndHide .5s linear 0s normal none infinite;
+}
+
+.ExplorationContent_Main {
+    position: absolute;
+    top: 0;
+    left: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* width: 100%; */
+    width: calc(100% - 20vw);
+    height: 100%;
+    background: #a2adad;
+    border: 5px solid white;
+    color: white;
+    text-shadow: 0 0 2px black, 0 0 2px black;
+    overflow: auto;
+    z-index: 100;
+}
+.ExplorationContent_Main_Close{
+    position: absolute;
+    top: 0;
+    right: 0.5vw;
+    width: max-content;
+    height: max-content;
+    font-size: 3vw;
+    /* padding: 0; */
+    border-radius:0.2vw;
+    color: white;
+    cursor: pointer;
+}
+.ExplorationContent_Main_Close .anticon.anticon-close{
+    background: black;
+}
+
+.ExplorationContent_Main_Title {}
+
+.ExplorationContent_Main_Info {}
+
+.ExplorationContent_Main_Column {
+    display: flex;
+}
+
+.ExplorationContent_Main_InfoTitle {}
+
+.ExplorationContent_Main_InfoText {}
+
+.ExplorationContent_Main_Describe {}
+
+.ExplorationContent_Main_DescribeTitle {}
+
+.ExplorationContent_Main_DescribeText {}
+
+/*----------------*/

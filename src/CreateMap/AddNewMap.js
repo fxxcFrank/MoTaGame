@@ -45,7 +45,7 @@ class AddNewMap extends Component {
         const refForm = this.refForm;
         return (
             this.props.createNewMapModelFlag ?
-                <Modal visible={this.props.createNewMapModelFlag} title="新增故事" onOk={this.clickOk} onCancel={this.clickCancel} okText="创建" cancelText="取消" closable={false}>
+                <Modal visible={this.props.createNewMapModelFlag} title="新增地图" onOk={this.clickOk} onCancel={this.clickCancel} okText="创建" cancelText="取消" closable={false}>
                     <Form ref={(val) => { this.refForm = val }} onFinish={(form) => this.onSubmit(form)}
                         initialValues={{ url: this.props.loadNewBaseMap.imgURL, lxMap: this.props.lxMap, lxMapURL: this.props.lxMapURL }}>
                         <Item name="lxMap" label="导入地图块类型" rules={[{ required: true, message: "请确认导入地图块类型！" }]}>

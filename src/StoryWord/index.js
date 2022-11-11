@@ -121,6 +121,7 @@ class StoryWord extends Component {
         }
     }
     nextStoryWord = () => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/取消.mp3');
         let mode = this.state.nowStory.storyMode;
         switch (mode) {
             case 0:
@@ -185,6 +186,19 @@ class StoryWord extends Component {
         this.props.closeStory();
     }
     /* ----------------------- */
+
+    /* 播放音效 */
+    palyVoice = (url) => {      //(未测试)效果存疑，之后加入音效再行测试
+        const myAudio = new Audio()
+        myAudio.preload = true; //
+        // myAudio.controls = true;
+        myAudio.loop = false;
+        myAudio.src = url;
+        // 播完时候播放下一首
+        // myAudio.addEventListener('ended', this.ChangeMusic.bind(this, myAudio), false);
+        myAudio.play();
+    }
+    /*  */
 
     /* 故事模式组件 */
     StoryMode0_OnRef = (ref) => {

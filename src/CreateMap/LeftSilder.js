@@ -27,6 +27,7 @@ class LeftSilder extends Component {
             sortModelFlag: false,
 
             createNewMapModelFlag: false,
+            isChangedMapModalFlag: false,//当当前地图修改过，会进行判断是否保留
 
             deleteFileName: "",
             deleteFlag: false,
@@ -73,7 +74,7 @@ class LeftSilder extends Component {
     }
 
     render() {
-        const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, createNewMapModelFlag, loadNewBaseMap,
+        const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, createNewMapModelFlag, isChangedMapModalFlag, tempSelectedInfo, loadNewBaseMap,
             deleteFlag, deleteWord, exitModelFlag } = this.state;
         const { RightMenu_TabList, nowShowTab } = this.props;
         return (
@@ -92,7 +93,7 @@ class LeftSilder extends Component {
                     </div>
                     {/* <input className="CreateMap_LeftMenu_fileNameInput" onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} /> */}
                     <div className="CreateMap_LeftMenu_Buttons">
-                        {/* <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>*/}
+                        <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取</Button>
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMapJson("2.json")}>创建地图文件</Button>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMap()}>新增地图</Button>
@@ -111,6 +112,10 @@ class LeftSilder extends Component {
                     当前选择保存的文件名为：{saveFileName},请选择保存类型————
                 </Modal>
 
+                <Modal className="CreateMap_LeftMenu_SaveModel" visible={isChangedMapModalFlag} onOk={() => this.noSaveChangeAndSelect()} onCancel={() => this.closeIsChanged()} okText="不保留" cancelText="取消">
+                    当前地图{tempSelectedInfo ? tempSelectedInfo.title : null}已被修改，确定不保留当前修改？
+                </Modal>
+
                 <Modal className="CreateMap_LeftMenu_SaveModel" visible={sortModelFlag} onOk={() => this.clickSortMap()} onCancel={() => this.closeSort()} okText="排序" cancelText="取消">
                     是否以当前顺序对地图{saveFileName}进行排序？
                 </Modal>
@@ -124,13 +129,17 @@ class LeftSilder extends Component {
                 </Modal>
 
                 <AddNewMap createNewMapModelFlag={createNewMapModelFlag} setCreateNewMapModelFlag={this.setCreateNewMapModelFlag} addNewMap={this.addNewMap} loadNewBaseMap={loadNewBaseMap}
-                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap}/>
+                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap} />
             </Fragment>
         )
     }
 
     onSelect = (selectedKeysValue, info) => {
         // console.log('onSelect', selectedKeysValue, info);
+        if (!this.isSameMap()) {
+            this.setState({ tempSelectedMap: selectedKeysValue, tempSelectedInfo: info, isChangedMapModalFlag: true })
+            return;
+        }
         this.setState({ selectedMap: selectedKeysValue, selectedInfo: info });
         this.props.setMap(info.node.map);
     };
@@ -310,6 +319,28 @@ class LeftSilder extends Component {
             }
         })
         return uesUrl;
+    }
+    /* -------------- */
+
+    /* 判断当前地图是否被修改过 */
+    noSaveChangeAndSelect = () => {
+        const { tempSelectedMap, tempSelectedInfo } = this.state;
+        this.setState({ selectedMap: tempSelectedMap, selectedInfo: tempSelectedInfo, isChangedMapModalFlag: false });
+        this.props.setMap(tempSelectedInfo.node.map);
+    }
+    closeIsChanged = () => {
+        this.setState({ isChangedMapModalFlag: false });
+    }
+    isSameMap = () => {
+        const { nowMap, nowDefaultMap } = this.props;
+        let flag = true;
+        console.log("isSameMap", nowDefaultMap, nowMap);
+        nowDefaultMap.map((map, index) => {
+            let base = nowMap[index];
+            if (map !== base)
+                flag = false
+        })
+        return flag;
     }
     /* -------------- */
 

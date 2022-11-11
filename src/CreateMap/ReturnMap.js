@@ -9,6 +9,8 @@ class ReturnMap extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            storyMap1List:[],
+            shopMap1List:[],
             baseMap1List: [],
             monsterMap1List: [],
             mouseDownFlag: false,

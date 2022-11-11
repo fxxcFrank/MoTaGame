@@ -1,0 +1,158 @@
+/* ---------菜单样式---------- */
+.Ability_Main{
+    position: absolute;
+    top: 13vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: max-content;
+    height: max-content; */
+    min-width: 20vw;
+    max-width: 60vw;
+    min-height: 10vh;
+    max-height: 50vh;
+    /* left: 24vw; */
+    /* top: 13vh; */
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 1000;
+}
+.Ability_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+}
+
+.Ability_Button_List{
+    padding: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+}
+
+.Ability_Save, .Ability_Load, .Ability_Exit{
+
+}
+.Ability_Save{
+    
+}
+.Ability_Load{
+
+}
+.Ability_Exit{
+
+}
+
+.Ability_Button, .Ability_Button_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+@keyframes menuButtonBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Ability_Button_focus{
+    animation: menuButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+/* ------------------- */
+
+/* ---------菜单样式---------- */
+.Ability_Save{
+    position: absolute;
+    top: 13vh;
+    left:25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50vw;
+    padding: 0.5vh 0.5vw;
+    box-sizing: border-box;
+    background: #969292;
+    color: honeydew;
+    border-radius: 0.2vw;
+    z-index: 1100;
+}
+.Ability_Save_title{
+
+}
+
+.Ability_Save_Button_List{
+
+}
+.Ability_Save_Button, .Ability_Save_Button_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+@keyframes menuSaveButtonBorder_showAndHide{
+    0%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+    50%{
+        border: 0.2vw solid rgba(255,255,255,1);
+    }
+    100%{
+        border: 0.2vw solid rgba(255,255,255,0.2);
+    }
+}
+.Ability_Save_Button_focus{
+    animation: menuSaveButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+
+.Ability_Save_Button_Title{
+
+}
+.Ability_Save_Button_level{
+
+}
+.Ability_Save_Button_img{
+
+}
+.Ability_Save_Button_floorNum{
+    
+}
+.Ability_Save_Button_Time{
+    
+}
+
+.Ability_Save_ExitButton, .Ability_Save_ExitButton_focus{
+    margin: 1vh 1vw;
+    -webkit-user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10vw;
+    border: 0.2vw solid rgba(255,255,255,0);
+    user-select: none;
+    cursor: pointer;
+}
+.Ability_Save_ExitButton_focus{
+    animation: menuSaveButtonBorder_showAndHide .5s linear 0s normal none infinite;
+}
+/* ------------------- */

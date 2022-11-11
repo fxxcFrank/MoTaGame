@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-
+import * as actionCreators from './store/actionCreators'
 import './style.css'
 import axios from 'axios'
 
@@ -15,6 +15,7 @@ class MainWindow extends Component {
             mapList: [{ "name": 1, "map": [], "width": 0 }],
             nowMapNum: 0,
             nowMeetMap: {},
+            aroundMonster: [],//周围四格的对象信息
 
             level: 1,
             life: 1000,
@@ -71,6 +72,10 @@ class MainWindow extends Component {
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    componentDidUpdate() {
+        this.props.setAllState(this.state);
     }
 
     render() {
@@ -211,15 +216,27 @@ class MainWindow extends Component {
         this.handleMove(id);
     }
     left = () => {
+        const { nowMapNum, mapList, } = this.state;
+        let nowAllCount = mapList[nowMapNum].map.length;
+        let width = mapList[nowMapNum].width;
         let plugin = document.getElementById("mtYS");
         plugin.className = "mtYS_Img_left";
         let id = plugin.attributes["index"].nodeValue * 1 - 1;
+        if ((id + 1) % width === 0) {
+            return;
+        }
         this.handleMove(id);
     }
     right = () => {
+        const { nowMapNum, mapList, } = this.state;
+        let nowAllCount = mapList[nowMapNum].map.length;
+        let width = mapList[nowMapNum].width;
         let plugin = document.getElementById("mtYS");
         plugin.className = "mtYS_Img_right";
         let id = plugin.attributes["index"].nodeValue * 1 + 1;
+        if ((id + 1) % width === 1) {
+            return;
+        }
         this.handleMove(id);
     }
 
@@ -242,6 +259,7 @@ class MainWindow extends Component {
         let plugin = document.getElementById("mtYS");
         let list = document.getElementsByTagName("div");
         let id = doc1.attributes["index"].nodeValue;    //因为采用了复合图层的原因，会导致部分dom刷新后doc的指向不明确，导致无法正常添加div，所以采用这种麻烦的方式，应该对效率有所影响，但目前看来不大。
+        this.getAllRoundTarget(id);
         let doc;
         for (let i = 0; i < list.length; i++) {
             let div = list[i];
@@ -266,6 +284,67 @@ class MainWindow extends Component {
         this.setState({ mapList: mapList });
     }
     /* */
+    /* 获取周围对象的信息 */
+    getAllRoundTarget = (id) => {   //可能逻辑有点赘余了，之后再调整吧
+        try {
+            // let id = plugin.attributes["index"].nodeValue = id;
+            let arountList = [];
+            let list = document.getElementsByTagName("div");
+            for (let i = 0; i < list.length; i++) {
+                let div = list[i];
+                if (!div.attributes["index"])
+                    continue;
+                if (!div.attributes["lx"])
+                    continue;
+                let lx = div.attributes["lx"].nodeValue;
+                if (lx.includes("Monster")) {
+                    let divIndex = div.attributes["index"].nodeValue * 1;
+                    let width = this.state.mapList[this.state.nowMapNum].width;
+                    // console.log("Monster", id,divIndex);
+                    //左、右、上、下
+                    if (((id == divIndex - 1) && !((id + 1) % width == 0)) || ((id == divIndex + 1) && !((id + 1) % width == 0)) || id == divIndex + width || id == divIndex - width) {
+                        let info = {
+                            monsterName: div.attributes["monsterName"].nodeValue,
+                            life: parseInt(div.attributes["life"].nodeValue),
+                            gong: parseInt(div.attributes["gong"].nodeValue),
+                            fang: parseInt(div.attributes["fang"].nodeValue),
+                            baojilv: parseInt(div.attributes["baojilv"].nodeValue),
+                            baojishanghai: parseInt(div.attributes["baojishanghai"].nodeValue),
+                            level: parseInt(div.attributes["level"].nodeValue),
+                            levelNum: parseInt(div.attributes["levelNum"].nodeValue),
+                            gold: parseInt(div.attributes["gold"].nodeValue),
+                            describe: div.attributes["describe"].nodeValue,
+                            imgMode: div.attributes["imgMode"].nodeValue,
+                            imgPos: div.attributes["imgPos"].nodeValue,
+                            imgUrl: div.attributes["imgUrl"].nodeValue,
+                            direction: this.returnTargetDirection(id, divIndex, width),
+                        }
+                        arountList.push(info);
+                    }
+                }
+            }
+            console.log("getAllRoundTarget", arountList);
+            this.setState({ aroundMonster: [...arountList] });
+        } catch (error) {
+            console.log("getAllRoundTarget", error);
+            this.setTip("获取周围对象的信息错误……");
+        }
+    }
+    returnTargetDirection = (id, divIndex, width) => {
+        if ((id == divIndex - 1) && !((id + 1) % width == 0)) {
+            return "左侧";
+        }
+        else if ((id == divIndex + 1) && !((id + 1) % width == 0)) {
+            return "右侧";
+        }
+        else if (id == divIndex + width) {
+            return "上侧";
+        }
+        else if (id == divIndex - width) {
+            return "下侧";
+        }
+    }
+    /* ------------- */
     /* 处理战斗事件的主函数 */
     fight = (doc) => {
         /* 勇者状态————生命、攻击、防御、暴击率、暴击伤害、等级、当前经验值、到下级所需经验值、本等级到下一等级总所需经验值、金币 */
@@ -282,7 +361,7 @@ class MainWindow extends Component {
         /* 怪物状态————生命、攻击、防御、打败后给予经验值、打败后给予金币 */
         let mLife = parseInt(doc.attributes["life"].nodeValue);
         let mGong = parseInt(doc.attributes["gong"].nodeValue);
-        let mFnag = parseInt(doc.attributes["fang"].nodeValue);
+        let mFang = parseInt(doc.attributes["fang"].nodeValue);
         let mLevelNum = parseInt(doc.attributes["levelNum"].nodeValue);
         let mGold = parseInt(doc.attributes["gold"].nodeValue);
         let mImgMode = doc.attributes["imgMode"].nodeValue;
@@ -290,7 +369,7 @@ class MainWindow extends Component {
         let mImgUrl = doc.attributes["imgUrl"].nodeValue;
         /* 战斗处理 */
         let mc = doc.innerText;
-        this.setState({ nowM: { life: mLife, gong: mGong, fang: mFnag, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
+        this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
         this.setState({ fightFlag: true, fightStatusShowFlag: true });
         let flag = true;
         this.fightTimer = setInterval(() => {
@@ -300,10 +379,12 @@ class MainWindow extends Component {
                     this.setState({ finish: true });
                 }
                 else {
+                    this.palyVoice('Audio/RPG魔塔音效素材/SE/战斗胜利.mp3');
                     this.setState({ fightTipFlag: true, fightTipWord: "战斗胜利！", fightStatusShowFlag: false });
                     this.remove(doc);
                     this.move(doc);
                     if (ysLevelNum + mLevelNum >= ysNextLevelAllNum) {
+                        this.palyVoice('Audio/RPG魔塔音效素材/SE/升级.mp3');
                         ysLevel += 1;
                         ysLevelNum = ysLevelNum + mLevelNum - ysNextLevelAllNum;
                         ysNextLevelAllNum = ysLevel * 121;  //等级与下一等级之间的跨度差值在此定义
@@ -324,6 +405,13 @@ class MainWindow extends Component {
                             fang: ysFang,
                             baojilv: bjl,
                             baojishanghai: bjsh,
+                        }, () => {
+                            setTimeout(() => { //2022.11.07可能需要单独做几个类型的消息提示框
+                                this.setState({ fightTipFlag: true, fightTipWord: `勇者已升级至Lv.${ysLevel}` });
+                                setTimeout(() => {
+                                    this.setState({ fightTipFlag: false, });
+                                }, 3503);
+                            }, 602);
                         })
                     }
                     else {
@@ -347,29 +435,40 @@ class MainWindow extends Component {
                 }
             }
             else if (flag) {
-                if (ysGong > mFnag) {
-                    let sh = (ysGong - mFnag);
+                if (ysGong > mFang) {
+                    let sh = (ysGong - mFang);
                     let a = Math.random();
-                    sh = a < bjl ? sh = Math.ceil(sh * (1 + bjsh)) : sh;
+                    if (a < bjl) {
+                        sh = Math.ceil(sh * (1 + bjsh));
+                        this.palyVoice('Audio/RPG魔塔音效素材/SE/剑击（暴击）.mp3');
+                    }
+                    else {
+                        this.palyVoice('Audio/RPG魔塔音效素材/SE/剑击.mp3');
+                    }
+                    // sh = ? sh = Math.ceil(sh * (1 + bjsh)) : sh;
                     mLife = mLife - sh;
                 }
-                else
+                else {
+                    this.palyVoice('Audio/RPG魔塔音效素材/SE/空手.mp3');
                     mLife = mLife - 1;
+                }
                 flag = false;
                 if (mLife < 0)
                     mLife = 0
             }
             else {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/空手.mp3');
                 if (mGong > ysFang)
                     ysLife = ysLife - (mGong - ysFang);
-                else
+                else {
                     ysLife = ysLife - 1;
+                }
                 flag = true;
                 if (ysLife < 0)
                     ysLife = 0;
             }
             this.setState({ life: ysLife });
-            this.setState({ nowM: { life: mLife, gong: mGong, fang: mFnag, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
+            this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
         }, 300);
     }
     /* */
@@ -379,36 +478,42 @@ class MainWindow extends Component {
         if (lx === "YDoor") {
             let YKey = this.state.YKey;
             if (YKey > 0) {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/开门.mp3');
                 YKey -= 1;
                 this.remove(doc);
                 this.move(doc);
                 this.setState({ YKey: YKey });
             }
             else {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/错误.mp3');
                 this.setTip("您身上没有足够的黄钥匙……");
             }
         }
         else if (lx === "BDoor") {
             let BKey = this.state.BKey;
             if (BKey > 0) {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/开门.mp3');
                 BKey -= 1;
                 this.remove(doc);
                 this.move(doc);
                 this.setState({ BKey: BKey });
             }
             else {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/错误.mp3');
                 this.setTip("您身上没有足够的蓝钥匙……");
             }
         }
         else if (lx === "RDoor") {
             let RKey = this.state.RKey;
             if (RKey > 0) {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/开门.mp3');
                 RKey -= 1;
                 this.remove(doc);
                 this.move(doc);
                 this.setState({ RKey: RKey });
             }
             else {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/错误.mp3');
                 this.setTip("您身上没有足够的红钥匙……");
             }
         }
@@ -427,6 +532,7 @@ class MainWindow extends Component {
             }
         }
         if (flag) {
+            this.palyVoice('Audio/RPG魔塔音效素材/SE/商店.mp3');
             for (let i in spend) {
                 let state = {};
                 let have = this.state[i];
@@ -441,6 +547,9 @@ class MainWindow extends Component {
                 state[i] = have;
                 this.setState(state);
             }
+        }
+        else {
+            this.palyVoice('Audio/RPG魔塔音效素材/SE/错误.mp3');
         }
     }
     changeSpendTipText = (spendType) => {
@@ -527,7 +636,6 @@ class MainWindow extends Component {
         }
         let id = parseInt(allState.posId);
         let plugin = document.getElementById("mtYS");
-
         this.setState(data, () => {
             let list = document.getElementsByTagName("div");
             let doc;
@@ -542,72 +650,85 @@ class MainWindow extends Component {
             }
             plugin.attributes["index"].nodeValue = id;
             doc.appendChild(plugin);
+            // this.props.setAllState(this.state);
         });    //已解决
 
 
     }
     /* 处理地图之间移动的函数 */
     upMap(doc) {
-        let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
-        if (nowMapNum > 0) {
-            let nowMap = this.state.mapList[nowMapNum - 1].map;
-            let id;
-            nowMap.map((map, index) => {
-                if (map == "end")
-                    id = index;
-            })
-            if (id) {
-                this.setState({ nowMapNum: nowMapNum - 1 });
-                let plugin = document.getElementById("mtYS");
-                let list = document.getElementsByTagName("div");
-                let nowDoc;
-                for (let i = 0; i < list.length; i++) {
-                    let div = list[i];
-                    if (!div.attributes["index"])
-                        continue;
-                    if (id == div.attributes["index"].nodeValue * 1) {
-                        nowDoc = div;
-                        break;
+        try {
+            let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
+            this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
+            if (nowMapNum > 0) {
+                let nowMap = this.state.mapList[nowMapNum - 1].map;
+                let id;
+                nowMap.map((map, index) => {
+                    if (map == "end")
+                        id = index;
+                })
+                if (id) {
+                    this.setState({ nowMapNum: nowMapNum - 1 });
+                    let plugin = document.getElementById("mtYS");
+                    let list = document.getElementsByTagName("div");
+                    let nowDoc;
+                    for (let i = 0; i < list.length; i++) {
+                        let div = list[i];
+                        if (!div.attributes["index"])
+                            continue;
+                        if (id == div.attributes["index"].nodeValue * 1) {
+                            nowDoc = div;
+                            break;
+                        }
                     }
+                    nowDoc.appendChild(plugin);
+                    plugin.attributes["index"].nodeValue = id;
                 }
-                nowDoc.appendChild(plugin);
-                plugin.attributes["index"].nodeValue = id;
             }
-        }
-        else {
-            this.move(doc);
+            else {
+                this.move(doc);
+            }
+        } catch (error) {
+            console.log(error);
+            alert("上楼时出现错误！");
         }
     }
     downMap(doc) {
-        let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
-        let mapNum = this.state.mapList.length;
-        if (nowMapNum < mapNum - 1) {
-            let nowMap = this.state.mapList[nowMapNum + 1].map;
-            let id;
-            nowMap.map((map, index) => {
-                if (map == "start")
-                    id = index;
-            })
-            if (id) {
-                this.setState({ nowMapNum: nowMapNum + 1 });
-                let plugin = document.getElementById("mtYS");
-                let list = document.getElementsByTagName("div");
-                let nowDoc;
-                for (let i = 0; i < list.length; i++) {
-                    let div = list[i];
-                    if (!div.attributes["index"])
-                        continue;
-                    if (id == div.attributes["index"].nodeValue * 1) {
-                        nowDoc = div;
-                        break;
+        try {
+            let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
+            let mapNum = this.state.mapList.length;
+            this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
+            if (nowMapNum < mapNum - 1) {
+                let nowMap = this.state.mapList[nowMapNum + 1].map;
+                let id;
+                nowMap.map((map, index) => {
+                    if (map == "start")
+                        id = index;
+                })
+                if (id) {
+                    this.setState({ nowMapNum: nowMapNum + 1 });
+                    let plugin = document.getElementById("mtYS");
+                    let list = document.getElementsByTagName("div");
+                    let nowDoc;
+                    for (let i = 0; i < list.length; i++) {
+                        let div = list[i];
+                        if (!div.attributes["index"])
+                            continue;
+                        if (id == div.attributes["index"].nodeValue * 1) {
+                            nowDoc = div;
+                            break;
+                        }
                     }
+                    nowDoc.appendChild(plugin);
+                    plugin.attributes["index"].nodeValue = id;
                 }
-                nowDoc.appendChild(plugin);
-                plugin.attributes["index"].nodeValue = id;
             }
-        }
-        else {
-            this.move(doc);
+            else {
+                this.move(doc);
+            }
+        } catch (error) {
+            console.log(error);
+            alert("下楼时出现错误！");
         }
     }
     victory() {
@@ -656,26 +777,31 @@ class MainWindow extends Component {
                 this.openDoor(doc);
                 break;
             case "YKey":
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
                 this.setState({ YKey: this.state.YKey + 1 });
                 this.remove(doc);
                 this.move(doc);
                 break;
             case "BKey":
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
                 this.setState({ BKey: this.state.BKey + 1 });
                 this.remove(doc);
                 this.move(doc);
                 break;
             case "RKey":
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
                 this.setState({ RKey: this.state.RKey + 1 });
                 this.remove(doc);
                 this.move(doc);
                 break;
             case "sword":
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
                 this.setState({ gong: this.state.gong + 3 });
                 this.remove(doc);
                 this.move(doc);
                 break;
             case "def":
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
                 this.setState({ fang: this.state.fang + 3 });
                 this.remove(doc);
                 this.move(doc);
@@ -696,6 +822,18 @@ class MainWindow extends Component {
     }
     /* */
 
+    /* 播放音效 */
+    palyVoice = (url) => {      //(未测试)效果存疑，之后加入音效再行测试
+        const myAudio = new Audio()
+        myAudio.preload = true; //
+        // myAudio.controls = true;
+        myAudio.loop = false;
+        myAudio.src = url;
+        // 播完时候播放下一首
+        // myAudio.addEventListener('ended', this.ChangeMusic.bind(this, myAudio), false);
+        myAudio.play();
+    }
+    /*  */
 }
 
 const mapState = (state) => ({
@@ -703,8 +841,8 @@ const mapState = (state) => ({
 });
 
 const mapProps = (dispatch) => ({
-    // changeStatusPanel(data) {
-    //     dispatch(actionCreators.changeStatusPanel(data))
-    // },
+    setAllState(data) {
+        dispatch(actionCreators.setAllState(data))
+    },
 });
 export default connect(mapState, mapProps)(MainWindow);

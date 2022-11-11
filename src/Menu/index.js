@@ -194,6 +194,7 @@ class Menu extends Component {
     }
 
     changeMenuButton = (num) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/选择.mp3');
         let nowMenuButtonIndex = this.state.nowMenuButtonIndex;
         let nowMenuButtonListLength = this.state.menuButtonList.length;
         let nextNum = nowMenuButtonIndex + num;
@@ -209,6 +210,7 @@ class Menu extends Component {
     }
 
     clickMenuButton = (nowMenuButtonIndex) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         let menuButtonList = this.state.menuButtonList;
         let nowMenuButton = menuButtonList[nowMenuButtonIndex];
         switch (nowMenuButton.text) {
@@ -271,42 +273,9 @@ class Menu extends Component {
         let fileData = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
 
         window.electron.ipcRenderer.send("Save", filename, jsonData2);
-        // this.palyVoice('voice/save.mp4');
-        // this.props.setTip_split("保存成功！");   //或在此后改为音效提示
-        // fs.writeFile('data/'+filename+'.json', fileData, (err) => {
-        //     if (err) {
-        //         console.log(err);
-        //         return;
-        //     }
-        //     console.log("创建写入成功");
-        // })
-        // let link = document.createElement('a')
-        // if (!filename) {
-        //     filename = `${Date.now()}.json`
-        // }
-        // if (!/\.json$/.test(filename)) {
-        //     filename += '.json'
-        // }
-        // link.download = filename;
-        // link.href = fileData;
-        // link.click();
-        // link = null;
-
-
-        // document.body.removeChild(link);
-        // window.location.href = fileData;
-
-        //     var a = document.createElement('a');    //创建a标签
-        // a.download = res.data;                  //设置下载名称
-        // a.style.display = 'none';               //将a标签设置为不可见
-        // var blob = new Blob([res.data]);        //创建blob对象，字符内容转变成blob地址
-        // a.href = URL.createObjectURL(blob);     
-        // document.body.appendChild(a);            
-        // a.click();                              //出发点击事件
-
-        // document.body.removeChild(a);           //最后移除a标签
     }
     changeMenuSaveButton = (num) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/选择.mp3');
         let nowMenuSaveIndex = this.state.nowMenuSaveIndex;
         let nowSaveListLength = this.state.saveList.length;
         let nextNum = nowMenuSaveIndex + num;
@@ -321,6 +290,7 @@ class Menu extends Component {
         }
     }
     clickMenuSaveButton = (nowMenuSaveIndex) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         let saveListLength = this.state.saveList.length;
         if (nowMenuSaveIndex < saveListLength) {
             this.SaveDataToLocal(nowMenuSaveIndex);
@@ -353,20 +323,22 @@ class Menu extends Component {
     }
 
     changeMenuLoadButton = (num) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/选择.mp3');
         let nowMenuLoadIndex = this.state.nowMenuLoadIndex;
         let nowLoadListLength = this.state.loadList.length;
         let nextNum = nowMenuLoadIndex + num;
         if (nextNum >= 0 && nextNum <= nowLoadListLength) {    //因为退出键不隶属于列表之内，所以总长度需加一
-            this.setState({ nowMenuLoadIndex: nextNum })
+            this.setState({ nowMenuLoadIndex: nextNum });
         }
         else if (nextNum < 0) {
-            this.setState({ nowMenuLoadIndex: nowLoadListLength })
+            this.setState({ nowMenuLoadIndex: nowLoadListLength });
         }
         else {
-            this.setState({ nowMenuLoadIndex: 0 })
+            this.setState({ nowMenuLoadIndex: 0 });
         }
     }
     clickMenuLoadButton = (nowMenuLoadIndex) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         let loadListLength = this.state.loadList.length;
         if (nowMenuLoadIndex < loadListLength) {
             this.LoadDataToLocal(nowMenuLoadIndex);
@@ -381,6 +353,7 @@ class Menu extends Component {
     /* */
 
     Return = () => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/取消.mp3');
         this.props.closeMenu();
         this.setState({
             nowMenuButtonIndex: 0,
@@ -388,6 +361,7 @@ class Menu extends Component {
     }
 
     Exit = () => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/取消.mp3');
         this.props.closeMenu();
         this.setState({
             nowMenuButtonIndex: 0,

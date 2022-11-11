@@ -65,7 +65,7 @@ class Monster extends Component {
                 })
                 let mapList = baseMap.baseMap;
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + monster.imgUrl + ")";
-                let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} life={monster.life} gong={monster.gong} fang={monster.fang} levelNum={monster.levelNum} gold={monster.gold} imgMode={monster.imgMode} imgPos={monster.imgPos} imgUrl={monster.imgUrl} key={nowMapNum + "个" + index}></div>;
+                let tempMap2 = <div className={"NormalMap_Monster_" + monster.imgMode + "_" + monster.imgPos} style={{ backgroundImage: backgroundImage }} index={index} lx={monster.monsterID} {...monster} key={nowMapNum + "个" + index}></div>;
                 if (mapList) {
                     let baseMapList = [];
                     mapList.map((mapType, mapTypeIndex) => {

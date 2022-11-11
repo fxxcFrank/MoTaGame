@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 
 import './style.css'
 import Menu from "../Menu"
+import Ability from "../Ability"
 import BaseMap from "../BaseMap"
 import Shop from "../Shop"
 import Monster from "../Monster"
@@ -22,7 +23,7 @@ class Title extends Component {
             startFlag: false,
             explainFlag: false,
             createMapFlag: false,
-            createStoryFlag:false,
+            createStoryFlag: false,
 
             menuPreloadFlag: false,
             storyPreloadFlag: false,
@@ -56,44 +57,47 @@ class Title extends Component {
     }
 
     render() {
-        const { createMapFlag, createStoryFlag,menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag } = this.state;
+        const { createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag,
+            abilityFlag } = this.state;
         return (
             <Fragment>
                 {/* {!createMapFlag ? */}
-                    <Fragment>
-                        {this.state.startFlag ?
-                            <MainWindow setStory={this.setStory} setMapList={this.setMapList} setAllState={this.setAllState} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef} menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent} shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} />
-                            :
-                            <div className="MainTitleWindow">
-                                {/* <div className="MainTitleWindow_title">魔塔</div> */}
-                                <div className="MainTitleWindow_title">测试</div>
-                                <div className="MainTitleWindow_Menu">
-                                    {/* <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>开始游戏</div> */}
-                                    <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>测试开始</div>
-                                    {/* <div className="MainTitleWindow_Menu_explain" onClick={() => this.openExplain()}>游戏说明</div> */}
-                                    <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateMap()}>创建地图</div>
-                                    <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateStory()}>创建故事</div>
-                                </div>
+                <Fragment>
+                    {this.state.startFlag ?
+                        <MainWindow setStory={this.setStory} setMapList={this.setMapList} setAllState={this.setAllState} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef} menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent} shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} />
+                        :
+                        <div className="MainTitleWindow">
+                            {/* <div className="MainTitleWindow_title">魔塔</div> */}
+                            <div className="MainTitleWindow_title">测试</div>
+                            <div className="MainTitleWindow_Menu">
+                                {/* <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>开始游戏</div> */}
+                                <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>测试开始</div>
+                                {/* <div className="MainTitleWindow_Menu_explain" onClick={() => this.openExplain()}>游戏说明</div> */}
+                                <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateMap()}>创建地图</div>
+                                <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateStory()}>创建故事</div>
                             </div>
-                        }
-                        {this.state.explainFlag ?
-                            <div className="MainExplainWindow">
-                                <div className="MainExplainWindow_title">操作说明</div>
-                                <div className="MainExplainWindow_Content">
-                                    ↑↓←→控制人物（勇者）移动，在魔塔中获取不断变强，打倒怪物，登上塔顶，实现愿望。
-                                </div>
-                                <div className="MainExplainWindow_Buttons">
-                                    <div className="MainExplainWindow_Button_Close" onClick={() => this.closeExplain()}>关闭</div>
-                                </div>
+                        </div>
+                    }
+                    {this.state.explainFlag ?
+                        <div className="MainExplainWindow">
+                            <div className="MainExplainWindow_title">操作说明</div>
+                            <div className="MainExplainWindow_Content">
+                                ↑↓←→控制人物（勇者）移动，在魔塔中获取不断变强，打倒怪物，登上塔顶，实现愿望。
                             </div>
-                            : null}
-                        <Menu menuFlag={this.state.menuFlag} closeMenu={this.closeMenu} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} menuComponentOnRef={this.menuComponentOnRef} setTip_split={this.setTip_split} menuPreloadFlag={menuPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                        <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef} nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                        <BaseMap baseMapComponentOnRef={this.baseMapComponentOnRef} baseMapPreloadFlag={baseMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                        <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                        <Monster monsterComponentOnRef={this.monsterComponentOnRef} monsterPreloadFlag={monsterPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                    </Fragment>
-                    {/* :
+                            <div className="MainExplainWindow_Buttons">
+                                <div className="MainExplainWindow_Button_Close" onClick={() => this.closeExplain()}>关闭</div>
+                            </div>
+                        </div>
+                        : null}
+                    <Menu menuFlag={this.state.menuFlag} closeMenu={this.closeMenu} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} menuComponentOnRef={this.menuComponentOnRef} setTip_split={this.setTip_split} menuPreloadFlag={menuPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                    <Ability abilityFlag={abilityFlag} openAbility={this.openAbility} closeAbility={this.closeAbility} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} abilityComponentOnRef={this.abilityComponentOnRef} setTip={this.setTip} setTip_split={this.setTip_split}
+                        mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} />
+                    <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef} nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                    <BaseMap baseMapComponentOnRef={this.baseMapComponentOnRef} baseMapPreloadFlag={baseMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                    <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                    <Monster monsterComponentOnRef={this.monsterComponentOnRef} monsterPreloadFlag={monsterPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                </Fragment>
+                {/* :
                     <CreateMap createMapFlag={this.state.createMapFlag} closeCreateMap={this.closeCreateMap} />} */}
             </Fragment>
         )
@@ -118,7 +122,7 @@ class Title extends Component {
         this.props.history.push("/CreateMap");
         this.setState({ createMapFlag: true });
     }
-    openCreateStory=()=>{
+    openCreateStory = () => {
         this.props.history.push("/CreateStory");
     }
     closeCreateMap = () => {
@@ -188,6 +192,14 @@ class Title extends Component {
     }
     closeMenu = () => {
         this.setState({ menuFlag: false })
+    }
+    /* */
+    /* 处理有关能力的函数 */
+    openAbility = () => {
+        this.setState({ abilityFlag: true })
+    }
+    closeAbility = () => {
+        this.setState({ abilityFlag: false })
     }
     /* */
     /* 操作商店的主要函数 */
@@ -261,6 +273,8 @@ class Title extends Component {
         }
         if (this.state.menuFlag)
             return;
+        if (this.state.abilityFlag)
+            return;
         else if (this.state.storyWordFlag) {
             switch (keyCode) {
                 case 13:
@@ -324,6 +338,10 @@ class Title extends Component {
     /*6，主界面 */
     mainWindowComponentOnRef = (ref) => {
         this.mainWindowComponent = ref;
+    }
+    /*7，所有能力 */
+    abilityComponentOnRef = (ref) => {
+        this.abilityComponent = ref;
     }
     /********    ********/
 }

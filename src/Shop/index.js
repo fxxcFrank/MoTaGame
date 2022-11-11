@@ -116,8 +116,7 @@ class Shop extends Component {
     }
 
     changeShopGoods = (num) => {
-        // this.palyVoice('voice/event_03.mp3');
-        this.palyVoice('voice/event_01.ogg');
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/选择.mp3');
         let nowShopGoodsNum = this.state.nowShopGoodsNum;
         let nowShopGoodsLength = this.state.nowShopGoodsLength;
         let nextNum = nowShopGoodsNum + num;
@@ -132,11 +131,10 @@ class Shop extends Component {
         }
     }
     selectGoods = (spend, get) => {
-        // this.palyVoice('voice/event_04.mp3');
-        this.palyVoice('voice/event_02.ogg');
         this.props.selectGoods(spend, get);
     }
     exitShop = () => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         this.props.exitShop();
         this.setState({
             nowShopGoodsNum: 0,
@@ -196,8 +194,8 @@ class Shop extends Component {
         let numLength = shopMapList.length;
         let numCount = 0;
         shopMapList.map((baseMap) => {
-            if (baseMap == undefined){
-                numCount+=1;
+            if (baseMap == undefined) {
+                numCount += 1;
                 return;
             }
             let dataImg = baseMap.url;
@@ -227,12 +225,12 @@ class Shop extends Component {
                 }
                 canvas.getContext("2d").putImageData(imageData, 0, 0);
                 baseMap.urlImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
-                numCount+=1;
-                if(numCount===numLength){
+                numCount += 1;
+                if (numCount === numLength) {
                     _this.props.setPreloadFlag("shopPreloadFlag", true);
                 }
             };
-            if(numCount===numLength){
+            if (numCount === numLength) {
                 _this.props.setPreloadFlag("monsterPreloadFlag", true);
             }
         })

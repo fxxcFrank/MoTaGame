@@ -12,6 +12,19 @@
     width: 10vw;
     overflow: auto;
 }
+.CreateMap_LeftMenu::-webkit-scrollbar {
+    width: 0px;
+    border: 1px solid #fff;
+  }
+  .CreateMap_LeftMenu::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #eeeeee;
+  }
+  .CreateMap_LeftMenu::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b0b0b0;
+  }
+
 .CreateMap_LeftMenu_BaseMap{
     position: relative;
     top: 0;
