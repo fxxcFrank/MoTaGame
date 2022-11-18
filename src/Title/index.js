@@ -91,7 +91,7 @@ class Title extends Component {
                         : null}
                     <Menu menuFlag={this.state.menuFlag} closeMenu={this.closeMenu} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} menuComponentOnRef={this.menuComponentOnRef} setTip_split={this.setTip_split} menuPreloadFlag={menuPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Ability abilityFlag={abilityFlag} openAbility={this.openAbility} closeAbility={this.closeAbility} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} abilityComponentOnRef={this.abilityComponentOnRef} setTip={this.setTip} setTip_split={this.setTip_split}
-                        mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} />
+                        mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} moveToFloor={this.mainWindowComponent ? this.mainWindowComponent.moveToFloor : undefined}/>
                     <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef} nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <BaseMap baseMapComponentOnRef={this.baseMapComponentOnRef} baseMapPreloadFlag={baseMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
@@ -256,21 +256,21 @@ class Title extends Component {
     /* 控制所有键盘事件的主函数 */
     keyOn = (e) => {
         let keyCode = e.keyCode;
-        if (window.electron) {
-            switch (keyCode) {
-                case 116:
-                    window.electron.ipcRenderer.send("f5"); //应用刷新
-                    break;
-                case 122:
-                    window.electron.ipcRenderer.send("f11");//应用放大或全屏
-                    break;
-                case 123:
-                    window.electron.ipcRenderer.send("f12");//应用打开调试工具
-                    break;
-                default:
-                    break;
-            }
-        }
+        // if (window.electron) {
+        //     switch (keyCode) {
+        //         case 116:
+        //             window.electron.ipcRenderer.send("f5"); //应用刷新
+        //             break;
+        //         case 122:
+        //             window.electron.ipcRenderer.send("f11");//应用放大或全屏
+        //             break;
+        //         case 123:
+        //             window.electron.ipcRenderer.send("f12");//应用打开调试工具
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
         if (this.state.menuFlag)
             return;
         if (this.state.abilityFlag)

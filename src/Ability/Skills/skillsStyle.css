@@ -113,3 +113,63 @@
 .ExplorationContent_Main_DescribeText {}
 
 /*----------------*/
+
+
+/* 能力————手册  */
+.ExplorationContent_Main_Content, .ExplorationContent_Main_Content_focus{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 0.2vw solid rgba(255, 255, 255, 0);
+    user-select: none;
+    cursor: pointer;
+}
+.ExplorationContent_Main_Content_focus{
+    animation: explorationTargetBorder_showAndHide .5s linear 0s normal none infinite;
+}
+.HandbookContent_Main_Left{
+
+}
+.HandbookContent_Main_Right{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.HandbookContent_Main_Right_Name{
+    width: 10vw;
+}
+.HandbookContent_Main_Right_NameText2{
+    color: transparent;
+    text-shadow:none;
+}
+.HandbookContent_Main_Right_Info{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.HandbookContent_Main_Right_InfoContent{
+    
+}
+/*----------------*/
+
+/* 能力————迁跃  */
+.TransitionContent_Column{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.TransitionContent_Column_Text,.TransitionContent_Column_Text_focus{
+    width: 5vw;
+    height: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.2vw solid rgba(255, 255, 255, 0);
+    user-select: none;
+    cursor: pointer;
+}
+.TransitionContent_Column_Text_focus{
+    animation: explorationTargetBorder_showAndHide .5s linear 0s normal none infinite;
+}
+/*----------------*/

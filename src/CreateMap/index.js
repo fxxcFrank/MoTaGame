@@ -18,7 +18,7 @@ class CreateMap extends Component {
             loadMapList: [],
 
             nowMap: [],//当前展示地图
-            nowDefaultMap:[],//当前地图原始数据
+            nowDefaultMap: [],//当前地图原始数据
             nowMapNum: 0,
             middleWidth: 10,
             middleHeight: 10,
@@ -73,13 +73,14 @@ class CreateMap extends Component {
     }
 
     render() {
-        const { nowMap, nowDefaultMap, nowMapNum, middleWidth, RightMenu_TabList, nowShowTab, onChangeMapFlag, rightMenuRefreshFlag, nowClickAddMap } = this.state;
+        const { nowMap, nowDefaultMap, nowMapNum, middleWidth, middleHeight, RightMenu_TabList, nowShowTab, onChangeMapFlag, rightMenuRefreshFlag, nowClickAddMap } = this.state;
         let num = JSON.parse(JSON.stringify(this.state.middleWidth));
         return (
             <Fragment>
                 {/* {this.props.createMapFlag ? */}
                 <div className="CreateMap_Main" >
-                    <LeftSilder nowMap={nowMap} nowDefaultMap={nowDefaultMap} setMap={this.setMap} RightMenu_TabList={RightMenu_TabList} nowShowTab={nowShowTab} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit} returnRightContent={this.returnRightContent} nowClickAddMap={nowClickAddMap} />
+                    <LeftSilder nowMap={nowMap} nowDefaultMap={nowDefaultMap} setMap={this.setMap} RightMenu_TabList={RightMenu_TabList} nowShowTab={nowShowTab} onChangeMapFlag={onChangeMapFlag} Exit={this.Exit} returnRightContent={this.returnRightContent} nowClickAddMap={nowClickAddMap}
+                        middleWidth={middleWidth} middleHeight={middleHeight} changeMiddleWidth={this.changeMiddleWidth} changeMiddleHeight={this.changeMiddleHeight} />
                     <div className="CreateMap_MiddleContent" onMouseDown={() => this.setState({ mouseDownFlag: true })} onMouseUp={() => this.setState({ mouseDownFlag: false })} onMouseLeave={() => this.setState({ mouseDownFlag: false })}>
                         {nowMap.map((map, index) => {
                             if (index + 1 == num) {
@@ -110,7 +111,10 @@ class CreateMap extends Component {
                     </div>
                 </div>
                 {/* : null} */}
-                {!rightMenuRefreshFlag ? <ReturnMap changeMiddleMap={this.changeMiddleMap} mouseDownFlag={this.state.mouseDownFlag} returnMapComponentOnRef={this.returnMapComponentOnRef} /> : null}
+                {!rightMenuRefreshFlag ?
+                    <ReturnMap changeMiddleMap={this.changeMiddleMap} mouseDownFlag={this.state.mouseDownFlag} returnMapComponentOnRef={this.returnMapComponentOnRef}
+                        middleWidth={middleWidth} middleHeight={middleHeight} />
+                    : null}
             </Fragment>
         )
     }
@@ -149,6 +153,12 @@ class CreateMap extends Component {
                 saveData += "\n"
         }
         return saveData;
+    }
+    changeMiddleWidth = (num) => {     //改变地图宽度
+        this.setState({ middleWidth: num });
+    }
+    changeMiddleHeight = (num) => {     //改变地图高度
+        this.setState({ middleHeight: num });
     }
     /* */
 

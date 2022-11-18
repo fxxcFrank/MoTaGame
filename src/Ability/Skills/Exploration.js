@@ -119,11 +119,9 @@ class Exploration extends Component {
         const { IsShowAroundTargetFlag, IsShowExplorationFlag, showExplorationFlag } = this.state;
         let keyCode = e.keyCode;
         if (keyCode === 69) {       //探查快捷键————E
-            // console.log("Exploration-----keyOn-----this.props.allState", this.props.allState, this.props.allState.aroundMonster);
             if (!this.props.allState.aroundMonster || (IsShowAroundTargetFlag || IsShowExplorationFlag || showExplorationFlag))
                 return;
             if (this.props.allState.aroundMonster.length > 0) {
-                // console.log("this.props.allState.aroundMonster", this.props.allState.aroundMonster);
                 this.props.openAbility();   //打开能力监听覆盖
                 this.props.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
                 this.setState({ IsShowAroundTargetFlag: true })
@@ -137,7 +135,6 @@ class Exploration extends Component {
         }
         if (!IsShowAroundTargetFlag && !IsShowExplorationFlag && !showExplorationFlag)  //为了防止和其他能力的调用重复，每个能力都在本地控制一下按键应用范围
             return;
-        // console.log("IsShowAroundTargetFlag,IsShowExplorationFlag,showExplorationFlag", IsShowAroundTargetFlag, IsShowExplorationFlag, showExplorationFlag, (!IsShowExplorationFlag || !showExplorationFlag));
         if (IsShowAroundTargetFlag && (!IsShowExplorationFlag && !showExplorationFlag)) {
             switch (keyCode) {
                 case 38:       //方向键上
@@ -214,6 +211,7 @@ class Exploration extends Component {
     changeSelectConfirm = (num) => {
         const { nowSelectConfirmIndex } = this.state;
         let nextNum = nowSelectConfirmIndex + num;
+        this.props.palyVoice('Audio/RPG魔塔音效素材/SE/选择.mp3');
         if (nextNum >= 0 && nextNum <= 1) {
             this.setState({ nowSelectConfirmIndex: nextNum })
         }
@@ -227,14 +225,14 @@ class Exploration extends Component {
     selectConfirm = (index) => {
         this.props.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         if (index === 1) {
-            this.setState({ nowSelectTargetIndex: 1, }, () => {
+            this.setState({ nowSelectConfirmIndex: 1, }, () => {
                 this.closeIsShowAroundTarget();
                 this.closeIsShowExploration();
                 this.openIsShowExploration();
             })
         }
         else {
-            this.setState({ nowSelectTargetIndex: 1, });
+            this.setState({ nowSelectConfirmIndex: 1, });
             this.closeIsShowExploration();
         }
     }
@@ -276,15 +274,12 @@ class Exploration extends Component {
 
             let successRate = 1;
             successRate = (ysLife / mLife + ysGong / mGong + ysFang / mFang + bjl / mBjl + bjsh / mBjsh + ysLevel / mLevel) / 6;
-            console.log("first-----successRate", targetMonster.monsterName, successRate);
             if (successRate > 1)
                 successRate = 1;
-            // this.setState({ nowSelectTargetSuccessRate: successRate })
             this.nowSelectTargetSuccessRate = successRate;
             return successRate * 100 + "%";
         } catch (error) {
             console.log("returnMonsterInfoSuccessRate", error);
-            // debugger
             this.props.closeAbility();  //关闭能力监听覆盖
             this.setState({ IsShowExplorationFlag: false });
             this.props.setTip("探查信息失败，附近没有周围四格没有合适的探查对象……");
@@ -311,7 +306,7 @@ class Exploration extends Component {
     }
     closeIsShowAroundTarget = () => {
         this.props.closeAbility();  //关闭能力监听覆盖
-        this.setState({ IsShowAroundTargetFlag: false })
+        this.setState({ IsShowAroundTargetFlag: false, })
     }
     //选定对象的确定、取消
     openIsShowExploration = () => {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-import { Tree, Modal, message, Button } from 'antd'
+import { Tree, Modal, message, Button, InputNumber } from 'antd'
 import { DownOutlined } from '@ant-design/icons';
 import AddNewMap from './AddNewMap'
 import './style.css'
@@ -10,8 +10,6 @@ class LeftSilder extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            middleWidth: 10,
-            middleHeight: 10,
             defaultMap: [],
 
             loadMapList: [],
@@ -63,7 +61,7 @@ class LeftSilder extends Component {
     }
 
     componentDidMount = () => {
-        const { middleWidth, middleHeight } = this.state;
+        const { middleWidth, middleHeight } = this.props;
         let map = [];
         for (let i = 0; i < middleWidth; i++) {
             for (let j = 0; j < middleHeight; j++) {
@@ -76,7 +74,7 @@ class LeftSilder extends Component {
     render() {
         const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, createNewMapModelFlag, isChangedMapModalFlag, tempSelectedInfo, loadNewBaseMap,
             deleteFlag, deleteWord, exitModelFlag } = this.state;
-        const { RightMenu_TabList, nowShowTab } = this.props;
+        const { RightMenu_TabList, nowShowTab, middleWidth, middleHeight } = this.props;
         return (
             <Fragment>
                 <div className="CreateMap_LeftMenu">
@@ -93,6 +91,14 @@ class LeftSilder extends Component {
                     </div>
                     {/* <input className="CreateMap_LeftMenu_fileNameInput" onChange={(e) => this.setState({ saveMapName: e.target.value })} value={this.state.saveMapName} /> */}
                     <div className="CreateMap_LeftMenu_Buttons">
+                        <div>
+                            <div>宽度：</div>
+                            <InputNumber value={middleWidth} onChange={this.changeMiddleWidth} />
+                        </div>
+                        <div>
+                            <div>高度：</div>
+                            <InputNumber value={middleHeight} onChange={this.changeMiddleHeight} />
+                        </div>
                         <Button disabled={selectedMap.length === 0 ? true : false} className="CreateMap_LeftMenu_Button" onClick={() => this.openSave()}>保存</Button>
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.loadMap_json()}>读取</Button>
                         <Button className="CreateMap_LeftMenu_Button" onClick={() => this.createNewMapJson("2.json")}>创建地图文件</Button>
@@ -132,6 +138,112 @@ class LeftSilder extends Component {
                     lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap} />
             </Fragment>
         )
+    }
+
+    changeMiddleWidth = (num) => {
+        const { nowMap, middleWidth, middleHeight } = this.props;
+
+        let nowIndex = middleWidth;
+        let nextMap = [];
+        let allLength = num * middleHeight;
+        let flag = num > middleWidth ? false : true;
+        let absNumber = Math.abs(num - middleWidth);
+        if (!flag) {
+            // nowIndex = middleWidth;
+        }
+        console.log("middleWidth, middleHeight,allLength,absNumber", middleWidth, middleHeight, num, allLength, absNumber);
+
+        // let countNum = 0;
+        nowMap.map((map2, index) => {
+            if (flag) {
+                let nowCount = Math.floor((index + 1) / middleWidth);
+                nowCount = (index + 1) % middleWidth === 0 ? nowCount - 1 : nowCount;
+                let nextCount = nowCount * middleWidth + num;
+                if (((index + 1) % middleWidth !== 0) && (index < nextCount) && (index >= nowCount * middleWidth)) {
+                    console.log("nextCount", nowCount, index, nextCount, num);
+                    nextMap.push(map2);
+                }
+                // let nowCount = Math.floor(index / middleWidth);
+                // let nextCount = Math.floor(index / num);
+                // if (!(nextCount < nowCount)) {
+                //     nextMap.push(map2);
+                // }
+            }
+            else {
+                nextMap.push(map2);
+                if ((index + 1) % middleWidth === 0) {
+                    for (let i = 0; i < absNumber; i++) {
+                        nextMap.push("no");
+                    }
+                } 13
+            } 10
+        });
+        // for (let i = 0; i <= allLength; i++) {
+        //     if (flag) {
+        //         if (i + 1 == nowIndex) {
+        //             console.log("i-----", i);
+        //             nowMap.map((map2, index2) => {
+        //                 if (index2 >= i + 1 - num && index2 <= i - absNumber) {
+        //                     console.log("nowIndex,i-----", i + 1 - num, index2, i, i - absNumber, absNumber);
+        //                     nextMap.push(map2);
+        //                 }
+        //             });
+        //             nowIndex += num;
+        //         }
+        //     }
+        //     else {
+        //         if (i + 1 == nowIndex && i + 1 !== allLength) {
+        //             nowMap.map((map2, index2) => {
+        //                 if (index2 >= i + 1 - middleWidth && index2 <= i) {
+        //                     console.log("nowIndex,i", i + 1 - middleWidth, index2, i);
+        //                     nextMap.push(map2);
+        //                 }
+        //             });
+        //             let absNumberIndex = nowIndex + absNumber;
+        //             for (let j = nowIndex; j < absNumberIndex; j++) {
+        //                 console.log("j", j);
+        //                 nextMap.push("no");
+        //             }
+        //             nowIndex += middleWidth;
+        //         }
+        //     }
+        // }
+        console.log("nextMap", nextMap);
+        this.props.changeMiddleWidth(num);
+        this.props.setMap(nextMap);
+    }
+    changeMiddleHeight = (num) => {
+        const { nowMap, middleWidth, middleHeight } = this.props;
+        let nextMap = [];
+        let allLength = num * middleWidth;
+        let nowLength = nowMap.length;
+        let flag = num > middleHeight ? false : true;
+        let absNumber = Math.abs(num - middleHeight);
+        if (!flag) {
+            // nowIndex = middleWidth;
+        }
+        console.log("middleWidth, middleHeight,allLength,absNumber", middleWidth, middleHeight, num, allLength, absNumber);
+
+        // let countNum = absNumber;
+        nowMap.map((map2, index) => {
+            if (flag) {
+                if ((index + 1) <= allLength) {
+                    console.log("changeMiddleHeight", index, index + 1, allLength);
+                    nextMap.push(map2);
+                }
+            }
+            else {
+                nextMap.push(map2);
+                if ((index + 1) === nowLength) {
+                    let count = absNumber * middleWidth;
+                    for (let i = 0; i < count; i++) {
+                        nextMap.push("no");
+                    }
+                }
+            }
+        });
+        this.props.changeMiddleHeight(num);
+        this.props.setMap(nextMap);
     }
 
     onSelect = (selectedKeysValue, info) => {
@@ -229,7 +341,7 @@ class LeftSilder extends Component {
     splitStringData = (string) => { //将json字符串中每固定数值的点之间，加入\n。
         let list = string.split(",");
         let saveData = "";
-        let widthNum = this.state.middleWidth;
+        let widthNum = this.props.middleWidth;
         for (let i = 0; i < list.length; i++) {
             if (i === list.length - 1) {
                 saveData += list[i];
@@ -411,7 +523,8 @@ class LeftSilder extends Component {
 
     /* 新建地图文件和在已有地图文件中新增地图 */
     createNewMapJson = (fileName) => {
-        const { selectedInfo, loadMapList, middleWidth, defaultMap } = this.state;
+        const { selectedInfo, loadMapList, defaultMap } = this.state;
+        const { middleWidth } = this.props;
         let changeLoadMapList = [...loadMapList];
         let sendLoadMapList = [];
         let newMap = {
@@ -428,7 +541,8 @@ class LeftSilder extends Component {
         this.setState({ loadMapList: changeLoadMapList });
     }
     createNewMap = () => {
-        const { selectedInfo, loadMapList, middleWidth, defaultMap } = this.state;
+        const { selectedInfo, loadMapList, defaultMap } = this.state;
+        const { middleWidth } = this.props;
         if (selectedInfo && selectedInfo != {}) {
             let changeLoadMapList = [...loadMapList]
             let sendLoadMapList = [...changeLoadMapList[selectedInfo.node.parentIndex].data];

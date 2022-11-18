@@ -16,6 +16,7 @@ class MainWindow extends Component {
             nowMapNum: 0,
             nowMeetMap: {},
             aroundMonster: [],//周围四格的对象信息
+            floorMonster: [],//当前楼层所有对象信息
 
             level: 1,
             life: 1000,
@@ -62,16 +63,29 @@ class MainWindow extends Component {
             finish: false,
             victory: false,
         }
+        let _this = this;
         this.props.mainWindowComponentOnRef ? this.props.mainWindowComponentOnRef(this) : null;
         axios.get('data/map.json')
             .then((res) => {
                 const result = res.data;
                 console.log('res', result);
-                this.setState({ mapList: result });
+                this.setState({ mapList: result }, () => {
+                    let timer = setInterval(() => {
+                        let plugin = document.getElementById("mtYS");
+                        if (plugin) {
+                            clearInterval(timer);
+                            _this.getNowFloorTarget();
+                        }
+                    }, 100);
+                });
             })
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    componentDidMount() {
+        this.getNowFloorTarget();
     }
 
     componentDidUpdate() {
@@ -342,6 +356,49 @@ class MainWindow extends Component {
         }
         else if (id == divIndex - width) {
             return "下侧";
+        }
+    }
+    /* ------------- */
+    /* 获取本楼层中所有对象的信息 */
+    getNowFloorTarget = () => {
+        try {
+            let arountList = [];
+            let list = document.getElementsByTagName("div");
+            for (let i = 0; i < list.length; i++) {
+                let div = list[i];
+                if (!div.attributes["index"])
+                    continue;
+                if (!div.attributes["lx"])
+                    continue;
+                let lx = div.attributes["lx"].nodeValue;
+                if (lx.includes("Monster")) {
+                    let monsterName = div.attributes["monsterName"].nodeValue;
+                    let flag = arountList.find((e) => e.monsterName === monsterName);
+                    if (flag)
+                        continue;
+                    //之后这里或者再Handbook能力里面，加入针对战斗过或是探查过的对象进行信息完全显示
+                    let info = {
+                        monsterName: div.attributes["monsterName"].nodeValue,
+                        life: parseInt(div.attributes["life"].nodeValue),
+                        gong: parseInt(div.attributes["gong"].nodeValue),
+                        fang: parseInt(div.attributes["fang"].nodeValue),
+                        baojilv: parseInt(div.attributes["baojilv"].nodeValue),
+                        baojishanghai: parseInt(div.attributes["baojishanghai"].nodeValue),
+                        level: parseInt(div.attributes["level"].nodeValue),
+                        levelNum: parseInt(div.attributes["levelNum"].nodeValue),
+                        gold: parseInt(div.attributes["gold"].nodeValue),
+                        describe: div.attributes["describe"].nodeValue,
+                        imgMode: div.attributes["imgMode"].nodeValue,
+                        imgPos: div.attributes["imgPos"].nodeValue,
+                        imgUrl: div.attributes["imgUrl"].nodeValue,
+                    }
+                    arountList.push(info);
+                }
+            }
+            this.setState({ floorMonster: [...arountList] });
+        } catch (error) {
+            console.log("getNowFloorTarget----", error);
+            this.setTip("获取周围对象的信息错误……");
         }
     }
     /* ------------- */
@@ -637,6 +694,7 @@ class MainWindow extends Component {
         let id = parseInt(allState.posId);
         let plugin = document.getElementById("mtYS");
         this.setState(data, () => {
+            this.getAllRoundTarget(id);
             let list = document.getElementsByTagName("div");
             let doc;
             for (let i = 0; i < list.length; i++) {
@@ -668,7 +726,9 @@ class MainWindow extends Component {
                         id = index;
                 })
                 if (id) {
-                    this.setState({ nowMapNum: nowMapNum - 1 });
+                    this.setState({ nowMapNum: nowMapNum - 1 }, () => {
+                        this.getNowFloorTarget();
+                    });
                     let plugin = document.getElementById("mtYS");
                     let list = document.getElementsByTagName("div");
                     let nowDoc;
@@ -706,7 +766,9 @@ class MainWindow extends Component {
                         id = index;
                 })
                 if (id) {
-                    this.setState({ nowMapNum: nowMapNum + 1 });
+                    this.setState({ nowMapNum: nowMapNum + 1 }, () => {
+                        this.getNowFloorTarget();
+                    });
                     let plugin = document.getElementById("mtYS");
                     let list = document.getElementsByTagName("div");
                     let nowDoc;
@@ -729,6 +791,44 @@ class MainWindow extends Component {
         } catch (error) {
             console.log(error);
             alert("下楼时出现错误！");
+        }
+    }
+    moveToFloor=(floorIndex)=>{
+        try {
+            this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
+            console.log("moveToFloor-----this.state.mapList", this.state.mapList, floorIndex);
+            let nowMap = this.state.mapList[floorIndex].map;
+            let id;
+            nowMap.map((map, index) => {
+                if (map == "start")   //之后有需要的话，可以进行修改，修改成为上楼的位置
+                    id = index;
+            })
+            if (id) {
+                this.setState({ nowMapNum: floorIndex }, () => {
+                    this.getNowFloorTarget();
+                });
+                let plugin = document.getElementById("mtYS");
+                let list = document.getElementsByTagName("div");
+                let nowDoc;
+                for (let i = 0; i < list.length; i++) {
+                    let div = list[i];
+                    if (!div.attributes["index"])
+                        continue;
+                    if (id == div.attributes["index"].nodeValue * 1) {
+                        nowDoc = div;
+                        break;
+                    }
+                }
+                nowDoc.appendChild(plugin);
+                plugin.attributes["index"].nodeValue = id;
+                this.setTip(`迁跃成功！`);
+            }
+            else{
+                this.setTip(`无法直接迁跃至第${floorIndex}层！`);
+            }
+        } catch (error) {
+            console.log(error);
+            alert("上楼时出现错误！");
         }
     }
     victory() {

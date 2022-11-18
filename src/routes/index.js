@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch,Redirect } from 'react-router-dom'
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Title from '../Title';
 import CreateMap from '../CreateMap';
 import CreateStory from '../CreateStory';
 
-class Routes extends Component{
-    constructor(props){
+class Routes extends Component {
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
 
         }
-        document.addEventListener("keydown", this.keyOn);
+        // document.addEventListener("keydown", this.keyOn);
+    }
+    componentWillUnmount() {
+        // document.removeEventListener("keydown", this.keyOn);
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <HashRouter>
                 <Switch>
                     <Route path='/' exact component={Title} />
@@ -33,9 +36,9 @@ class Routes extends Component{
                 case 116:
                     window.electron.ipcRenderer.send("f5"); //应用刷新
                     break;
-                case 122:
-                    window.electron.ipcRenderer.send("f11");//应用放大或全屏
-                    break;
+                // case 122:
+                //     window.electron.ipcRenderer.send("f11");//应用放大或全屏
+                //     break;
                 case 123:
                     window.electron.ipcRenderer.send("f12");//应用打开调试工具
                     break;

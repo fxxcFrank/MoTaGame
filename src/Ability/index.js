@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 
 import Exploration from './Skills/Exploration'
 import Handbook from './Skills/Handbook'
-
+import Transition from './Skills/Transition'
 import './style.css'
 import axios from 'axios'
 
@@ -18,13 +18,13 @@ class Ability extends Component {
 
     render() {
         const { } = this.state;
-        const { allState, openAbility, closeAbility, setTip, setTip_split, mainWindowKeyOn } = this.props;
-        const props = { openAbility, closeAbility, setTip, setTip_split, mainWindowKeyOn };
+        const { allState, openAbility, closeAbility, setTip, setTip_split, mainWindowKeyOn, moveToFloor } = this.props;
+        const props = { allState, openAbility, closeAbility, setTip, setTip_split, mainWindowKeyOn, moveToFloor };
         return (
             <Fragment>
                 <Exploration palyVoice={this.palyVoice} {...props} />  {/* 能力————探测（快捷键E） */}
                 <Handbook palyVoice={this.palyVoice} {...props} />  {/* 能力————手册（快捷键L） */}
-
+                <Transition palyVoice={this.palyVoice} {...props} />  {/* 能力————迁跃（快捷键K） */}
             </Fragment>
         )
     }
