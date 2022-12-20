@@ -73,7 +73,7 @@ class Monster extends Component {
                         tempList.map((tempMap, tempIndex) => {
                             if (tempMap.lx === mapType) {
                                 let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
-                                let tempBackgroundPosition = tempMap.pos * -100 + "% " + tempMap.column * -100 + "%";
+                                let tempBackgroundPosition = tempMap.pos * 100 + "% " + tempMap.column * 100 + "%";
                                 let temp = <div className="NormalMap_BaseMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition, position: "absolute", zIndex: mapTypeIndex }} lx={tempMap.lx} title={tempMap.name} />
                                 baseMapList.push(temp);
                             }

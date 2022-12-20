@@ -116,6 +116,9 @@ class StoryWord extends Component {
             case 2:
                 return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} closeStory={this.closeStory}
                     setYSPos={this.props.setYSPos} setStory={this.props.setStory} />
+            case 3:
+                return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} closeStory={this.closeStory}
+                    setYSPos={this.props.setYSPos} setStory={this.props.setStory} />
             default:
                 return;
         }

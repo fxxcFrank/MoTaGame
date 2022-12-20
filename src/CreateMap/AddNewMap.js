@@ -34,17 +34,23 @@ class AddNewMap extends Component {
         this.refForm = {};
     }
 
-    componentDidUpdate(preProps) {
-
+    componentDidUpdate(preProps,props) {
+        if(preProps.nowClickAddMap!==props.nowClickAddMap || preProps.loadNewBaseMap !== props.loadNewBaseMap ){
+            // console.log("refForm",this.refForm,this.refForm!=={});
+            // for(let i in this.refForm){
+            //     console.log("refForm",i,this.refForm[i]);
+            // }
+            this.refForm && this.refForm.setFieldsValue && this.refForm.setFieldsValue({ url: this.props.loadNewBaseMap.imgURL, lxMap: this.props.lxMap, lxMapURL: this.props.lxMapURL });
+        }
     }
 
     render() {
         const { modeOptionList, showFlag, preViewFlag, selectColumn, selectPos, widthCount, heightCount,
             cursorWidth, cursorHeight, cursorLeft, cursorTop, complexNumValue, complexMapModalFlag } = this.state;
-        const { nowClickAddMap } = this.props;
+        const { nowClickAddMap,loadNewBaseMap } = this.props;
         const refForm = this.refForm;
         return (
-            this.props.createNewMapModelFlag ?
+            // this.props.createNewMapModelFlag ?
                 <Modal visible={this.props.createNewMapModelFlag} title="新增地图" onOk={this.clickOk} onCancel={this.clickCancel} okText="创建" cancelText="取消" closable={false}>
                     <Form ref={(val) => { this.refForm = val }} onFinish={(form) => this.onSubmit(form)}
                         initialValues={{ url: this.props.loadNewBaseMap.imgURL, lxMap: this.props.lxMap, lxMapURL: this.props.lxMapURL }}>
@@ -90,7 +96,7 @@ class AddNewMap extends Component {
                                 </Fragment>
                                 : null}
                             <Modal visible={complexMapModalFlag} onOk={this.selectComplexMap} onCancel={this.closeSelectComplexMap} title={"选择复合图层"} okText="确定" cancelText="取消">
-                                {this.props.returnRightContent()}
+                                {this.props.returnRightContent(true)}
                                 {nowClickAddMap ?
                                     <div className="CreateMap_LeftMenu_PreView">
                                         <div className="CreateMap_LeftMenu_PreViewText">预览</div>
@@ -167,7 +173,8 @@ class AddNewMap extends Component {
                             </Fragment>
                             : null}
                     </Form>
-                </Modal > : null
+                </Modal > 
+                // : null
         )
     }
 
@@ -177,7 +184,7 @@ class AddNewMap extends Component {
     }
     clickCancel = () => {
         this.props.setCreateNewMapModelFlag(false);
-        this.refForm = {};
+        // this.refForm = {};
     }
     onSubmit = (form) => {
         let dataForm = { ...form };
@@ -188,14 +195,14 @@ class AddNewMap extends Component {
         }
         this.props.addNewMap(dataForm);
         this.props.setCreateNewMapModelFlag(false);
-        this.refForm = {};
-        this.setState({
-            preViewFlag: false,
-            selectColumn: undefined,
-            selectPos: undefined,
-            widthCount: undefined,
-            heightCount: undefined,
-        })
+        // this.refForm = {};
+        // this.setState({
+        //     preViewFlag: false,
+        //     selectColumn: undefined,
+        //     selectPos: undefined,
+        //     widthCount: undefined,
+        //     heightCount: undefined,
+        // })
     }
     selectMap = () => {
         const { selectColumn, selectPos } = this.state;

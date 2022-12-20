@@ -175,8 +175,8 @@ class LeftSilder extends Component {
                     for (let i = 0; i < absNumber; i++) {
                         nextMap.push("no");
                     }
-                } 13
-            } 10
+                }
+            }
         });
         // for (let i = 0; i <= allLength; i++) {
         //     if (flag) {
@@ -253,6 +253,8 @@ class LeftSilder extends Component {
             return;
         }
         this.setState({ selectedMap: selectedKeysValue, selectedInfo: info });
+        this.props.changeMiddleWidth(info.node.width);
+        this.props.changeMiddleHeight(Math.ceil(info.node.map.length / info.node.width));
         this.props.setMap(info.node.map);
     };
     returnMapData = () => {
@@ -261,6 +263,7 @@ class LeftSilder extends Component {
         loadMapList.map((map, index) => {
             let children = [];
             if (map.data[0] && map.data[0].name) {
+                // debugger
                 map.data.map((data, index1) => {
                     let middleMap = {
                         title: data.name,
@@ -269,6 +272,7 @@ class LeftSilder extends Component {
                         parentFileName: map.fileName,
                         mapIndex: index1,
                         parentIndex: index,
+                        width: data.width,
                     }
                     children.push(middleMap);
                 })
@@ -309,16 +313,18 @@ class LeftSilder extends Component {
 
     /* 左侧菜单 */
     saveNowMap = () => {    //保存创建的地图
-        const { selectedInfo, loadMapList } = this.state;
+        const { selectedInfo, loadMapList, } = this.state;
         if (selectedInfo && selectedInfo != {}) {
             let data = this.props.nowMap;
             let sendLoadMapList = [...loadMapList[selectedInfo.node.parentIndex].data];
+            sendLoadMapList[selectedInfo.node.mapIndex].width = this.props.middleWidth;
             sendLoadMapList[selectedInfo.node.mapIndex].map = data;
             let jsonData = JSON.stringify(sendLoadMapList);
             // let saveData = this.splitStringData(jsonData);
             let filename = selectedInfo.node.parentFileName;
             // let filename = "112.json";
             window.electron ? window.electron.ipcRenderer.send("SaveCreateMap", filename, jsonData) : null;
+            this.props.setMap(data);
             message.success('保存成功！');
             this.setState({ saveModelFlag: false });
         }
@@ -452,6 +458,7 @@ class LeftSilder extends Component {
             if (map !== base)
                 flag = false
         })
+        console.log("isSameMap", nowDefaultMap, nowMap, flag);
         return flag;
     }
     /* -------------- */

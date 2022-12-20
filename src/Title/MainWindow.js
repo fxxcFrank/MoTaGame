@@ -97,6 +97,7 @@ class MainWindow extends Component {
         let nowMap = mapList[nowMapNum].map;
         let width = mapList[nowMapNum].width;
         let num = width;
+        // console.log("nowM---------",nowM);
         return (
             <Fragment>
                 <div className="MainAll" id="MainAll">
@@ -140,7 +141,7 @@ class MainWindow extends Component {
                             <div className="Status_fight_main_middle">VS</div>
                             <div className="Status_fight_main_right">
                                 <div className="Status_fight_main_right_mc">
-                                    <div className="Status_fight_main_right_mcText">{nowM.mc}</div>
+                                    <div className="Status_fight_main_right_mcText">{nowM.monsterName + ""}</div>
                                     <div className="Status_fight_main_right_num">
                                         <div className="Status_fight_main_right_num_fight">生命值：{nowM.life}</div>
                                         <div className="Status_fight_main_right_num_fight">攻击力：{nowM.gong}</div>
@@ -152,12 +153,12 @@ class MainWindow extends Component {
                         </div>
                         : null}
                     <div className="MainMap">
-                        <div className="NowMap" onKeyUp={(e) => this.keyOn(e)}>
+                        <div className={width > 10 ? "NowMap_big" : "NowMap"} onKeyUp={(e) => this.keyOn(e)} style={width > 10 ? this.returnNowMap_bigStyle() : null}>
                             {nowMap.map((map, index) => {
                                 if (index + 1 == num) {
                                     num += width;
                                     return (
-                                        <div className="MapColumn" key={nowMapNum + "行" + Math.floor(num / width)}>
+                                        <div className={width > 10 ? "MapColumn_big" : "MapColumn"} key={nowMapNum + "行" + Math.floor(num / width)}>
                                             {nowMap.map((map2, index2) => {
                                                 if (index2 >= index + 1 - width && index2 <= index) {
                                                     return this.returnMap(map2, index2);
@@ -298,6 +299,36 @@ class MainWindow extends Component {
         this.setState({ mapList: mapList });
     }
     /* */
+    /* 当当前地图大于一定大小时（目前为10*10），跟随移动让画面进行卷轴移动 */
+    returnNowMap_bigStyle = () => {
+        const { nowMapNum, mapList, } = this.state;
+        let nowMap = mapList[nowMapNum].map;
+        let width = mapList[nowMapNum].width;
+        let height = Math.ceil(nowMap.length / width);
+
+        let style = { left: 0, top: 0 } //目前一格大小为宽8vw、高10vh，目前地图位置为从左上角对齐
+        let plugin = document.getElementById("mtYS");
+        let id = parseInt(plugin.attributes["index"].nodeValue);
+        let nowPosLeft = (id) % width;
+        let nowPosTop = Math.ceil((id) / height);
+        // console.log("returnNowMap_bigStyle", id + 1,width, height, nowPosLeft, nowPosTop)
+        let widthLimitCount = 5;       //视口宽度，实际会*2，目前也就是10（格）
+        let heightLimitCount = 5;      //视口高度，实际会*2，目前也就是10（格）
+        let widthLimit = 0.5;
+        let heightLimit = 0.5;
+        let oneLeft = -8;   //一个格子的宽
+        let oneTop = -10;   //一个格子的高
+        let nowShouldLeft = nowPosLeft - widthLimitCount;
+        let nowShouldTop = nowPosTop - heightLimitCount;
+        style.left = nowShouldLeft * oneLeft + "vw";
+        style.top = nowShouldTop * oneTop + "vh";
+        if (nowShouldLeft <= 0) style.left = 0;
+        if (nowShouldTop <= 0) style.top = 0;
+        if (nowShouldLeft + widthLimitCount * 2 >= width) style.left = (width - widthLimitCount * 2) * oneLeft + "vw";
+        if (nowShouldTop + heightLimitCount * 2 >= height) style.top = (height - heightLimitCount * 2) * oneTop + "vh";
+        return style;
+    }
+    /* */
     /* 获取周围对象的信息 */
     getAllRoundTarget = (id) => {   //可能逻辑有点赘余了，之后再调整吧
         try {
@@ -425,8 +456,8 @@ class MainWindow extends Component {
         let mImgPos = doc.attributes["imgPos"].nodeValue;
         let mImgUrl = doc.attributes["imgUrl"].nodeValue;
         /* 战斗处理 */
-        let mc = doc.innerText;
-        this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
+        let monsterName = doc.attributes["monsterName"].nodeValue;
+        this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, monsterName: monsterName, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
         this.setState({ fightFlag: true, fightStatusShowFlag: true });
         let flag = true;
         this.fightTimer = setInterval(() => {
@@ -525,7 +556,7 @@ class MainWindow extends Component {
                     ysLife = 0;
             }
             this.setState({ life: ysLife });
-            this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, mc: mc, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
+            this.setState({ nowM: { life: mLife, gong: mGong, fang: mFang, monsterName: monsterName, imgMode: mImgMode, imgPos: mImgPos, imgUrl: mImgUrl } });
         }, 300);
     }
     /* */
@@ -717,15 +748,15 @@ class MainWindow extends Component {
     upMap(doc) {
         try {
             let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
-            this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
             if (nowMapNum > 0) {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
                 let nowMap = this.state.mapList[nowMapNum - 1].map;
-                let id;
+                let id = undefined;
                 nowMap.map((map, index) => {
                     if (map == "end")
                         id = index;
                 })
-                if (id) {
+                if (id !== undefined) {
                     this.setState({ nowMapNum: nowMapNum - 1 }, () => {
                         this.getNowFloorTarget();
                     });
@@ -757,15 +788,15 @@ class MainWindow extends Component {
         try {
             let nowMapNum = JSON.parse(JSON.stringify(this.state.nowMapNum));
             let mapNum = this.state.mapList.length;
-            this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
             if (nowMapNum < mapNum - 1) {
+                this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
                 let nowMap = this.state.mapList[nowMapNum + 1].map;
-                let id;
+                let id = undefined; //index可能为0，index为0时，判断会被过滤掉，展现出来的问题就是无法正常上下楼梯
                 nowMap.map((map, index) => {
                     if (map == "start")
                         id = index;
                 })
-                if (id) {
+                if (id !== undefined) {
                     this.setState({ nowMapNum: nowMapNum + 1 }, () => {
                         this.getNowFloorTarget();
                     });
@@ -793,7 +824,7 @@ class MainWindow extends Component {
             alert("下楼时出现错误！");
         }
     }
-    moveToFloor=(floorIndex)=>{
+    moveToFloor = (floorIndex) => {
         try {
             this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
             console.log("moveToFloor-----this.state.mapList", this.state.mapList, floorIndex);
@@ -823,7 +854,7 @@ class MainWindow extends Component {
                 plugin.attributes["index"].nodeValue = id;
                 this.setTip(`迁跃成功！`);
             }
-            else{
+            else {
                 this.setTip(`无法直接迁跃至第${floorIndex}层！`);
             }
         } catch (error) {
@@ -860,6 +891,23 @@ class MainWindow extends Component {
             this.props.setStory(true, storyId);
             return;
         }
+        let state = this.state;
+        let lxList = lx.split("_");
+        let flag = false;
+        if (lxList.length >= 2) {
+            for (let i in state) {
+                if (i === lxList[0]) {
+                    state[i] += parseInt(lxList[1]);
+                    flag = true;
+                    this.palyVoice('Audio/RPG魔塔音效素材/SE/获取物品.mp3');
+                    this.setState(state)
+                    this.remove(doc);
+                    this.move(doc);
+                    break;
+                }
+            }
+        }
+        if (flag) return;
 
         switch (lx) {
             case "wall":

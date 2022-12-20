@@ -6,22 +6,22 @@
         background-position: 0 0px;
     }
     12.5%{
-        background-position: -100% 0px;
+        background-position: 100% 0px;
     }
     37.4999%{
-        background-position: -100% 0px;
+        background-position: 100% 0px;
     }
     37.5%{
-        background-position: -200% 0px;
+        background-position: 200% 0px;
     }
     62.4999%{
-        background-position: -200% 0px;
+        background-position: 200% 0px;
     }
     62.5%{
-        background-position: -300% 0px;
+        background-position: 300% 0px;
     }
     87.4999%{
-        background-position: -300% 0px;
+        background-position: 300% 0px;
     }
     87.5%{
         background-position: 0 0px;
@@ -35,8 +35,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -46,34 +46,34 @@
 
 @keyframes Animation_NormalMap_Monster_0_1{
     0%{
-        background-position: 0 100%;
+        background-position: 0 -100%;
     }
     12.4999%{
-        background-position: 0 100%;
+        background-position: 0 -100%;
     }
     12.5%{
-        background-position: -100% 100%;
+        background-position: 100% -100%;
     }
     37.4999%{
-        background-position: -100% 100%;
+        background-position: 100% -100%;
     }
     37.5%{
-        background-position: -200% 100%;
+        background-position: 200% -100%;
     }
     62.4999%{
-        background-position: -200% 100%;
+        background-position: 200% -100%;
     }
     62.5%{
-        background-position: -300% 100%;
+        background-position: 300% -100%;
     }
     87.4999%{
-        background-position: -300% 100%;
+        background-position: 300% -100%;
     }
     87.5%{
-        background-position: 0 100%;
+        background-position: 0 -100%;
     }
     100%{
-        background-position: 0 100%;
+        background-position: 0 -100%;
     }
 }  
 .NormalMap_Monster_0_1 {
@@ -81,8 +81,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -92,34 +92,34 @@
 
 @keyframes Animation_NormalMap_Monster_0_2{
     0%{
-        background-position: 0 200%;
+        background-position: 0 -200%;
     }
     12.4999%{
-        background-position: 0 200%;
+        background-position: 0 -200%;
     }
     12.5%{
-        background-position: -100% 200%;
+        background-position: 100% -200%;
     }
     37.4999%{
-        background-position: -100% 200%;
+        background-position: 100% -200%;
     }
     37.5%{
-        background-position: -200% 200%;
+        background-position: 200% -200%;
     }
     62.4999%{
-        background-position: -200% 200%;
+        background-position: 200% -200%;
     }
     62.5%{
-        background-position: -300% 200%;
+        background-position: 300% -200%;
     }
     87.4999%{
-        background-position: -300% 200%;
+        background-position: 300% -200%;
     }
     87.5%{
-        background-position: 0 200%;
+        background-position: 0 -200%;
     }
     100%{
-        background-position: 0 200%;
+        background-position: 0 -200%;
     }
 }  
 .NormalMap_Monster_0_2 {
@@ -127,8 +127,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -138,34 +138,34 @@
 
 @keyframes Animation_NormalMap_Monster_0_3{
     0%{
-        background-position: 0 300%;
+        background-position: 0 -300%;
     }
     12.4999%{
-        background-position: 0 300%;
+        background-position: 0 -300%;
     }
     12.5%{
-        background-position: -100% 300%;
+        background-position: 100% -300%;
     }
     37.4999%{
-        background-position: -100% 300%;
+        background-position: 100% -300%;
     }
     37.5%{
-        background-position: -200% 300%;
+        background-position: 200% -300%;
     }
     62.4999%{
-        background-position: -200% 300%;
+        background-position: 200% -300%;
     }
     62.5%{
-        background-position: -300% 300%;
+        background-position: 300% -300%;
     }
     87.4999%{
-        background-position: -300% 300%;
+        background-position: 300% -300%;
     }
     87.5%{
-        background-position: 0 300%;
+        background-position: 0 -300%;
     }
     100%{
-        background-position: 0 300%;
+        background-position: 0 -300%;
     }
 }  
 .NormalMap_Monster_0_3 {
@@ -173,8 +173,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */

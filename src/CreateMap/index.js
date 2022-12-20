@@ -180,8 +180,9 @@ class CreateMap extends Component {
     }
 
     /* 右侧菜单相关 */
-    returnRightContent = () => {
+    returnRightContent = (flag = false) => {
         let nowShowTab = this.state.nowShowTab;
+        if (flag) return <BaseMap clickAddMap={this.clickAddMap} />;
         switch (nowShowTab) {
             case 0:
                 return <BaseMap clickAddMap={this.clickAddMap} />;

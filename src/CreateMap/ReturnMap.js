@@ -77,9 +77,9 @@ class ReturnMap extends Component {
             dataMapList = [...this.state.storyMap1List];
         }
         
-        let list = [...dataMapList];
+        let list = [...this.state.baseMap1List];
         let map = null;
-        list.map((baseMap,baseMapIndex) => {
+        dataMapList.map((baseMap,baseMapIndex) => {
             if (baseMap.lx === lx) {
                 let mapList = baseMap.baseMap;
                 let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";

@@ -6,5 +6,6 @@
     width: 5vw;
     height: 6vh;
     color: white;
+    z-index: 100;
 }
 /* ------------------- */

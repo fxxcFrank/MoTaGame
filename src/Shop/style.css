@@ -1,6 +1,7 @@
 /* ---------商店样式---------- */
 .Shop_Row{
     position: absolute;
+    left: 10vw;
     top: 13vh;
     display: flex;
     align-items: center;
@@ -49,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10vw;
+    min-width: 8vw;
     border: 0.2vw solid rgba(255,255,255,0);
     user-select: none;
     cursor: pointer;
@@ -109,8 +110,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     z-index: 100;
 }
@@ -119,8 +120,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
 }
 .NormalMap_ShopMap_base{
@@ -130,14 +131,14 @@
     justify-content: center;
     /* width: 5vw; */
     /* height: 6vh; */
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     z-index: 100;
 }
 .NormalMap_ShopMap_base_complex{
     position: relative;
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
 }

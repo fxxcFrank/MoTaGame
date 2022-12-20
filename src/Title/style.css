@@ -93,13 +93,15 @@
 }
 .MainMap{
     /* position: absolute; */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: calc(100% - 20vw);
     height: 100%;
+    overflow: hidden;
 }
-.NowMap{
+.NowMap, .NowMap_big{
     /* position: absolute;
     width: 30vw;
     height: 30vh; */
@@ -110,20 +112,34 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background: wheat;;
+    background: black;
+    overflow: hidden;
 }
-.MapColumn{
-    width: inherit;
-    height: inherit;
+.NowMap_big{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: max-content;
+    height: max-content;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.MapColumn, .MapColumn_big{
+    width: 100%;
+    height: 10vh;
     display: flex;
 }
+.MapColumn_big{
+    width: max-content;
+}
+
 .NormalMap{
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: black;
 }
 
@@ -143,8 +159,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     background-size: 400% 400%;
     z-index: 100;
@@ -187,8 +203,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     background-size: 400% 400%;
     background-position: 0 0;
@@ -232,8 +248,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     background-size: 400% 400%;
     background-position: 0 -300%;
@@ -277,8 +293,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     background-size: 400% 400%;
     background-position: 0 -100%;
@@ -322,8 +338,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     background-size: 400% 400%;
     background-position: 0 -200%;
@@ -367,8 +383,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -412,8 +428,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -457,8 +473,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -502,8 +518,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     /* background-position: 25% 0px; */
     /* background-size: 300px 200px; */
@@ -810,7 +826,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10vw;
+    min-width: 8vw;
     border: 0.2vw solid rgba(255,255,255,0);
     user-select: none;
     cursor: pointer;

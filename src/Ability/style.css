@@ -55,7 +55,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10vw;
+    min-width: 8vw;
     border: 0.2vw solid rgba(255,255,255,0);
     user-select: none;
     cursor: pointer;
@@ -105,7 +105,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10vw;
+    min-width: 8vw;
     border: 0.2vw solid rgba(255,255,255,0);
     user-select: none;
     cursor: pointer;
@@ -147,7 +147,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10vw;
+    min-width: 8vw;
     border: 0.2vw solid rgba(255,255,255,0);
     user-select: none;
     cursor: pointer;

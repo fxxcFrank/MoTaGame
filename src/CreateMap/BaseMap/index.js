@@ -62,7 +62,7 @@ class BaseMap extends Component {
         //backgroundImage: "URL(" + this.changeImage(baseMap.url) + ")"
         //backgroundImage: "url(data:image/png;base64," + this.changeImage(baseMap.url, baseMap.width, baseMap.height) + ")"
         let self = this;
-        let div = <img  className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
         let canvas = document.createElement("canvas");
         canvas.className = "CreateMap_baseMap_base";
         // canvas.style.position = "absolute";
@@ -78,8 +78,8 @@ class BaseMap extends Component {
             // console.log("img", img, img.width, img.height, img.naturalWidth, img.naturalHeight);
             // canvas.width = img.width / baseMap.width;
             // canvas.height = img.height / baseMap.height;
-            canvas.width = img.width ;
-            canvas.height = img.height ;
+            canvas.width = img.width;
+            canvas.height = img.height;
             let context = canvas.getContext("2d");
             context.drawImage(img, 0, 0);
             var imageData = context.getImageData(

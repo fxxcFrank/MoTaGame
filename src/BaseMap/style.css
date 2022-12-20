@@ -3,8 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
 }
 .NormalMap_BaseMap_base{
@@ -14,14 +14,14 @@
     justify-content: center;
     /* width: 5vw; */
     /* height: 6vh; */
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
     color: white;
     z-index: 100;
 }
 .NormalMap_BaseMap_base_complex{
     position: relative;
     display: flex;
-    width: inherit;
-    height: inherit;
+    width: 8vw;
+    height: 10vh;
 }
