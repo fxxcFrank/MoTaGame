@@ -1,0 +1,27 @@
+.NormalMap_ItemMap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8vw;
+    height: 10vh;
+    color: white;
+}
+.NormalMap_ItemMap_base{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 5vw; */
+    /* height: 6vh; */
+    width: 8vw;
+    height: 10vh;
+    color: white;
+    z-index: 100;
+}
+.NormalMap_ItemMap_base_complex{
+    position: relative;
+    display: flex;
+    width: 8vw;
+    height: 10vh;
+}

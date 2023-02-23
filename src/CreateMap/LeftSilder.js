@@ -74,7 +74,8 @@ class LeftSilder extends Component {
     render() {
         const { selectedMap, saveFileName, saveModelFlag, sortModelFlag, createNewMapModelFlag, isChangedMapModalFlag, tempSelectedInfo, loadNewBaseMap,
             deleteFlag, deleteWord, exitModelFlag } = this.state;
-        const { RightMenu_TabList, nowShowTab, middleWidth, middleHeight } = this.props;
+        const { RightMenu_TabList, nowShowTab, middleWidth, middleHeight,nowAllList } = this.props;
+        console.log("selectedMap",selectedMap);
         return (
             <Fragment>
                 <div className="CreateMap_LeftMenu">
@@ -135,7 +136,8 @@ class LeftSilder extends Component {
                 </Modal>
 
                 <AddNewMap createNewMapModelFlag={createNewMapModelFlag} setCreateNewMapModelFlag={this.setCreateNewMapModelFlag} addNewMap={this.addNewMap} loadNewBaseMap={loadNewBaseMap}
-                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap} />
+                    lxMap={RightMenu_TabList[nowShowTab].name} lxMapURL={RightMenu_TabList[nowShowTab].url} returnRightContent={this.props.returnRightContent} nowClickAddMap={this.props.nowClickAddMap} 
+                    nowAllList={nowAllList}/>
             </Fragment>
         )
     }
@@ -296,18 +298,32 @@ class LeftSilder extends Component {
         if (dragNode.parentIndex) {
             let nowLoadMapList = [...loadMapList];
             let sendLoadMapList = [...nowLoadMapList[dragNode.parentIndex].data];
+            let list = [];
             if (node.mapIndex) {
                 let dragMap = JSON.parse(JSON.stringify(sendLoadMapList[dragNode.mapIndex]));
-                sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[node.mapIndex];
-                sendLoadMapList[node.mapIndex] = dragMap;
+                sendLoadMapList.map((mapList,index)=>{
+                    if(dragNode.mapIndex===index) return;
+                    list.push(mapList);
+                    if(node.mapIndex===index) list.push(dragMap);
+                })
+                // sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[node.mapIndex];
+                // sendLoadMapList[node.mapIndex] = dragMap;
+                this.setState({ selectedMap: [node.key], selectedInfo: node });
             }
             else {
                 let dragMap = JSON.parse(JSON.stringify(sendLoadMapList[dragNode.mapIndex]));
-                sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[0];
-                sendLoadMapList[0] = dragMap;
+                sendLoadMapList.map((mapList,index)=>{
+                    if(0===index) list.push(dragMap);
+                    if(dragNode.mapIndex===index) return;
+                    list.push(mapList);
+                })
+                // sendLoadMapList[dragNode.mapIndex] = sendLoadMapList[0];
+                // sendLoadMapList[0] = dragMap;
+                this.setState({ selectedMap: [`tree-${dragNode.parentIndex}-0`], selectedInfo: node });
             }
-            nowLoadMapList[dragNode.parentIndex].data = sendLoadMapList;
-            this.setState({ loadMapList: [...nowLoadMapList] })
+            nowLoadMapList[dragNode.parentIndex].data = list;
+            this.setState({ loadMapList: [...nowLoadMapList] });
+            
         }
     }
 
@@ -452,13 +468,11 @@ class LeftSilder extends Component {
     isSameMap = () => {
         const { nowMap, nowDefaultMap } = this.props;
         let flag = true;
-        console.log("isSameMap", nowDefaultMap, nowMap);
         nowDefaultMap.map((map, index) => {
             let base = nowMap[index];
             if (map !== base)
                 flag = false
         })
-        console.log("isSameMap", nowDefaultMap, nowMap, flag);
         return flag;
     }
     /* -------------- */

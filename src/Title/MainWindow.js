@@ -62,10 +62,12 @@ class MainWindow extends Component {
             fightTipFlag: false,
             finish: false,
             victory: false,
+
+            freshenFlag: false    //单纯只是为了让操作dom后能刷新render而已
         }
         let _this = this;
         this.props.mainWindowComponentOnRef ? this.props.mainWindowComponentOnRef(this) : null;
-        axios.get('data/map.json')
+        axios.get('data/gameData/map.json')
             .then((res) => {
                 const result = res.data;
                 console.log('res', result);
@@ -192,6 +194,10 @@ class MainWindow extends Component {
         else if (map.includes("Story")) {
             return this.props.storyWordComponent.returnStoryMap(map, index, nowMapNum);
         }
+        /* 返回道具 */
+        else if (map.includes("Item")) {
+            return this.props.itemMapComponent.returnItemMap(map, index, nowMapNum);
+        }
         else {
             return this.props.baseMapComponent.returnBaseMap(map, index, nowMapNum);
         }
@@ -287,6 +293,7 @@ class MainWindow extends Component {
         }
         doc.appendChild(plugin);        //因为对dom不是很了解，所以……这个appendchild执行的不只是加入子节点，还把子节点从原先绑定的位置上remove掉了？
         plugin.attributes["index"].nodeValue = id;
+        this.setState({ freshenFlag: !this.state.freshenFlag });   //为了刷新render，目前的目的是为了让卷轴视口移动能够对齐
     }
     remove = (doc) => {
         let nowMapNum = this.state.nowMapNum;
@@ -654,6 +661,20 @@ class MainWindow extends Component {
         }
         return "您身上没有足够的" + spendText + "……"
     }
+    changeSpendTipTextForItem = (spendType) => {    //因为道具消耗是强制的，之后应当考虑关于cost不足以及cost为life（生命值）的情况。
+        let spendText = spendType;
+        switch (spendType) {
+            case "gold":
+                spendText = "金币";
+                break;
+            case "levelNum":
+                spendText = "经验";
+                break;
+            default:
+                break;
+        }
+        return "您身上没有足够的" + spendText + "……"
+    }
     /* */
     /* 显示商店等事件的普遍提示函数 */
     setTip = (text) => {    //显示效果：从中间向上缓慢移动，然后渐隐消失。可重复叠加
@@ -703,6 +724,42 @@ class MainWindow extends Component {
         plugin.style.backgroundImage = "URL(img/ys.png)";
         return plugin;
     }
+
+    //设置单个属性()
+    setStateForGetAndSpend = (data) => {
+        let flag = true;
+        let spend = data.spend;
+        let get = data.get;
+        // for (let i in spend) {
+        //     let have = this.state[i];
+        //     if (have < spend[i]) {
+        //         flag = false;
+        //         let text = this.changeSpendTipTextForItem(i);
+        //         this.setTip(text);
+        //         break;
+        //     }
+        // }
+        for (let i in spend) {
+            let state = {};
+            let have = this.state[i];
+            have -= spend[i];
+            if (have < 0) have = 0;
+            if (have === 0 && i === "life") {
+                this.setState({ finish: true });
+                return;
+            }
+            state[i] = have;
+            this.setState(state);
+        }
+        for (let i in get) {
+            let state = {};
+            let have = this.state[i];
+            have += get[i];
+            state[i] = have;
+            this.setState(state);
+        }
+    }
+    //设置所有属性
     setAllState = (allState) => {
         let data = {
             nowMapNum: allState.nowMapNum,
@@ -741,8 +798,6 @@ class MainWindow extends Component {
             doc.appendChild(plugin);
             // this.props.setAllState(this.state);
         });    //已解决
-
-
     }
     /* 处理地图之间移动的函数 */
     upMap(doc) {
@@ -889,6 +944,14 @@ class MainWindow extends Component {
             // this.move(doc);
             let storyId = doc.attributes["storyId"].nodeValue;
             this.props.setStory(true, storyId);
+            return;
+        }
+        /* 获取道具 */
+        if (lx.includes("Item")) {
+            // console.log("获取道具",doc)
+            this.props.itemMapComponent.getItemEffect(lx);
+            this.remove(doc);
+            this.move(doc);
             return;
         }
         let state = this.state;

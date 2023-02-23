@@ -1,10 +1,10 @@
 /* ---------创建基础地图样式---------- */
 .CreateMap_baseMap_base{
     display: inline-flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
-    width: 5vw;
-    height: 6vh;
+    width: 6.5vw;
+    height: 10vh;
     color: white;
     z-index: 100;
     /* background-position: 25% 0px; */

@@ -5,12 +5,12 @@ import { connect } from "react-redux"
 import './style.css'
 import Menu from "../Menu"
 import Ability from "../Ability"
-import BaseMap from "../BaseMap"
-import Shop from "../Shop"
-import Monster from "../Monster"
-import StoryWord from '../StoryWord'
+import BaseMap from "../MainMap/BaseMap"
+import Shop from "../MainMap/Shop"
+import Monster from "../MainMap/Monster"
+import StoryWord from '../MainMap/StoryWord'
+import ItemMap from '../MainMap/Item'
 
-import CreateMap from "../CreateMap"
 import MainWindow from "./MainWindow"
 
 class Title extends Component {
@@ -45,9 +45,12 @@ class Title extends Component {
     }
 
     componentDidUpdate() {
-        const { menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag } = this.state;
-        if (menuPreloadFlag && storyPreloadFlag && baseMapPreloadFlag && shopPreloadFlag && monsterPreloadFlag && !firstStoryFlag) {
+        const { menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag } = this.state;
+        if ((!menuPreloadFlag || !storyPreloadFlag || !baseMapPreloadFlag || !shopPreloadFlag || !monsterPreloadFlag || !itemMapPreloadFlag) && !firstStoryFlag) {
             this.setState({ firstStoryFlag: true });
+        }
+        else if (menuPreloadFlag && storyPreloadFlag && baseMapPreloadFlag && shopPreloadFlag && monsterPreloadFlag && itemMapPreloadFlag && firstStoryFlag) {
+            this.setState({ firstStoryFlag: false });
         }
         // console.log("menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag,", menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag);
     }
@@ -57,14 +60,17 @@ class Title extends Component {
     }
 
     render() {
-        const { createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag, monsterPreloadFlag, firstStoryFlag,
-            abilityFlag } = this.state;
+        const { createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag,
+            monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag, abilityFlag } = this.state;
         return (
             <Fragment>
                 {/* {!createMapFlag ? */}
                 <Fragment>
                     {this.state.startFlag ?
-                        <MainWindow setStory={this.setStory} setMapList={this.setMapList} setAllState={this.setAllState} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef} menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent} shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} />
+                        <MainWindow setStory={this.setStory} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
+                            menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent}
+                            shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} abilityComponent={this.abilityComponent}
+                            itemMapComponent={this.itemMapComponent} />
                         :
                         <div className="MainTitleWindow">
                             {/* <div className="MainTitleWindow_title">魔塔</div> */}
@@ -91,11 +97,13 @@ class Title extends Component {
                         : null}
                     <Menu menuFlag={this.state.menuFlag} closeMenu={this.closeMenu} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} menuComponentOnRef={this.menuComponentOnRef} setTip_split={this.setTip_split} menuPreloadFlag={menuPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Ability abilityFlag={abilityFlag} openAbility={this.openAbility} closeAbility={this.closeAbility} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} abilityComponentOnRef={this.abilityComponentOnRef} setTip={this.setTip} setTip_split={this.setTip_split}
-                        mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} moveToFloor={this.mainWindowComponent ? this.mainWindowComponent.moveToFloor : undefined}/>
-                    <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef} nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                        mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} moveToFloor={this.mainWindowComponent ? this.mainWindowComponent.moveToFloor : undefined} />
+                    <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef}
+                        nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <BaseMap baseMapComponentOnRef={this.baseMapComponentOnRef} baseMapPreloadFlag={baseMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Monster monsterComponentOnRef={this.monsterComponentOnRef} monsterPreloadFlag={monsterPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
+                    <ItemMap itemMapComponentOnRef={this.itemMapComponentOnRef} itemMapPreloadFlag={itemMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} palyVoice={this.palyVoice} setStateForGetAndSpend={this.setStateForGetAndSpend}/>
                 </Fragment>
                 {/* :
                     <CreateMap createMapFlag={this.state.createMapFlag} closeCreateMap={this.closeCreateMap} />} */}
@@ -177,6 +185,9 @@ class Title extends Component {
     setMapList = (mapList) => {
         this.mainWindowComponent.setMapList(mapList);
     }
+    setStateForGetAndSpend=(data)=>{
+        this.mainWindowComponent.setStateForGetAndSpend(data);
+    }
     setAllState = (allState) => {
         this.mainWindowComponent.setAllState(allState);
     }
@@ -207,6 +218,7 @@ class Title extends Component {
         this.mainWindowComponent.selectGoods(spend, get);
     }
     changeShopType = (doc, lx) => {
+        this.palyVoice('Audio/RPG魔塔音效素材/SE/确定.mp3');
         this.setState({
             shopFlag: true,
             shopType: lx,
@@ -343,7 +355,24 @@ class Title extends Component {
     abilityComponentOnRef = (ref) => {
         this.abilityComponent = ref;
     }
+    /*8，道具地图 */
+    itemMapComponentOnRef = (ref) => {
+        this.itemMapComponent = ref;
+    }
     /********    ********/
+
+    /* 播放音效 */
+    palyVoice = (url) => {      //(未测试)效果存疑，之后加入音效再行测试
+        const myAudio = new Audio()
+        myAudio.preload = true; //
+        // myAudio.controls = true;
+        myAudio.loop = false;
+        myAudio.src = url;
+        // 播完时候播放下一首
+        // myAudio.addEventListener('ended', this.ChangeMusic.bind(this, myAudio), false);
+        myAudio.play();
+    }
+    /*  */
 }
 
 const mapState = (state) => ({

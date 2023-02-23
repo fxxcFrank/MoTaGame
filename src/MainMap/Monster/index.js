@@ -27,12 +27,12 @@ class Monster extends Component {
             .then((res) => {
                 const result = res.data;
                 this.setState({ baseMapList: result });
-                this.returnImg2(result);
+                // this.returnImg2(result);
             })
             .catch((error) => {
                 console.log(error)
             })
-        axios.get('data/monsterList.json')
+        axios.get('data/gameData/monsterList.json')
             .then((res) => {
                 const result = res.data;
                 this.setState({ monsterList: result });
@@ -56,6 +56,7 @@ class Monster extends Component {
         let map = null;
         list.map((baseMap, baseMapIndex) => {
             if (baseMap.lx === lx) {
+                // debugger
                 let monsterList = this.state.monsterList;
                 let monster = {};
                 monsterList.map((m) => {

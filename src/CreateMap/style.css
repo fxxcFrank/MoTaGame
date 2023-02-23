@@ -9,7 +9,7 @@
 
 /* 左侧菜单 */
 .CreateMap_LeftMenu{
-    width: 8vw;
+    width: 15vw;
     overflow: auto;
 }
 .CreateMap_LeftMenu::-webkit-scrollbar {
@@ -52,8 +52,8 @@
 }
 .CreateMap_LeftMenu_BaseMap_PreView{
     position: relative;
-    width: 5vw;
-    height: 5vh;
+    width: 6.5vw;
+    height: 10vh;
 }
 .CreateMap_LeftMenu_BaseMapDiv{
     position: relative;
@@ -75,8 +75,8 @@
 
 .CreateMap_LeftMenu_ComplexMap_Cursor, .CreateMap_LeftMenu_ComplexMap_CursorClick{
     position: absolute;
-    width: 5vw;
-    height: 6vh;
+    width: 6.5vw;
+    height: 10vh;
     color: white;
     border: 0.5vw solid;
     background-color: rgba(255,255,255,0.4);
@@ -111,15 +111,41 @@
 /**/
 /* 中间地图 */
 .CreateMap_MiddleContent{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: calc(100% - 35vw);
     height: 100%;
-    background: wheat;
+    background: black;
     user-select: none;
+    overflow: auto;
 }
+.CreateMap_MiddleContent_Main, .CreateMap_MiddleContent_Main_big{
+    /* position: absolute;
+    width: 30vw;
+    height: 30vh; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+}
+.CreateMap_MiddleContent_Main_big{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: max-content;
+    height: max-content;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
 .MapColumn{
     width: 100%;
     height: 10vh;
@@ -134,8 +160,8 @@
 .CreateMap_baseMap_base_complex{
     position: relative;
     display: inline-flex;
-    width: 5vw;
-    height: 6vh;
+    width: 6.5vw;
+    height: 10vh;
 }
 /* .CreateMap_baseMap_base{
 
@@ -143,18 +169,95 @@
 /**/
 /* 右侧菜单 */
 .CreateMap_RightMenu{
-    width: 25%;
+    width: 20vw;
+    /* overflow-y: auto; */
+    overflow: hidden;
 }
+
 .CreateMap_RightMenu_Tabs{
     display: flex;
 }
 .CreateMap_RightMenu_Tab, .CreateMap_RightMenu_Tab_Click{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4vw;
+    height: 3vh;
     background: white;
     cursor: pointer;
     user-select: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }   
-.CreateMap_RightMenu_Tab_Click{
-    background: rgb(59, 144, 228);
+.CreateMap_RightMenu_Tab:hover, .CreateMap_RightMenu_Tab_Click{
+    background: #0d7ce9;
+    color: white;
+}
+
+.CreateMap_RightMenu_Content{
+    width: 100%;
+    height: calc(100% - 8vh);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.CreateMap_RightMenu_Content::-webkit-scrollbar {
+    width: 0px;
+    border: 1px solid #fff;
+}
+.CreateMap_RightMenu_Content::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #eeeeee;
+}
+.CreateMap_RightMenu_Content::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b0b0b0;
+}
+
+.CreateMap_RightMenu_Content_Main{
+    position: relative;
+    width: 100%;
+    height: max-content;
+}
+
+.CreateMap_RightMenu_Content_MapInfoColumn{
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 1vw;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 40vh;
+    background: white;
+    overflow: auto;
+    z-index: 200;
+}
+.CreateMap_RightMenu_Content_MapInfoColumn::-webkit-scrollbar {
+    width: 0px;
+    border: 1px solid #fff;
+}
+.CreateMap_RightMenu_Content_MapInfoColumn::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #eeeeee;
+}
+.CreateMap_RightMenu_Content_MapInfoColumn::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b0b0b0;
+}
+
+.CreateMap_RightMenu_Content_MapInfo{
+
+}
+
+.CreateMap_RightMenu_Pagination{
+    height: 5vh;
 }
 /**/
+/* ------------------- */
+
+/* model中的样式 */
+.CreateMao_AddNewMap_Column{
+    display: flex;
+}
 /* ------------------- */

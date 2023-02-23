@@ -2,11 +2,11 @@
     {
         "name": "无",
         "lx": "no",
-        "url": "img/base.png",
+        "url": "img/icon/Other09.png",
         "column": 0,
         "pos": 0,
-        "width": 1,
-        "height": 1
+        "width": 4,
+        "height": 4
     },
     {
         "name": "墙",
@@ -24,7 +24,10 @@
         "column": 0,
         "pos": 3,
         "width": 5,
-        "height": 1
+        "height": 1,
+        "baseMap": [
+            "no"
+        ]
     },
     {
         "name": "蓝门",
@@ -33,7 +36,10 @@
         "column": 0,
         "pos": 2,
         "width": 5,
-        "height": 1
+        "height": 1,
+        "baseMap": [
+            "no"
+        ]
     },
     {
         "name": "红门",
@@ -42,7 +48,10 @@
         "column": 0,
         "pos": 1,
         "width": 5,
-        "height": 1
+        "height": 1,
+        "baseMap": [
+            "no"
+        ]
     },
     {
         "name": "铁门",
@@ -51,7 +60,10 @@
         "column": 0,
         "pos": 0,
         "width": 5,
-        "height": 1
+        "height": 1,
+        "baseMap": [
+            "no"
+        ]
     },
     {
         "name": "攻击宝石1",
@@ -150,31 +162,31 @@
         ]
     },
     {
-        "name": "剑",
-        "lx": "sword",
-        "url": "img/all.png",
-        "column": 21,
-        "pos": 5,
-        "width": 10,
-        "height": 30,
+        "name": "铁剑",
+        "lx": "sword_1",
+        "url": "img/icon/Item01-08.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]
     },
     {
-        "name": "盾",
-        "lx": "def",
-        "url": "img/all.png",
-        "column": 21,
-        "pos": 6,
-        "width": 10,
-        "height": 30,
+        "name": "铁盾",
+        "lx": "def_1",
+        "url": "img/icon/Item01-08.png",
+        "column": 2,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]
     },
     {
-        "name": "起",
+        "name": "下楼",
         "lx": "start",
         "url": "img/down_floor.png",
         "column": 0,
@@ -186,7 +198,7 @@
         ]
     },
     {
-        "name": "终",
+        "name": "上楼",
         "lx": "end",
         "url": "img/up_floor.png",
         "column": 0,
@@ -334,7 +346,7 @@
     },
     {
         "name": "金币",
-        "lx": "gold",
+        "lx": "gold_1",
         "url": "public/img/all.png",
         "column": 21,
         "pos": 5,
@@ -367,17 +379,5 @@
         "pos": 2,
         "width": 10,
         "height": 30
-    },
-    {
-        "name": "11",
-        "lx": "111",
-        "url": "public/img/all.png",
-        "column": 21,
-        "pos": 5,
-        "width": 10,
-        "height": 30,
-        "baseMap": [
-            "no"
-        ]
     }
 ]

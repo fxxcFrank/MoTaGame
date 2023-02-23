@@ -1,0 +1,158 @@
+[
+    {
+        "name": "攻击宝石1",
+        "lx": "Item_1",
+        "url": "public/img/icon/Item01-Gem01.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "防御宝石1",
+        "lx": "Item_2",
+        "url": "public/img/icon/Item01-Gem01.png",
+        "column": 0,
+        "pos": 1,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "黄钥匙",
+        "lx": "Item_3",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "蓝钥匙",
+        "lx": "Item_4",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 0,
+        "pos": 1,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "红钥匙",
+        "lx": "Item_5",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 0,
+        "pos": 2,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "黄钥匙串",
+        "lx": "Item_6",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 3,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "蓝钥匙串",
+        "lx": "Item_7",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 3,
+        "pos": 1,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "红钥匙串",
+        "lx": "Item_8",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 3,
+        "pos": 2,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "剑",
+        "lx": "Item_9",
+        "url": "img/icon/Item01-08.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "盾",
+        "lx": "Item_10",
+        "url": "img/icon/Item01-08.png",
+        "column": 2,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "黄十字架",
+        "lx": "Item_11",
+        "url": "public/img/all.png",
+        "column": 21,
+        "pos": 4,
+        "width": 10,
+        "height": 30,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "白十字架",
+        "lx": "Item_12",
+        "url": "public/img/all.png",
+        "column": 21,
+        "pos": 8,
+        "width": 10,
+        "height": 30,
+        "baseMap": [
+            "no"
+        ]
+    },
+    {
+        "name": "金币",
+        "lx": "Item_13",
+        "url": "public/img/all.png",
+        "column": 21,
+        "pos": 5,
+        "width": 10,
+        "height": 30,
+        "baseMap": [
+            "no"
+        ]
+    }
+]

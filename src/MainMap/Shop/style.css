@@ -91,7 +91,7 @@
 
 }
 /* ------------------- */
-@keyframes Animation_NormalMap_ShopMap_1{ /* npc1.jpg 红色商人  */
+@keyframes Animation_NormalMap_ShopMap_1{ /* npc1.jpg 红色商人(老版两格，且需手动调整像素去除黑色)  */
     0%{
         background-position: -700% -400%;
     }
@@ -104,9 +104,41 @@
     100%{
         background-position: -700% -500%;
     }
-}  
+}
+@keyframes Animation_NormalMap_ShopMap_1_1{ /* npc1.jpg 红色商人(四格)  */
+    0%{
+        background-position: 0 -100%;
+    }
+    12.4999%{
+        background-position: 0 -100%;
+    }
+    12.5%{
+        background-position: 100% -100%;
+    }
+    37.4999%{
+        background-position: 100% -100%;
+    }
+    37.5%{
+        background-position: 200% -100%;
+    }
+    62.4999%{
+        background-position: 200% -100%;
+    }
+    62.5%{
+        background-position: 300% -100%;
+    }
+    87.4999%{
+        background-position: 300% -100%;
+    }
+    87.5%{
+        background-position: 0 -100%;
+    }
+    100%{
+        background-position: 0 -100%;
+    }  
+}
 .NormalMap_ShopMap_1 {
-    animation: Animation_NormalMap_ShopMap_1 1s linear 0s normal none infinite;
+    animation: Animation_NormalMap_ShopMap_1_1 1s linear 0s normal none infinite;
     display: flex;
     align-items: center;
     justify-content: center;

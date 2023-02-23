@@ -5,18 +5,39 @@ import { connect } from "react-redux"
 import './style.css'
 import axios from 'axios'
 
-class BaseMap extends Component {
+class ItemMap extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            itemList: [],
+            itemMapList: [],
+
             baseMapList: [],
         }
-        this.props.baseMapComponentOnRef ? this.props.baseMapComponentOnRef(this) : null;
+        this.props.itemMapComponentOnRef ? this.props.itemMapComponentOnRef(this) : null;
+        axios.get('data/baseMap/itemMap1.json')
+            .then((res) => {
+                const result = res.data;
+                this.setState({ itemMapList: result });
+                // this.returnImg(result);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         axios.get('data/baseMap/baseMap1.json')
             .then((res) => {
                 const result = res.data;
                 this.setState({ baseMapList: result });
-                this.returnImg(result);
+                // this.returnImg2(result);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        axios.get('data/gameData/itemList.json')
+            .then((res) => {
+                const result = res.data;
+                this.setState({ itemList: result });
+                // this.returnImg(result);
             })
             .catch((error) => {
                 console.log(error)
@@ -31,39 +52,43 @@ class BaseMap extends Component {
     }
 
     /* 返回基础图像块 */
-    returnBaseMap = (lx, index, nowMapNum) => {
+    returnItemMap = (lx, index, nowMapNum) => {
         /* 返回基础图元 */
-        let dataMapList = [...this.state.baseMapList];
+        let dataMapList = [...this.state.itemMapList];
         let list = [...dataMapList];
         let map = null;
-        list.map((baseMap, baseMapIndex) => {
-            if (baseMap.lx === lx) {
-                let mapList = baseMap.baseMap;
-                let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
-                let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
-                let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + baseMap.url + ")";
-                let tempMap2 = <div className={"NormalMap_BaseMap"} id={"NormalMap_BaseMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index} />;
-                if (lx == "start") {
-                    tempMap2 = <div className={"NormalMap_BaseMap"} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>
-                        <div className="mtYS_Img_down" id="mtYS" index={index} style={{ backgroundImage: "URL(img/ys.png)" }}></div>
-                    </div>;
-                }
-                // this.returnImg(baseMap.url, index,tempMap2);
+        list.map((itemMap, itemMapIndex) => {
+            if (itemMap.lx === lx) {
+                let itemList = this.state.itemList;
+                let item = {};
+                itemList.map((i) => {
+                    if (i.itemID === lx) {
+                        item = i;
+                    }
+                })
+
+                let mapList = itemMap.baseMap;
+                let backgroundSize = itemMap.width * 100 + "% " + itemMap.height * 100 + "%";
+                let backgroundPosition = itemMap.pos * -100 + "% " + itemMap.column * -100 + "%";
+                let backgroundImage = itemMap.urlImage ? itemMap.urlImage : "URL(" + itemMap.url + ")";
+                let tempMap2 = <div className={"NormalMap_ItemMap"} id={"NormalMap_ItemMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={itemMap.lx} key={nowMapNum + "个" + index} />;
+                // this.returnImg(itemMap.url, index,tempMap2);
                 if (mapList) {
-                    let baseMapList = [];
+                    let itemMapList = [];
                     mapList.map((mapType, mapTypeIndex) => {
-                        list.map((tempMap, tempIndex) => {
+                        let tempList = [...this.state.baseMapList];
+                        tempList.map((tempMap, tempIndex) => {
                             if (tempMap.lx === mapType) {
                                 let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
                                 let tempBackgroundPosition = tempMap.pos * -100 + "% " + tempMap.column * -100 + "%";
                                 let temp = <div className="NormalMap_BaseMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition, position: "absolute", zIndex: mapTypeIndex }} lx={tempMap.lx} title={tempMap.name} />
-                                baseMapList.push(temp);
+                                itemMapList.push(temp);
                             }
                         })
                     })
-                    baseMapList.push(tempMap2);
+                    itemMapList.push(tempMap2);
                     map = <div className="NormalMap_BaseMap_base_complex">
-                        {baseMapList.map((map) => {
+                        {itemMapList.map((map) => {
                             return map;
                         })}
                     </div>
@@ -73,22 +98,50 @@ class BaseMap extends Component {
                 }
             }
         })
-        return map; 
+        return map;
+    }
+
+    /* 使用道具效果 */
+    getItemEffect = (lx) => {
+        let itemList = this.state.itemList;
+        let item = {};
+        itemList.map((i) => {
+            if (i.itemID === lx) {
+                item = i;
+            }
+        });
+        let GetAndSpendData = {};
+        if (item.play) this.props.palyVoice(item.play);
+        if (item.get) {
+            let data = {};
+            for (let i in item.get) {
+                data[i] = item.get[i];
+            }
+            GetAndSpendData.get = data;
+        }
+        if (item.spend) {
+            let data = {};
+            for (let i in item.spend) {
+                data[i] = item.spend[i];
+            }
+            GetAndSpendData.spend = data;
+        }
+        this.props.setStateForGetAndSpend(GetAndSpendData);
     }
 
     /* 通过将图片加载到canvas里面，使用canvas的函数改变画布中特定范围内的颜色通道，使得特定范围内的像素点颜色变得透明 
         目前是将素材中黑色背景替换成透明背景，准确率和召回率还算可以，有空的话再行优化吧。
     */
-    returnImg = (baseMapList) => {
+    returnImg = (itemMapList) => {
         let _this = this;
-        let numLength = baseMapList.length;
+        let numLength = itemMapList.length;
         let numCount = 0;
-        baseMapList.map((baseMap) => {
-            if (baseMap === undefined || baseMap.lx==="no" || baseMap.lx==="wall"){
-                numCount+=1;
+        itemMapList.map((itemMap) => {
+            if (itemMap === undefined || itemMap.lx === "no" || itemMap.lx === "wall") {
+                numCount += 1;
                 return;
-            } 
-            let dataImg = baseMap.url;
+            }
+            let dataImg = itemMap.url;
             let canvas = document.createElement("canvas");
             var img = new Image();
             img.src = dataImg;
@@ -114,17 +167,17 @@ class BaseMap extends Component {
                     }
                 }
                 canvas.getContext("2d").putImageData(imageData, 0, 0);
-                baseMap.urlImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
-                numCount+=1;
-                if(numCount===numLength){
-                    _this.props.setPreloadFlag("baseMapPreloadFlag", true);
+                itemMap.urlImage = "url(data:image/png;base64," + canvas.toDataURL("image/png").slice(22) + ")";
+                numCount += 1;
+                if (numCount === numLength) {
+                    _this.props.setPreloadFlag("itemMapPreloadFlag", true);
                 }
             };
-            if(numCount===numLength){
+            if (numCount === numLength) {
                 _this.props.setPreloadFlag("monsterPreloadFlag", true);
             }
         })
-        this.setState({ baseMapList: baseMapList });
+        this.setState({ itemMapList: itemMapList });
     }
 
     returnImg2 = (dataImg, index, tempMap2) => {
@@ -164,4 +217,4 @@ const mapState = (state) => ({
 
 const mapProps = (dispatch) => ({
 });
-export default connect(mapState, mapProps)(BaseMap);
+export default connect(mapState, mapProps)(ItemMap);

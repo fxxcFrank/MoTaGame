@@ -19,6 +19,8 @@ class BaseMap extends Component {
         axios.get('data/baseMap/baseMap1.json')
             .then((res) => {
                 const result = res.data;
+                this.props.setAllCount(result.length);
+                this.props.setNowAllList(result);
                 this.setState({ baseMap1List: result });
             })
             .catch((error) => {
@@ -28,16 +30,20 @@ class BaseMap extends Component {
 
     render() {
         // console.log("this.state.baseMap1List", this.state.baseMap1List);
+        const { nowCurrentPage, pageSizeCount, limitCount } = this.props;
+        let allCount = limitCount === "unlimited" ? this.state.baseMap1List.length : pageSizeCount;
+        let indexLimit = (nowCurrentPage - 1) * allCount;
         return (
             <Fragment>
                 {this.state.baseMap1List.map((baseMap, index) => {
+                    if (index < indexLimit || index >= indexLimit + allCount) return;
                     let backgroundSize = baseMap.width * 100 + "% " + baseMap.height * 100 + "%";
                     let backgroundPosition = baseMap.pos * -100 + "% " + baseMap.column * -100 + "%";
                     return (
                         // <img className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
                         // <img className="CreateMap_baseMap_base" style={{ backgroundImage: "url(data:image/png;base64," + this.changeImage(baseMap.url, baseMap.width, baseMap.height) + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
                         // this.returnImg(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
-                        this.returnImg_simple(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
+                        this.returnImg_complex(baseMap.url, baseMap.width, baseMap.height, index, baseMap, backgroundSize, backgroundPosition)
                     )
                 })}
             </Fragment>
@@ -47,10 +53,42 @@ class BaseMap extends Component {
     getImg = (e) => {
         console.log("e", e);
     }
-
+    returnImg_complex = (dataImg, width, height, index, baseMap, backgroundSize, backgroundPosition) => {
+        const { baseMap1List } = this.state;
+        let map = null;
+        let mapList = baseMap.baseMap;
+        let tempMap2 = <div className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
+        if (mapList) {
+            let baseMapList = [];
+            mapList.map((mapType, mapTypeIndex) => {
+                baseMap1List.map((tempMap, tempIndex) => {
+                    if (tempMap.lx === mapType) {
+                        let tempBackgroundSize = tempMap.width * 100 + "% " + tempMap.height * 100 + "%";
+                        let tempBackgroundPosition = tempMap.pos * 100 + "% " + tempMap.column * 100 + "%";
+                        let temp = <div className="CreateMap_baseMap_base" style={{ backgroundImage: "URL(" + tempMap.url + ")", backgroundSize: tempBackgroundSize, backgroundPosition: tempBackgroundPosition, position: "absolute", zIndex: mapTypeIndex }} lx={tempMap.lx} title={tempMap.name} />
+                        baseMapList.push(temp);
+                    }
+                })
+            })
+            baseMapList.push(tempMap2);
+            map = <div className="CreateMap_baseMap_base_complex">
+                {baseMapList.map((map) => {
+                    return map;
+                })}
+            </div>
+        }
+        else {
+            map = tempMap2;
+        }
+        return (
+            <Fragment>
+                {map}
+            </Fragment>
+        );
+    }
     returnImg_simple = (dataImg, width, height, index, baseMap, backgroundSize, backgroundPosition) => {
-        let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
-        // let div = <div className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
+        // let div = <img className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} />
+        let div = <div className="CreateMap_baseMap_base" id={"BaseMap_rightMenu-" + index} key={"BaseMap_rightMenu-" + index} style={{ backgroundImage: "URL(" + baseMap.url + ")", backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} lx={baseMap.lx} title={baseMap.name} onClick={() => this.props.clickAddMap(baseMap)} >{baseMap.name}</div>
         return (
             <Fragment>
                 {div}

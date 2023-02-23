@@ -28,7 +28,7 @@ class Shop extends Component {
             .then((res) => {
                 const result = res.data;
                 this.setState({ shopMapList: result });
-                this.returnImg(result);
+                // this.returnImg(result);
             })
             .catch((error) => {
                 console.log(error)
@@ -37,12 +37,12 @@ class Shop extends Component {
             .then((res) => {
                 const result = res.data;
                 this.setState({ baseMapList: result });
-                this.returnImg2(result);
+                // this.returnImg2(result);
             })
             .catch((error) => {
                 console.log(error)
             })
-        axios.get('data/shopList.json')
+        axios.get('data/gameData/shopList.json')
             .then((res) => {
                 const result = res.data;
                 let shopList = this.state.shopList;
