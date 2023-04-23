@@ -3,7 +3,7 @@
         "mapID":"YDoor",
         "mapName":"黄门",
         "spend":{
-            "YKey":1
+            "Item_3":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的黄色之门，需要耗费一把黄钥匙才行通过。"
@@ -12,7 +12,7 @@
         "mapID":"BDoor",
         "mapName":"蓝门",
         "spend":{
-            "BKey":1
+            "Item_4":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的蓝色之门，需要耗费一把蓝钥匙才行通过。"
@@ -21,7 +21,7 @@
         "mapID":"RDoor",
         "mapName":"红门",
         "spend":{
-            "BKey":1
+            "Item_4":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的红色之门，需要耗费一把红钥匙才行通过。"

@@ -36,6 +36,8 @@ class Title extends Component {
             storyWordFlag: false,
             shopFlag: false,
             shopType: "",
+
+            freshenFlag: false    //单纯只是为了让操作dom后能刷新render而已
         }
 
     }
@@ -70,7 +72,7 @@ class Title extends Component {
                         <MainWindow setStory={this.setStory} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
                             menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent}
                             shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} abilityComponent={this.abilityComponent}
-                            itemMapComponent={this.itemMapComponent} />
+                            itemMapComponent={this.itemMapComponent} onFreshenFlag={this.onFreshenFlag}/>
                         :
                         <div className="MainTitleWindow">
                             {/* <div className="MainTitleWindow_title">魔塔</div> */}
@@ -324,6 +326,10 @@ class Title extends Component {
     }
     /* */
 
+    //刷新
+    onFreshenFlag=()=>{
+        this.setState({freshenFlag:!this.state.freshenFlag})
+    }
 
 
     /********  各类子组件  ********/
@@ -362,7 +368,7 @@ class Title extends Component {
     /********    ********/
 
     /* 播放音效 */
-    palyVoice = (url) => {      //(未测试)效果存疑，之后加入音效再行测试
+    palyVoice = (url) => {      
         const myAudio = new Audio()
         myAudio.preload = true; //
         // myAudio.controls = true;

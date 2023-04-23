@@ -70,7 +70,7 @@ class MainWindow extends Component {
         axios.get('data/gameData/map.json')
             .then((res) => {
                 const result = res.data;
-                console.log('res', result);
+                // console.log('res', result);
                 this.setState({ mapList: result }, () => {
                     let timer = setInterval(() => {
                         let plugin = document.getElementById("mtYS");
@@ -294,6 +294,7 @@ class MainWindow extends Component {
         doc.appendChild(plugin);        //因为对dom不是很了解，所以……这个appendchild执行的不只是加入子节点，还把子节点从原先绑定的位置上remove掉了？
         plugin.attributes["index"].nodeValue = id;
         this.setState({ freshenFlag: !this.state.freshenFlag });   //为了刷新render，目前的目的是为了让卷轴视口移动能够对齐
+        this.props.onFreshenFlag();
     }
     remove = (doc) => {
         let nowMapNum = this.state.nowMapNum;
@@ -375,7 +376,7 @@ class MainWindow extends Component {
                     }
                 }
             }
-            console.log("getAllRoundTarget", arountList);
+            // console.log("getAllRoundTarget", arountList);
             this.setState({ aroundMonster: [...arountList] });
         } catch (error) {
             console.log("getAllRoundTarget", error);
@@ -882,7 +883,7 @@ class MainWindow extends Component {
     moveToFloor = (floorIndex) => {
         try {
             this.palyVoice('Audio/RPG魔塔音效素材/SE/上下楼.mp3');
-            console.log("moveToFloor-----this.state.mapList", this.state.mapList, floorIndex);
+            // console.log("moveToFloor-----this.state.mapList", this.state.mapList, floorIndex);
             let nowMap = this.state.mapList[floorIndex].map;
             let id;
             nowMap.map((map, index) => {

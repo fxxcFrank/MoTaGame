@@ -1,0 +1,92 @@
+/* 地图 */
+.Map_Mask{
+    position: absolute;
+    left: 20vw;
+    width: 80vw;
+    height: 100vh;
+    z-index: 2000;
+}
+.Map_Main {
+    padding: 5vmin;
+    position: absolute;
+    /* margin: auto; */
+    /* margin: 50%; */
+    /* margin-left: 10vw; */
+    top: 50%;
+    left: 50%;
+    width: 85vmin;
+    height: 85vmin;
+    background: rgb(43 39 39 / 80%);
+    transform: translate(-50%, -50%);
+    /* overflow: hidden; */
+    overflow: auto;
+    z-index: 2000;
+}
+.Map_Main::-webkit-scrollbar {
+    width: 0px;
+    height: 0;
+    border: 1px solid #fff;
+  }
+  .Map_Main::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #eeeeee;
+  }
+  .Map_Main::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background: #b0b0b0;
+  }
+
+.Map_Content {
+    /* position: absolute; */
+    width: max-content;
+    min-width: 100%;
+    height: max-content;
+    min-height: 100%;
+    border: 1px solid white;
+    display: grid;
+    grid-template-columns: repeat(var(--nowMapWidth), 7.5vmin);
+    grid-template-rows: repeat(var(--nowMapHeight), 7.5vmin);
+    /* grid-template-columns: repeat(10, 5vmin);
+    grid-template-rows: repeat(10, 5vmin); */
+}
+
+.Map_ContentRoad {
+    background: rgb(43 39 39 / 80%);
+}
+
+.Map_ContentWall {
+    background: rgb(94 90 90 / 80%);
+}
+
+.Map_ContentStart {
+    background: rgb(77 182 63 / 80%);
+}
+
+.Map_ContentEnd {
+    background: rgb(27 60 178 / 80%);
+}
+
+@keyframes ysPos {
+    0% {
+        background: rgb(159 150 38 / 80%);
+    }
+
+    50% {
+        background: rgb(255 236 0 / 80%);
+    }
+
+    100% {
+        background: rgb(159 150 38 / 80%);
+    }
+}
+
+.Map_ContentYSPos {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background: rgb(159 150 38 / 80%);
+    animation: ysPos 2s linear 0s normal none infinite;
+}
+
+
+/* -------------------- */

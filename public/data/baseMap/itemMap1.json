@@ -154,5 +154,17 @@
         "baseMap": [
             "no"
         ]
+    },
+    {
+        "name": "羊皮纸",
+        "lx": "Item_14",
+        "url": "public/img/all.png",
+        "column": 21,
+        "pos": 6,
+        "width": 10,
+        "height": 30,
+        "baseMap": [
+            "no"
+        ]
     }
 ]

@@ -55,7 +55,7 @@
     },
     {
         "name": "黄钥匙",
-        "lx": "YKey",
+        "lx": "Item_3",
         "url": "img/all.png",
         "column": 20,
         "pos": 7,
@@ -65,7 +65,7 @@
     },
     {
         "name": "蓝钥匙",
-        "lx": "BKey",
+        "lx": "Item_4",
         "url": "img/all.png",
         "column": 20,
         "pos": 6,
@@ -75,7 +75,7 @@
     },
     {
         "name": "红钥匙",
-        "lx": "RKey",
+        "lx": "Item_5",
         "url": "img/all.png",
         "column": 20,
         "pos": 5,
@@ -85,7 +85,7 @@
     },
     {
         "name": "剑",
-        "lx": "sword",
+        "lx": "Item_9",
         "url": "img/all.png",
         "column": 21,
         "pos": 5,
@@ -95,7 +95,7 @@
     },
     {
         "name": "盾",
-        "lx": "def",
+        "lx": "Item_10",
         "url": "img/all.png",
         "column": 21,
         "pos": 6,

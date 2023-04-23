@@ -11,6 +11,7 @@ import BaseMap from "./BaseMap";
 import MonsterMap from "./MonsterMap";
 import ShopMap from "./ShopMap";
 import StoryMap from "./StoryMap";
+import ItemMap from "./ItemMap";
 
 class CreateMap extends Component {
     constructor(props) {
@@ -27,8 +28,8 @@ class CreateMap extends Component {
             monsterList: [],
             storyList: [],
             RightMenu_TabList: [
-                { name: "常用", url: "data/baseMap/baseMap1.json" },
                 { name: "基础", url: "data/baseMap/baseMap1.json" },
+                { name: "道具", url: "data/baseMap/itemMap1.json" },
                 { name: "怪物", url: "data/baseMap/monsterMap1.json" },
                 { name: "商店", url: "data/baseMap/shopMap1.json" },
                 { name: "事件", url: "data/baseMap/storyMap1.json" },
@@ -206,12 +207,12 @@ class CreateMap extends Component {
         const { clickAddMap, setAllCount, setNowAllList, showHoverMapInfo, outOfHoverMapInfo } = this;
         let sendToMap = { nowCurrentPage, pageSizeCount };
         let sendToFunciton = { clickAddMap, setAllCount, setNowAllList, showHoverMapInfo, outOfHoverMapInfo };
-        if (flag) return <BaseMap {...sendToFunciton} {...sendToMap} limitCount={"unlimited"}/>;
+        if (flag) return <BaseMap {...sendToFunciton} {...sendToMap} limitCount={"unlimited"} />;
         switch (nowShowTab) {
             case 0:
                 return <BaseMap {...sendToFunciton} {...sendToMap} />;
             case 1:
-                return <BaseMap {...sendToFunciton} {...sendToMap} />;
+                return <ItemMap {...sendToFunciton} {...sendToMap} />;
             case 2:
                 return <MonsterMap {...sendToFunciton} {...sendToMap} />;
             case 3:
@@ -243,13 +244,21 @@ class CreateMap extends Component {
         const { nowHoverMapInfo, hoverMapPos } = this.state;
         let list = [];
         for (let i in nowHoverMapInfo) {
-            // if(i==="imgUrl") break;
             if (i === "describe") break;
+            if (i === "play") continue;
+            if (i === "get" || i === "spend") {
+                let beforeName = i === "get" ? "获得" : "花费";
+                let getOrSpendThings = [];
+                for (let j in nowHoverMapInfo[i]) getOrSpendThings.push({ name: j, value: nowHoverMapInfo[i][j] })
+                getOrSpendThings.map((thing) => {
+                    let div = <div className="CreateMap_RightMenu_Content_MapInfo">{`${beforeName}：${this.returnAttributeToWord(thing.name)}——${thing.value}`}</div>
+                    list.push(div);
+                })
+                continue;
+            }
             let div = <div className="CreateMap_RightMenu_Content_MapInfo">{`${this.returnAttributeToWord(i)}：${nowHoverMapInfo[i]}`}</div>
             list.push(div);
         }
-        // console.log("returnNowHoverMapInfo", hoverMapPos);
-        // let map = <div className="CreateMap_RightMenu_Content_MapInfoColumn" style={{ left: `calc(${hoverMapPos.left}px - 80vw)`, top: hoverMapPos.top}}>
         let map = <div className="CreateMap_RightMenu_Content_MapInfoColumn" style={{ left: 0, top: hoverMapPos.top + "vh" }}>
             {list.map((data) => {
                 return data;
@@ -269,6 +278,9 @@ class CreateMap extends Component {
             case "level": return "等级";
             case "levelNum": return "经验";
             case "gold": return "金币";
+            case "YKey": return "黄钥匙";
+            case "BKey": return "蓝钥匙";
+            case "RKey": return "红钥匙";
             default: return attribute;
         }
     }

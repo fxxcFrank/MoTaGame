@@ -140,6 +140,11 @@ class Handbook extends Component {
         const { showFloorTargetInfoFlag, showExplorationFlag } = this.state;
         let keyCode = e.keyCode;
         if (keyCode === 76) {       //手册快捷键————L
+            if (showFloorTargetInfoFlag || showExplorationFlag) {
+                this.closeExploration();
+                this.closeShowFloorTargetInfo();
+                return;
+            }
             if (!this.props.allState.floorMonster || (showFloorTargetInfoFlag || showExplorationFlag))
                 return;
             this.props.openAbility();   //打开能力监听覆盖
@@ -207,7 +212,7 @@ class Handbook extends Component {
     }
     //关闭对象信息
     closeExploration = () => {
-        this.props.closeAbility();  //关闭能力监听覆盖
+        // this.props.closeAbility();  //关闭能力监听覆盖
         this.setState({ showExplorationFlag: false })
     }
 

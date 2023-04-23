@@ -32,6 +32,7 @@ class AddNewMap extends Component {
             refresh: undefined,
             refreshFlag: false,
 
+            currentMainForm: {},
             lxValidateStatus: "success",
         }
         this.refForm = {};
@@ -70,8 +71,8 @@ class AddNewMap extends Component {
                         <Input />
                     </Item>
                     <div className="CreateMao_AddNewMap_Column">
-                        <Item name="lx" label="地图块类型名" rules={[{ required: true, message: "请定义地图块类型名！" }]} 
-                        help={this.returnLXValidateStatus()==="error" ? "地图块类型名重复！" : ""} validateStatus={this.returnLXValidateStatus()}>
+                        <Item name="lx" label="地图块类型名" rules={[{ required: true, message: "请定义地图块类型名！" }]}
+                            help={this.returnLXValidateStatus() === "error" ? "地图块类型名重复！" : ""} validateStatus={this.returnLXValidateStatus()}>
                             <Input onChange={() => this.refreshToRender()} />
                         </Item>
                         <Button onClick={this.addNewLXName}>默认名</Button>
@@ -203,6 +204,7 @@ class AddNewMap extends Component {
             baseMap.push(this.props.nowClickAddMap.lx)
             dataForm.baseMap = baseMap;
         }
+        this.setState({ currentMainForm: dataForm });
         this.props.addNewMap(dataForm);
         this.props.setCreateNewMapModelFlag(false);
         // this.refForm = {};
@@ -312,7 +314,7 @@ class AddNewMap extends Component {
         if (this.refForm && this.refForm.getFieldValue) {
             // console.log("returnLXValidateStatus",this.refForm);
             let lxName = this.refForm.getFieldValue("lx");
-            if (this.isSameLxName(lxName) || lxName==="") return "error";
+            if (this.isSameLxName(lxName) || lxName === "") return "error";
             else return "success";
         };
         return "success"
@@ -379,8 +381,8 @@ class AddNewMap extends Component {
     }
 
     //为了操作form后也能刷新render
-    refreshToRender=()=>{
-        this.setState({refreshFlag:!this.state.refreshFlag});
+    refreshToRender = () => {
+        this.setState({ refreshFlag: !this.state.refreshFlag });
     }
 }
 const mapState = (state) => ({

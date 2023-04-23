@@ -2,6 +2,8 @@
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
 
+import Map from './Items/Map'
+
 import Exploration from './Skills/Exploration'
 import Handbook from './Skills/Handbook'
 import Transition from './Skills/Transition'
@@ -22,6 +24,10 @@ class Ability extends Component {
         const props = { allState, openAbility, closeAbility, setTip, setTip_split, mainWindowKeyOn, moveToFloor };
         return (
             <Fragment>
+                {/* 道具 */}
+                <Map palyVoice={this.palyVoice} {...props} />  {/* 道具————地图（快捷键M） */}
+
+                {/* 能力 */}
                 <Exploration palyVoice={this.palyVoice} {...props} />  {/* 能力————探测（快捷键E） */}
                 <Handbook palyVoice={this.palyVoice} {...props} />  {/* 能力————手册（快捷键L） */}
                 <Transition palyVoice={this.palyVoice} {...props} />  {/* 能力————迁跃（快捷键K） */}

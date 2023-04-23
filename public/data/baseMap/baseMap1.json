@@ -66,126 +66,6 @@
         ]
     },
     {
-        "name": "攻击宝石1",
-        "lx": "gong_1",
-        "url": "public/img/icon/Item01-Gem01.png",
-        "column": 0,
-        "pos": 0,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "防御宝石1",
-        "lx": "fang_1",
-        "url": "public/img/icon/Item01-Gem01.png",
-        "column": 0,
-        "pos": 1,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "黄钥匙",
-        "lx": "YKey",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 0,
-        "pos": 0,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "蓝钥匙",
-        "lx": "BKey",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 0,
-        "pos": 1,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "红钥匙",
-        "lx": "RKey",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 0,
-        "pos": 2,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "黄钥匙串",
-        "lx": "YKeys",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 3,
-        "pos": 0,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "蓝钥匙串",
-        "lx": "BKeys",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 3,
-        "pos": 1,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "红钥匙串",
-        "lx": "RKeys",
-        "url": "public/img/icon/Item01-01.png",
-        "column": 3,
-        "pos": 2,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "铁剑",
-        "lx": "sword_1",
-        "url": "img/icon/Item01-08.png",
-        "column": 0,
-        "pos": 0,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
-        "name": "铁盾",
-        "lx": "def_1",
-        "url": "img/icon/Item01-08.png",
-        "column": 2,
-        "pos": 0,
-        "width": 4,
-        "height": 4,
-        "baseMap": [
-            "no"
-        ]
-    },
-    {
         "name": "下楼",
         "lx": "start",
         "url": "img/down_floor.png",
@@ -291,24 +171,6 @@
         "height": 30
     },
     {
-        "name": "黄十字架",
-        "lx": "yellow cross",
-        "url": "public/img/all.png",
-        "column": 21,
-        "pos": 4,
-        "width": 10,
-        "height": 30
-    },
-    {
-        "name": "白十字架",
-        "lx": "white cross",
-        "url": "public/img/all.png",
-        "column": 21,
-        "pos": 8,
-        "width": 10,
-        "height": 30
-    },
-    {
         "name": "石路",
         "lx": "gray stone road",
         "url": "public/img/all.png",
@@ -341,24 +203,6 @@
         "url": "public/img/all.png",
         "column": 14,
         "pos": 7,
-        "width": 10,
-        "height": 30
-    },
-    {
-        "name": "金币",
-        "lx": "gold_1",
-        "url": "public/img/all.png",
-        "column": 21,
-        "pos": 5,
-        "width": 10,
-        "height": 30
-    },
-    {
-        "name": "羊皮纸",
-        "lx": "parchment",
-        "url": "public/img/all.png",
-        "column": 21,
-        "pos": 6,
         "width": 10,
         "height": 30
     },

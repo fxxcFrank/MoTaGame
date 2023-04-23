@@ -13,7 +13,7 @@
         "mapID":"YDoor",
         "mapName":"黄门",
         "spend":{
-            "YKey":1
+            "Item_3":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的黄色之门，需要耗费一把黄钥匙才行通过。"
@@ -22,7 +22,7 @@
         "mapID":"BDoor",
         "mapName":"蓝门",
         "spend":{
-            "BKey":1
+            "Item_4":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的蓝色之门，需要耗费一把蓝钥匙才行通过。"
@@ -31,7 +31,7 @@
         "mapID":"RDoor",
         "mapName":"红门",
         "spend":{
-            "BKey":1
+            "Item_4":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/开门.mp3",
         "describe":"被规则锁定的红色之门，需要耗费一把红钥匙才行通过。"
@@ -42,7 +42,7 @@
         "describe":"一道铁门。"
     },
     {
-        "mapID":"gong_1",
+        "mapID":"Item_1",
         "mapName":"攻击宝石1",
         "get":{
             "gong":3
@@ -51,7 +51,7 @@
         "describe":"一枚最基础的宝石，能够增加些微攻击力。"
     },
     {
-        "mapID":"fang_1",
+        "mapID":"Item_2",
         "mapName":"防御宝石1",
         "get":{
             "fang":3
@@ -60,55 +60,55 @@
         "describe":"一枚最基础的宝石，能够增加些微防御力。"
     },
     {
-        "mapID":"YKey",
+        "mapID":"Item_3",
         "mapName":"黄钥匙",
         "get":{
-            "YKey":1
+            "Item_3":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把黄钥匙。"
     },
     {
-        "mapID":"BKey",
+        "mapID":"Item_4",
         "mapName":"蓝钥匙",
         "get":{
-            "BKey":1
+            "Item_4":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把蓝钥匙。"
     },
     {
-        "mapID":"RKey",
+        "mapID":"Item_5",
         "mapName":"红钥匙",
         "get":{
-            "RKey":1
+            "Item_5":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把红钥匙。"
     },
     {
-        "mapID":"YKeys",
+        "mapID":"Item_3s",
         "mapName":"黄钥匙串",
         "get":{
-            "YKey":3
+            "Item_3":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串黄钥匙。"
     },
     {
-        "mapID":"BKeys",
+        "mapID":"Item_4s",
         "mapName":"蓝钥匙串",
         "get":{
-            "BKey":3
+            "Item_4":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串蓝钥匙。"
     },
     {
-        "mapID":"RKeys",
+        "mapID":"Item_5s",
         "mapName":"红钥匙串",
         "get":{
-            "RKey":3
+            "Item_5":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串红钥匙。"

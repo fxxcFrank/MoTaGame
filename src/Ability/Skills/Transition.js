@@ -79,6 +79,10 @@ class Transition extends Component {
         const { showFloorInfoFlag, limitFloorNum } = this.state;
         let keyCode = e.keyCode;
         if (keyCode === 75) {       //迁跃快捷键————K
+            if (showFloorInfoFlag) {
+                this.openShowFloorInfo();
+                return;
+            }
             if (!this.props.allState.mapList || (showFloorInfoFlag))
                 return;
             this.props.openAbility();   //打开能力监听覆盖
