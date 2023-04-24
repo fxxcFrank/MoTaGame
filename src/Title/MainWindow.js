@@ -88,6 +88,9 @@ class MainWindow extends Component {
 
     componentDidMount() {
         this.getNowFloorTarget();
+        // setTimeout(() => {
+        //     this.props.setYSPos_First();
+        // }, 1000);
     }
 
     componentDidUpdate() {

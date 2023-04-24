@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React, { Fragment, Component } from "react"
 import { connect } from "react-redux"
-import { Modal } from 'antd'
-import { CloseOutlined } from '@ant-design/icons';
+import { Modal, Slider } from 'antd'
+import { PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons';
 import './itemsStyle.css'
 
 class Map extends Component {
@@ -11,6 +11,7 @@ class Map extends Component {
         this.state = {
             showMapFlag: false,//打开手册
             firstFlag: true,
+            scaleCount: 1.0,  //缩放倍数
         }
         document.addEventListener("keydown", this.keyOn);
     }
@@ -18,6 +19,8 @@ class Map extends Component {
         const { showMapFlag, firstFlag } = this.state;
         if (showMapFlag) {
             this.mapDarg();
+            this.returnYSPosCenter();
+            this.stopScrollFromKeyCode();
             // this.setState({ firstFlag: false });
         }
     }
@@ -26,7 +29,7 @@ class Map extends Component {
     }
 
     render() {
-        const { nowSelectFloor, nowSelectFloorIndex, showMapFlag, limitFloorNum } = this.state;
+        const { showMapFlag, scaleCount } = this.state;
         const { allState } = this.props;
         if (!allState.mapList) {
             return null;
@@ -35,7 +38,8 @@ class Map extends Component {
         const nowMap = allState.mapList ? allState.mapList[allState.nowMapNum] : [];
         const nowMapWidth = nowMap.width;
         const nowMapHeight = nowMap.map.length > 0 ? nowMap.map.length / nowMap.width : 0;
-        const nowMinWidthHeight = nowMapWidth < nowMapHeight ? nowMapWidth : nowMapHeight
+        const nowMinWidthHeight = nowMapWidth < nowMapHeight ? nowMapWidth : nowMapHeight;
+        const mapItemWidth = 7.5 * scaleCount + 'vmin';
         const plugin = document.getElementById("mtYS");
         const YSPos = plugin ? parseInt(plugin.attributes["index"].nodeValue) : 0;
         //'--nowMapWidth:10,--nowMapLength:10'
@@ -45,13 +49,19 @@ class Map extends Component {
                     <div className="Map_Mask">
                         <div className="Map_Main" id="Map_Main">
                             <div className="Map_Content" id="Map_Content" style={{
-                                '--nowMapWidth': nowMapWidth, '--nowMapHeight': nowMapHeight,
+                                '--nowMapWidth': nowMapWidth, '--nowMapHeight': nowMapHeight, '--mapItemWidth': mapItemWidth,
                                 ...this.returnNowMap_bigStyle(nowMapWidth, nowMapHeight)
                             }}>
                                 {nowMap.map.map((map, index) => {
                                     return this.returnMap(map, index, YSPos);
                                 })}
                             </div>
+                        </div>
+                        <div className="Map_Scale">
+                            <PlusSquareOutlined onClick={() => this.changeScaleCount(0.1)} />
+                            <Slider vertical value={scaleCount} min={0.1} max={2} onChange={this.scaleCountChange} tooltip={false}/>
+                            <MinusSquareOutlined onClick={() => this.changeScaleCount(-0.1)} />
+                            <div>{scaleCount.toFixed(1)}</div>
                         </div>
                     </div>
                     : null}
@@ -88,7 +98,7 @@ class Map extends Component {
             if (index === YSPos) {
                 return (
                     <div className="Map_ContentRoad">
-                        <div className="Map_ContentYSPos" />
+                        <div className="Map_ContentYSPos" id="Map_ContentYSPos" />
                     </div>
                 )
             }
@@ -135,6 +145,28 @@ class Map extends Component {
             };
         };
     }
+    //希望阻止方向键移动scroll，并且使用方向键正常变化地图（目前已实现前半句）
+    stopScrollFromKeyCode = () => {
+        document.onkeydown = function (e) {
+            e = e || event;
+            if (e.keyCode == 37) {
+                //你自己的代码
+                return false;
+            }
+            if (e.keyCode == 38) {
+                //你自己的代码
+                return false;
+            }
+            if (e.keyCode == 39) {
+                //你自己的代码
+                return false;
+            }
+            if (e.keyCode == 40) {
+                //你自己的代码
+                return false;
+            }
+        }
+    }
     /* 当当前地图大于一定大小时（目前为10*10），跟随移动让画面进行卷轴移动 */
     returnNowMap_bigStyle = (nowMapWidth, nowMapHeight) => {
         let width = nowMapWidth;
@@ -143,8 +175,8 @@ class Map extends Component {
         let style = { left: 0, top: 0 } //目前一格大小为宽8vw、高10vh，目前地图位置为从左上角对齐
         let plugin = document.getElementById("mtYS");
         let id = parseInt(plugin.attributes["index"].nodeValue);
-        let nowPosLeft = (id) % width + 5;
-        let nowPosTop = Math.ceil((id) / height) + 5;
+        let nowPosLeft = (id) % width;
+        let nowPosTop = Math.ceil((id) / height);
         // console.log("returnNowMap_bigStyle", id + 1,width, height, nowPosLeft, nowPosTop)
         let widthLimitCount = 5;       //视口宽度，实际会*2，目前也就是10（格）
         let heightLimitCount = 5;      //视口高度，实际会*2，目前也就是10（格）
@@ -163,6 +195,26 @@ class Map extends Component {
         return style;
     }
     /* */
+    //勇者位置复位
+    returnYSPosCenter = () => {
+        document.getElementById(`Map_ContentYSPos`).scrollIntoView({
+            behavior: "smooth",
+            // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+            block: "center",
+            // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+            inline: "center"
+            // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+        })
+    }
+    //当前地图缩放倍数
+    scaleCountChange = (num) => {
+        this.setState({ scaleCount: num });
+    }
+    //修改地图缩放
+    changeScaleCount = (num) => {
+        const { scaleCount } = this.state;
+        if (scaleCount + num > 0 && scaleCount + num < 2) this.setState({ scaleCount: scaleCount + num })
+    }
     //打开、关闭地图
     openShowMap = () => {
         console.log("openShowMap", this.props.allState);

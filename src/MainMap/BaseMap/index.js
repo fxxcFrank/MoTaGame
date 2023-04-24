@@ -53,7 +53,7 @@ class BaseMap extends Component {
                 let backgroundImage = baseMap.urlImage ? baseMap.urlImage : "URL(" + baseMap.url + ")";
                 let tempMap2 = <div className={"NormalMap_BaseMap"} id={"NormalMap_BaseMap-" + index} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index} />;
                 if (lx == "start") {
-                    tempMap2 = <div className={"NormalMap_BaseMap"} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index}>
+                    tempMap2 = <div className={"NormalMap_BaseMap"} style={{ backgroundImage: backgroundImage, backgroundSize: backgroundSize, backgroundPosition: backgroundPosition }} index={index} lx={baseMap.lx} key={nowMapNum + "个" + index} id="start">
                         <div className="mtYS_Img_down" id="mtYS" index={index} style={{ backgroundImage: "URL(img/ys.png)" }}></div>
                     </div>;
                 }

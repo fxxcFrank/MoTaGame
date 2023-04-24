@@ -27,8 +27,8 @@ app.on('ready', () => {
         console.log("globalShortcut-----F5");
         mainWindow.reload();
     })
-    globalShortcut.register('F10', () => {
-        console.log("globalShortcut-----F10");
+    globalShortcut.register('F9', () => {
+        console.log("globalShortcut-----F9");
         mainWindow.openDevTools();
     })
     // globalShortcut.register('F11', () => {

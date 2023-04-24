@@ -72,7 +72,7 @@ class Title extends Component {
                         <MainWindow setStory={this.setStory} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
                             menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent}
                             shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} abilityComponent={this.abilityComponent}
-                            itemMapComponent={this.itemMapComponent} onFreshenFlag={this.onFreshenFlag}/>
+                            itemMapComponent={this.itemMapComponent} onFreshenFlag={this.onFreshenFlag} setYSPos_First={this.setYSPos_First}/>
                         :
                         <div className="MainTitleWindow">
                             {/* <div className="MainTitleWindow_title">魔塔</div> */}
