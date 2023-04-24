@@ -99,6 +99,7 @@
     justify-content: center;
     width: calc(100% - 20vw);
     height: 100%;
+    background: black;
     overflow: hidden;
 }
 .NowMap, .NowMap_big{
@@ -124,6 +125,17 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
+.NowMap_text, .NowMap_textBig{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--nowMapWidth),8vw);
+    grid-template-rows: repeat(var(--nowMapHeight),10vh);
+}
+.NowMap_textBig{
+    position: absolute;
+}
+
+
 .MapColumn, .MapColumn_big{
     width: 100%;
     height: 10vh;
@@ -198,7 +210,8 @@
         background-position: 0 0px;
     }
 }
-.mtYS_Img_down{
+.mtYS_Img_down,.mtYS_Img_right,.mtYS_Img_left,.mtYS_Img_up{
+    position: absolute;
     animation: Animation_mtYS_down 0.5s linear 0s normal none 1;
     display: flex;
     align-items: center;

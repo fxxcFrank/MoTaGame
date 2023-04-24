@@ -63,6 +63,8 @@ class MainWindow extends Component {
             finish: false,
             victory: false,
 
+            ysPosFirstFlag: true,    //开始游戏第一次加载勇者位置（不包括读取游戏）
+
             freshenFlag: false    //单纯只是为了让操作dom后能刷新render而已
         }
         let _this = this;
@@ -88,21 +90,21 @@ class MainWindow extends Component {
 
     componentDidMount() {
         this.getNowFloorTarget();
-        // setTimeout(() => {
-        //     this.props.setYSPos_First();
-        // }, 1000);
     }
 
     componentDidUpdate() {
         this.props.setAllState(this.state);
+        this.props.onFreshenFlag();
+        if (this.state.ysPosFirstFlag) this.setYSPos_First();
     }
 
     render() {
         const { nowMapNum, mapList, nowM, } = this.state;
         let nowMap = mapList[nowMapNum].map;
         let width = mapList[nowMapNum].width;
+        let height = mapList[nowMapNum].map.length / width;
         let num = width;
-        // console.log("nowM---------",nowM);
+        // console.log("nowMap---------", nowMap);
         return (
             <Fragment>
                 <div className="MainAll" id="MainAll">
@@ -158,7 +160,7 @@ class MainWindow extends Component {
                         </div>
                         : null}
                     <div className="MainMap">
-                        <div className={width > 10 ? "NowMap_big" : "NowMap"} onKeyUp={(e) => this.keyOn(e)} style={width > 10 ? this.returnNowMap_bigStyle() : null}>
+                        {/* <div className={width > 10 || height > 10 ? "NowMap_big" : "NowMap"} onKeyUp={(e) => this.keyOn(e)} style={this.returnNowMap_bigStyle(width, height)}>
                             {nowMap.map((map, index) => {
                                 if (index + 1 == num) {
                                     num += width;
@@ -173,7 +175,14 @@ class MainWindow extends Component {
                                     )
                                 }
                             })}
+                        </div> */}
+                        <div className={this.returnMainMapClass(width, height)} onKeyUp={(e) => this.keyOn(e)}
+                            style={{ ...this.returnNowMap_bigStyle(width, height), "--nowMapWidth": width, "--nowMapHeight": height }}>
+                            {nowMap.map((map, index) => {
+                                return this.returnMap(map, index);
+                            })}
                         </div>
+                        <div className="mtYS_Img_down" id="mtYS" index={0} style={{ backgroundImage: "URL(img/ys.png)" }}></div>
                     </div>
                     {this.state.finish ? <div className="game_over">勇者被打倒了！</div> : null}
                     {this.state.victory ? <div className="victory" lx="Congratulations Victory!">恭喜通关！</div> : null}
@@ -280,22 +289,9 @@ class MainWindow extends Component {
     }
 
     move = (doc1) => {
-        let plugin = document.getElementById("mtYS");
-        let list = document.getElementsByTagName("div");
         let id = doc1.attributes["index"].nodeValue;    //因为采用了复合图层的原因，会导致部分dom刷新后doc的指向不明确，导致无法正常添加div，所以采用这种麻烦的方式，应该对效率有所影响，但目前看来不大。
         this.getAllRoundTarget(id);
-        let doc;
-        for (let i = 0; i < list.length; i++) {
-            let div = list[i];
-            if (!div.attributes["index"])
-                continue;
-            if (id == div.attributes["index"].nodeValue * 1) {
-                doc = div;
-                break;
-            }
-        }
-        doc.appendChild(plugin);        //因为对dom不是很了解，所以……这个appendchild执行的不只是加入子节点，还把子节点从原先绑定的位置上remove掉了？
-        plugin.attributes["index"].nodeValue = id;
+        this.setYSPos(id);
         this.setState({ freshenFlag: !this.state.freshenFlag });   //为了刷新render，目前的目的是为了让卷轴视口移动能够对齐
         this.props.onFreshenFlag();
     }
@@ -310,18 +306,27 @@ class MainWindow extends Component {
         this.setState({ mapList: mapList });
     }
     /* */
+    //返回主地图的class，方便移动
+    returnMainMapClass = (width, height) => {
+        if (width > 10 || height > 10) return 'NowMap_textBig';
+        else return 'NowMap_text';
+    }
     /* 当当前地图大于一定大小时（目前为10*10），跟随移动让画面进行卷轴移动 */
-    returnNowMap_bigStyle = () => {
-        const { nowMapNum, mapList, } = this.state;
-        let nowMap = mapList[nowMapNum].map;
-        let width = mapList[nowMapNum].width;
-        let height = Math.ceil(nowMap.length / width);
+    returnNowMap_bigStyle = (allWidth, allHeight) => {
+        console.log("returnNowMap_bigStyle----", allWidth, allHeight);
+        // const { nowMapNum, mapList, } = this.state;
+        // let nowMap = mapList[nowMapNum].map;
+        // let width = mapList[nowMapNum].width;
+        // let height = Math.ceil(nowMap.length / width);
+        let width = allWidth;
+        let height = allHeight;
 
         let style = { left: 0, top: 0 } //目前一格大小为宽8vw、高10vh，目前地图位置为从左上角对齐
         let plugin = document.getElementById("mtYS");
+        if (!plugin) return;
         let id = parseInt(plugin.attributes["index"].nodeValue);
         let nowPosLeft = (id) % width;
-        let nowPosTop = Math.ceil((id) / height);
+        let nowPosTop = Math.ceil((id) / width);
         // console.log("returnNowMap_bigStyle", id + 1,width, height, nowPosLeft, nowPosTop)
         let widthLimitCount = 5;       //视口宽度，实际会*2，目前也就是10（格）
         let heightLimitCount = 5;      //视口高度，实际会*2，目前也就是10（格）
@@ -331,12 +336,17 @@ class MainWindow extends Component {
         let oneTop = -10;   //一个格子的高
         let nowShouldLeft = nowPosLeft - widthLimitCount;
         let nowShouldTop = nowPosTop - heightLimitCount;
+        console.log("returnNowMap_bigStyle", nowPosLeft, nowPosTop);
         style.left = nowShouldLeft * oneLeft + "vw";
         style.top = nowShouldTop * oneTop + "vh";
-        if (nowShouldLeft <= 0) style.left = 0;
-        if (nowShouldTop <= 0) style.top = 0;
+        if (nowShouldLeft <= 0) style.left = 0 + 'vw';
+        if (nowShouldTop <= 0) style.top = 0 + 'vh';
         if (nowShouldLeft + widthLimitCount * 2 >= width) style.left = (width - widthLimitCount * 2) * oneLeft + "vw";
         if (nowShouldTop + heightLimitCount * 2 >= height) style.top = (height - heightLimitCount * 2) * oneTop + "vh";
+        if (allWidth <= 10) style.left = 0 + 'vw';
+        if (allHeight <= 10) style.top = 0 + 'vh';
+        if (allWidth < 10 && allHeight > 10) style.left = (10 - width) / 2 * 8 + 'vw';
+        if (allHeight < 10 && allWidth > 10) style.top = (10 - height) / 2 * 10 + 'vh';
         return style;
     }
     /* */
@@ -728,6 +738,60 @@ class MainWindow extends Component {
         plugin.style.backgroundImage = "URL(img/ys.png)";
         return plugin;
     }
+    //第一次设置勇者位置
+    setYSPos_First = () => {
+        const { nowMapNum, mapList, } = this.state;
+        let width = mapList[nowMapNum].width;
+        let plugin = document.getElementById('mtYS');
+        let list = document.getElementById("start");
+        if (!plugin || !list) return;
+        try {
+            let id = list.attributes["index"].nodeValue;
+            plugin.attributes["index"].nodeValue = id;
+            let nowLeft = (id % width) * 8 + 'vw';
+            let nowTop = (Math.floor(id / width)) * 10 + 'vh';
+            plugin.style.left = nowLeft;
+            plugin.style.top = nowTop;
+            this.setState({ ysPosFirstFlag: false })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    //设置勇者位置
+    setYSPos = (id) => {
+        const { nowMapNum, mapList, } = this.state;
+        let width = mapList[nowMapNum].width;
+        let height = mapList[nowMapNum].map.length / width;
+        let nowWidth = id % width;
+        let nowHeight = Math.floor(id / width);
+        let plugin = document.getElementById('mtYS');
+        plugin.attributes["index"].nodeValue = id;
+
+        console.log("setYSPos", height, mapList[nowMapNum].map.length, width);
+        let style = this.returnNowMap_bigStyle(width, height);
+        if (width > 10) {
+            let lessLeft = parseInt(style.left.split("vw")[0]);
+            plugin.style.left = (nowWidth) * 8 + lessLeft + 'vw';
+        }
+        if (height > 10) {
+            let lessTop = parseInt(style.top.split("vh")[0]);
+            plugin.style.top = (nowHeight) * 10 + lessTop + 'vh';
+        }
+        if (width < 10) {
+            plugin.style.left = (nowWidth + (10 - width) / 2) * 8 + 'vw';
+        }
+        if (height < 10) {
+            plugin.style.top = (nowHeight + (10 - height) / 2) * 10 + 'vh';
+        }
+        if (width === 10) {
+            let nowLeft = (nowWidth) * 8 + 'vw';
+            plugin.style.left = nowLeft;
+        }
+        if (height === 10) {
+            let nowTop = (nowHeight) * 10 + 'vh';
+            plugin.style.top = nowTop;
+        }
+    }
 
     //设置单个属性()
     setStateForGetAndSpend = (data) => {
@@ -784,22 +848,9 @@ class MainWindow extends Component {
             mapList: allState.mapList,
         }
         let id = parseInt(allState.posId);
-        let plugin = document.getElementById("mtYS");
         this.setState(data, () => {
             this.getAllRoundTarget(id);
-            let list = document.getElementsByTagName("div");
-            let doc;
-            for (let i = 0; i < list.length; i++) {
-                let div = list[i];
-                if (!div.attributes["index"])
-                    continue;
-                if (id == div.attributes["index"].nodeValue * 1) {
-                    doc = div;
-                    break;
-                }
-            }
-            plugin.attributes["index"].nodeValue = id;
-            doc.appendChild(plugin);
+            this.setYSPos(id);
             // this.props.setAllState(this.state);
         });    //已解决
     }
@@ -818,21 +869,8 @@ class MainWindow extends Component {
                 if (id !== undefined) {
                     this.setState({ nowMapNum: nowMapNum - 1 }, () => {
                         this.getNowFloorTarget();
+                        this.setYSPos(id);
                     });
-                    let plugin = document.getElementById("mtYS");
-                    let list = document.getElementsByTagName("div");
-                    let nowDoc;
-                    for (let i = 0; i < list.length; i++) {
-                        let div = list[i];
-                        if (!div.attributes["index"])
-                            continue;
-                        if (id == div.attributes["index"].nodeValue * 1) {
-                            nowDoc = div;
-                            break;
-                        }
-                    }
-                    nowDoc.appendChild(plugin);
-                    plugin.attributes["index"].nodeValue = id;
                 }
             }
             else {
@@ -858,21 +896,8 @@ class MainWindow extends Component {
                 if (id !== undefined) {
                     this.setState({ nowMapNum: nowMapNum + 1 }, () => {
                         this.getNowFloorTarget();
+                        this.setYSPos(id);
                     });
-                    let plugin = document.getElementById("mtYS");
-                    let list = document.getElementsByTagName("div");
-                    let nowDoc;
-                    for (let i = 0; i < list.length; i++) {
-                        let div = list[i];
-                        if (!div.attributes["index"])
-                            continue;
-                        if (id == div.attributes["index"].nodeValue * 1) {
-                            nowDoc = div;
-                            break;
-                        }
-                    }
-                    nowDoc.appendChild(plugin);
-                    plugin.attributes["index"].nodeValue = id;
                 }
             }
             else {
@@ -896,21 +921,9 @@ class MainWindow extends Component {
             if (id) {
                 this.setState({ nowMapNum: floorIndex }, () => {
                     this.getNowFloorTarget();
+                    this.setYSPos(id);
+                    this.props.onFreshenFlag();
                 });
-                let plugin = document.getElementById("mtYS");
-                let list = document.getElementsByTagName("div");
-                let nowDoc;
-                for (let i = 0; i < list.length; i++) {
-                    let div = list[i];
-                    if (!div.attributes["index"])
-                        continue;
-                    if (id == div.attributes["index"].nodeValue * 1) {
-                        nowDoc = div;
-                        break;
-                    }
-                }
-                nowDoc.appendChild(plugin);
-                plugin.attributes["index"].nodeValue = id;
                 this.setTip(`迁跃成功！`);
             }
             else {

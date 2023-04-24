@@ -172,18 +172,18 @@ class Title extends Component {
         plugin.innerHTML = `<div class="mtYS_Img" style="background-image:URL(img/ys.png)"></div>`;
         return plugin;
     }
-    setYSPos_First = () => {
-        let plugin = document.createElement('div');
-        plugin.className = "mtYS";
-        plugin.id = "mtYS";
-        plugin.innerHTML = `<div class="mtYS_Img" style="background-image:URL(img/ys.png)"></div>`;
-        let list = document.getElementById("start");
-        console.log("plugin", plugin, list);
-        let id = list.attributes["index"].nodeValue;
-        list.appendChild(plugin);
-        plugin.attributes["index"].nodeValue = id;
-        this.setState({ firstFlag: false });
-    }
+    // setYSPos_First = () => {
+    //     let plugin = document.createElement('div');
+    //     plugin.className = "mtYS";
+    //     plugin.id = "mtYS";
+    //     plugin.innerHTML = `<div class="mtYS_Img" style="background-image:URL(img/ys.png)"></div>`;
+    //     let list = document.getElementById("start");
+    //     console.log("plugin", plugin, list);
+    //     let id = list.attributes["index"].nodeValue;
+    //     list.appendChild(plugin);
+    //     plugin.attributes["index"].nodeValue = id;
+    //     this.setState({ firstFlag: false });
+    // }
     setMapList = (mapList) => {
         this.mainWindowComponent.setMapList(mapList);
     }

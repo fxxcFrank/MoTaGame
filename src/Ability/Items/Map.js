@@ -59,7 +59,7 @@ class Map extends Component {
                         </div>
                         <div className="Map_Scale">
                             <PlusSquareOutlined onClick={() => this.changeScaleCount(0.1)} />
-                            <Slider vertical value={scaleCount} min={0.1} max={2} onChange={this.scaleCountChange} tooltip={false}/>
+                            <Slider vertical value={scaleCount} min={0.1} max={2} onChange={this.scaleCountChange} tooltip={false} />
                             <MinusSquareOutlined onClick={() => this.changeScaleCount(-0.1)} />
                             <div>{scaleCount.toFixed(1)}</div>
                         </div>
@@ -92,9 +92,9 @@ class Map extends Component {
     //根据地图块返回地图
     returnMap = (map, index,) => {
         // console.log("returnMap", map, index, YSPos, map.includes("end"),);
+        let plugin = document.getElementById("mtYS");
+        let YSPos = parseInt(plugin.attributes["index"].nodeValue);
         if (map.includes("no") || map.includes("Item") || map.includes("Monster") || map.includes("Door")) {
-            let plugin = document.getElementById("mtYS");
-            let YSPos = parseInt(plugin.attributes["index"].nodeValue);
             if (index === YSPos) {
                 return (
                     <div className="Map_ContentRoad">
@@ -105,9 +105,23 @@ class Map extends Component {
             return <div className="Map_ContentRoad" />
         }
         else if (map.includes("start")) {
+            if (index === YSPos) {
+                return (
+                    <div className="Map_ContentStart">
+                        <div className="Map_ContentYSPos" id="Map_ContentYSPos" />
+                    </div>
+                )
+            }
             return <div className="Map_ContentStart" />
         }
         else if (map.includes("end")) {
+            if (index === YSPos) {
+                return (
+                    <div className="Map_ContentEnd">
+                        <div className="Map_ContentYSPos" id="Map_ContentYSPos" />
+                    </div>
+                )
+            }
             return <div className="Map_ContentEnd" />
         }
         else {
@@ -197,7 +211,21 @@ class Map extends Component {
     /* */
     //勇者位置复位
     returnYSPosCenter = () => {
-        document.getElementById(`Map_ContentYSPos`).scrollIntoView({
+        let plugin = document.getElementById(`Map_ContentYSPos`);
+        if (!plugin) return;
+        plugin.scrollIntoView({
+            behavior: "auto",
+            // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
+            block: "center",
+            // 定义垂直方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "start"
+            inline: "center"
+            // 定义水平方向的对齐， "start", "center", "end", 或 "nearest"之一。默认为 "nearest"
+        })
+    }
+    returnYSPosCenterForAnime = () => {
+        let plugin = document.getElementById(`Map_ContentYSPos`);
+        if (!plugin) return;
+        plugin.scrollIntoView({
             behavior: "smooth",
             // 定义动画过渡效果， "auto"或 "smooth" 之一。默认为 "auto"
             block: "center",
