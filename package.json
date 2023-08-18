@@ -12,7 +12,7 @@
     "axios": "^0.24.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.3.0",
-    "echarts": "^5.2.0",
+    "echarts": "^5.4.3",
     "element-react": "^1.4.34",
     "element-theme-default": "^1.4.13",
     "file-loader": "^6.2.0",

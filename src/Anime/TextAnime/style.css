@@ -1,0 +1,22 @@
+.DashLineFadeInText {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    animation: changeBackgournd var(--time);
+    z-index: 10000;
+}
+
+@keyframes changeBackgournd {
+    0%{
+        background-color: var(--backgroundColor);
+    }
+    86% {
+        background-color: var(--backgroundColor);
+    }
+    100% {
+        background-color: transparent;
+    }
+}

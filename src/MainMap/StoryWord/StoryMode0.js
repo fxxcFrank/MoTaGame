@@ -102,9 +102,16 @@ class StoryMode0 extends Component {
         }
         else if (nowStoryWordIndex_InWord_Mode0 + 1 >= wordList_length && nowStoryWordIndex_Mode0 + 1 >= storyWordList_length) {
             if (this.props.nowStory.storyId == "0_00_start") {
-                this.props.closeStory(false);
                 // this.props.setYSPos();
-                this.props.setStory(true, "0_01");
+                this.props.closeStory(false);
+                let backgroundColor = "#000";
+                let time = 15000;
+                this.props.setAnime(true, { type: 'DashLineFadeInText', text: '勇者', backgroundColor:backgroundColor,time: time });
+                setTimeout(() => {
+                    this.props.closeAnime();
+                    this.props.setStory(true, "0_01");
+                }, time);
+
             }
             else {
                 this.props.closeStory(true);

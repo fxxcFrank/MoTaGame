@@ -108,17 +108,16 @@ class StoryWord extends Component {
     }
     /* 故事模式分配函数 */
     returnModeStory = () => {
+        const { setYSPos, setStory, closeStory, setAnime, closeAnime } = this.props;
+        const propsData = { setYSPos, setStory, closeStory, setAnime, closeAnime };
         let mode = this.state.nowStory.storyMode;
         switch (mode) {
             case 0:
-                return <StoryMode0 StoryMode0_OnRef={this.StoryMode0_OnRef} nowStory={this.state.nowStory} closeStory={this.closeStory}
-                    setYSPos={this.props.setYSPos} setStory={this.props.setStory} />
+                return <StoryMode0 StoryMode0_OnRef={this.StoryMode0_OnRef} nowStory={this.state.nowStory} {...propsData} />
             case 2:
-                return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} closeStory={this.closeStory}
-                    setYSPos={this.props.setYSPos} setStory={this.props.setStory} />
+                return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} {...propsData} />
             case 3:
-                return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} closeStory={this.closeStory}
-                    setYSPos={this.props.setYSPos} setStory={this.props.setStory} />
+                return <StoryMode2 StoryMode2_OnRef={this.StoryMode2_OnRef} nowStory={this.state.nowStory} {...propsData} />
             default:
                 return;
         }

@@ -313,7 +313,7 @@ class MainWindow extends Component {
     }
     /* 当当前地图大于一定大小时（目前为10*10），跟随移动让画面进行卷轴移动 */
     returnNowMap_bigStyle = (allWidth, allHeight) => {
-        console.log("returnNowMap_bigStyle----", allWidth, allHeight);
+        // console.log("returnNowMap_bigStyle----", allWidth, allHeight);
         // const { nowMapNum, mapList, } = this.state;
         // let nowMap = mapList[nowMapNum].map;
         // let width = mapList[nowMapNum].width;
@@ -336,7 +336,7 @@ class MainWindow extends Component {
         let oneTop = -10;   //一个格子的高
         let nowShouldLeft = nowPosLeft - widthLimitCount;
         let nowShouldTop = nowPosTop - heightLimitCount;
-        console.log("returnNowMap_bigStyle", nowPosLeft, nowPosTop);
+        // console.log("returnNowMap_bigStyle", nowPosLeft, nowPosTop);
         style.left = nowShouldLeft * oneLeft + "vw";
         style.top = nowShouldTop * oneTop + "vh";
         if (nowShouldLeft <= 0) style.left = 0 + 'vw';
@@ -767,7 +767,7 @@ class MainWindow extends Component {
         let plugin = document.getElementById('mtYS');
         plugin.attributes["index"].nodeValue = id;
 
-        console.log("setYSPos", height, mapList[nowMapNum].map.length, width);
+        // console.log("setYSPos", height, mapList[nowMapNum].map.length, width);
         let style = this.returnNowMap_bigStyle(width, height);
         if (width > 10) {
             let lessLeft = parseInt(style.left.split("vw")[0]);

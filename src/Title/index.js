@@ -10,7 +10,7 @@ import Shop from "../MainMap/Shop"
 import Monster from "../MainMap/Monster"
 import StoryWord from '../MainMap/StoryWord'
 import ItemMap from '../MainMap/Item'
-
+import Anime from '../Anime'
 import MainWindow from "./MainWindow"
 
 class Title extends Component {
@@ -36,6 +36,11 @@ class Title extends Component {
             storyWordFlag: false,
             shopFlag: false,
             shopType: "",
+
+            /* 动画相关 */
+            animeFlag: false,
+            nowAnimeData: { type: 'text', text: undefined },
+            /* */
 
             freshenFlag: false    //单纯只是为了让操作dom后能刷新render而已
         }
@@ -63,16 +68,16 @@ class Title extends Component {
 
     render() {
         const { createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag,
-            monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag, abilityFlag } = this.state;
+            monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag, abilityFlag, animeFlag } = this.state;
         return (
             <Fragment>
                 {/* {!createMapFlag ? */}
                 <Fragment>
                     {this.state.startFlag ?
-                        <MainWindow setStory={this.setStory} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
+                        <MainWindow setStory={this.setStory} setAnime={this.setAnime} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
                             menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent}
                             shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} abilityComponent={this.abilityComponent}
-                            itemMapComponent={this.itemMapComponent} onFreshenFlag={this.onFreshenFlag} setYSPos_First={this.setYSPos_First}/>
+                            itemMapComponent={this.itemMapComponent} animeComponent={this.animeComponent} onFreshenFlag={this.onFreshenFlag} setYSPos_First={this.setYSPos_First} />
                         :
                         <div className="MainTitleWindow">
                             {/* <div className="MainTitleWindow_title">魔塔</div> */}
@@ -100,12 +105,14 @@ class Title extends Component {
                     <Menu menuFlag={this.state.menuFlag} closeMenu={this.closeMenu} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} menuComponentOnRef={this.menuComponentOnRef} setTip_split={this.setTip_split} menuPreloadFlag={menuPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Ability abilityFlag={abilityFlag} openAbility={this.openAbility} closeAbility={this.closeAbility} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}} setAllState={this.setAllState} abilityComponentOnRef={this.abilityComponentOnRef} setTip={this.setTip} setTip_split={this.setTip_split}
                         mainWindowKeyOn={this.mainWindowComponent ? this.mainWindowComponent.keyOn : undefined} moveToFloor={this.mainWindowComponent ? this.mainWindowComponent.moveToFloor : undefined} />
-                    <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} closeStory={this.closeStory} setYSPos={this.setYSPos} storyWordComponentOnRef={this.storyWordComponentOnRef}
+                    <StoryWord firstStoryFlag={firstStoryFlag} storyWordFlag={this.state.storyWordFlag} nowStoryId={this.state.nowStoryId} setStory={this.setStory} setAnime={this.setAnime} closeStory={this.closeStory} closeAnime={this.closeAnime} setYSPos={this.setYSPos}
+                        storyWordComponentOnRef={this.storyWordComponentOnRef}
                         nowMeetMap={this.state.nowMeetMap} remove={this.remove} setMapList={this.setMapList} move={this.move} returnTypeImg={this.returnTypeImg} storyPreloadFlag={storyPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <BaseMap baseMapComponentOnRef={this.baseMapComponentOnRef} baseMapPreloadFlag={baseMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Shop shopComponentOnRef={this.shopComponentOnRef} shopFlag={this.state.shopFlag} shopType={this.state.shopType} selectGoods={this.selectGoods} exitShop={this.exitShop} setTip={this.setTip} shopPreloadFlag={shopPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
                     <Monster monsterComponentOnRef={this.monsterComponentOnRef} monsterPreloadFlag={monsterPreloadFlag} setPreloadFlag={this.setPreloadFlag} />
-                    <ItemMap itemMapComponentOnRef={this.itemMapComponentOnRef} itemMapPreloadFlag={itemMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} palyVoice={this.palyVoice} setStateForGetAndSpend={this.setStateForGetAndSpend}/>
+                    <ItemMap itemMapComponentOnRef={this.itemMapComponentOnRef} itemMapPreloadFlag={itemMapPreloadFlag} setPreloadFlag={this.setPreloadFlag} palyVoice={this.palyVoice} setStateForGetAndSpend={this.setStateForGetAndSpend} />
+                    <Anime animeComponentOnRef={this.animeComponentOnRef} animeFlag={animeFlag} nowAnimeData={this.state.nowAnimeData} />
                 </Fragment>
                 {/* :
                     <CreateMap createMapFlag={this.state.createMapFlag} closeCreateMap={this.closeCreateMap} />} */}
@@ -114,7 +121,7 @@ class Title extends Component {
     }
     startGame = () => {
         this.setState({ startFlag: true });
-        // this.setStory(true, "0_00_start");
+        this.setStory(true, "0_00_start");
     }
 
     setPreloadFlag = (name, value) => {
@@ -145,16 +152,6 @@ class Title extends Component {
         this.setState({ explainFlag: false })
     }
 
-    setPreloadFlag = (name, value) => {
-        if (name && value) {
-            let data = {};
-            data[name] = value;
-            this.setState(data);
-        }
-    }
-    setStory = (flag, storyId) => {
-        this.setState({ storyWordFlag: flag, nowStoryId: storyId });
-    }
     setYSPos = () => {
         let plugin = document.getElementById("mtYS");
         let list = document.getElementById("start");
@@ -187,11 +184,23 @@ class Title extends Component {
     setMapList = (mapList) => {
         this.mainWindowComponent.setMapList(mapList);
     }
-    setStateForGetAndSpend=(data)=>{
+    setStateForGetAndSpend = (data) => {
         this.mainWindowComponent.setStateForGetAndSpend(data);
     }
     setAllState = (allState) => {
         this.mainWindowComponent.setAllState(allState);
+    }
+
+    /* 初始化和故事相关函数 */
+    setPreloadFlag = (name, value) => {
+        if (name && value) {
+            let data = {};
+            data[name] = value;
+            this.setState(data);
+        }
+    }
+    setStory = (flag, storyId) => {
+        this.setState({ storyWordFlag: flag, nowStoryId: storyId });
     }
     openStory = () => {
         this.setState({ storyWordFlag: true })
@@ -199,6 +208,18 @@ class Title extends Component {
     closeStory = () => {
         this.setState({ storyWordFlag: false })
     }
+    /* */
+    /* 动画相关函数 */
+    setAnime = (flag, animeData) => {
+        this.setState({ animeFlag: flag, nowAnimeData: animeData });
+    }
+    openAnime = () => {
+        this.setState({ animeFlag: true })
+    }
+    closeAnime = () => {
+        this.setState({ animeFlag: false })
+    }
+    /* */
     /* 处理有关菜单事件的函数 */
     openMenu = () => {
         this.setState({ menuFlag: true })
@@ -327,8 +348,8 @@ class Title extends Component {
     /* */
 
     //刷新
-    onFreshenFlag=()=>{
-        this.setState({freshenFlag:!this.state.freshenFlag})
+    onFreshenFlag = () => {
+        this.setState({ freshenFlag: !this.state.freshenFlag })
     }
 
 
@@ -365,10 +386,14 @@ class Title extends Component {
     itemMapComponentOnRef = (ref) => {
         this.itemMapComponent = ref;
     }
+    /*9，动画 */
+    animeComponentOnRef = (ref) => {
+        this.animeComponent = ref;
+    }
     /********    ********/
 
     /* 播放音效 */
-    palyVoice = (url) => {      
+    palyVoice = (url) => {
         const myAudio = new Audio()
         myAudio.preload = true; //
         // myAudio.controls = true;
