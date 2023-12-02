@@ -13,6 +13,8 @@ import ItemMap from '../MainMap/Item'
 import Anime from '../Anime'
 import MainWindow from "./MainWindow"
 
+import LoadWindow from '../Menu/LoadWindow'
+
 class Title extends Component {
     constructor(props) {
         super(props);
@@ -21,6 +23,7 @@ class Title extends Component {
             nowStoryId: -1,
 
             startFlag: false,
+            startMode: 'start',
             explainFlag: false,
             createMapFlag: false,
             createStoryFlag: false,
@@ -41,6 +44,10 @@ class Title extends Component {
             animeFlag: false,
             nowAnimeData: { type: 'text', text: undefined },
             /* */
+
+            /* 继续游戏相关 */
+            loadDataFlag: false,
+            /*  */
 
             freshenFlag: false    //单纯只是为了让操作dom后能刷新render而已
         }
@@ -67,14 +74,15 @@ class Title extends Component {
     }
 
     render() {
-        const { createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag,
-            monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag, abilityFlag, animeFlag } = this.state;
+        const { startMode, createMapFlag, createStoryFlag, menuPreloadFlag, storyPreloadFlag, baseMapPreloadFlag, shopPreloadFlag,
+            monsterPreloadFlag, itemMapPreloadFlag, firstStoryFlag, abilityFlag, animeFlag,
+            loadDataFlag } = this.state;
         return (
             <Fragment>
                 {/* {!createMapFlag ? */}
                 <Fragment>
                     {this.state.startFlag ?
-                        <MainWindow setStory={this.setStory} setAnime={this.setAnime} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
+                        <MainWindow startMode={startMode} setStory={this.setStory} setAnime={this.setAnime} setMapList={this.setMapList} setNowMeetMap={this.setNowMeetMap} changeShopType={this.changeShopType} mainWindowComponentOnRef={this.mainWindowComponentOnRef}
                             menuComponent={this.menuComponent} storyWordComponent={this.storyWordComponent} baseMapComponent={this.baseMapComponent}
                             shopComponent={this.shopComponent} monsterComponent={this.monsterComponent} abilityComponent={this.abilityComponent}
                             itemMapComponent={this.itemMapComponent} animeComponent={this.animeComponent} onFreshenFlag={this.onFreshenFlag} setYSPos_First={this.setYSPos_First} />
@@ -85,10 +93,18 @@ class Title extends Component {
                             <div className="MainTitleWindow_Menu">
                                 {/* <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>开始游戏</div> */}
                                 <div className="MainTitleWindow_Menu_start" onClick={() => this.startGame()}>测试开始</div>
+                                <div className="MainTitleWindow_Menu_explain" onClick={() => this.continueGame()}>继续测试</div>
+                                {/* <div className="MainTitleWindow_Menu_explain" onClick={() => this.openExplain()}>继续游戏</div> */}
                                 {/* <div className="MainTitleWindow_Menu_explain" onClick={() => this.openExplain()}>游戏说明</div> */}
                                 <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateMap()}>创建地图</div>
                                 <div className="MainTitleWindow_Menu_start" onClick={() => this.openCreateStory()}>创建故事</div>
                             </div>
+                            {loadDataFlag ?
+                                <div className="MainTitleWindow_Continue">
+                                    <LoadWindow loadDataFlag={loadDataFlag} allState={this.mainWindowComponent ? this.mainWindowComponent.state : {}}
+                                        setAllState={this.setAllState} setGameStart={this.setGameStart} colseContinueGame={this.colseContinueGame} />
+                                </div>
+                                : null}
                         </div>
                     }
                     {this.state.explainFlag ?
@@ -120,8 +136,8 @@ class Title extends Component {
         )
     }
     startGame = () => {
-        this.setState({ startFlag: true });
-        this.setStory(true, "0_00_start");
+        this.setState({ startFlag: true, startMode: 'start' });
+        // this.setStory(true, "0_00_start");
     }
 
     setPreloadFlag = (name, value) => {
@@ -190,7 +206,21 @@ class Title extends Component {
     setAllState = (allState) => {
         this.mainWindowComponent.setAllState(allState);
     }
-
+    /* 继续游戏相关函数 */
+    //继续游戏
+    continueGame = () => {
+        this.setState({ loadDataFlag: true });
+        window.electron ? window.electron.ipcRenderer.send("getAllSaveData") : null;
+    }
+    //确认读取某个存档后，开始游戏
+    setGameStart = (startMode) => {
+        this.setState({ startFlag: true, startMode: startMode });
+    }
+    //关闭继续游戏窗体
+    colseContinueGame = () => {
+        this.setState({ loadDataFlag: false });
+    }
+    /* */
     /* 初始化和故事相关函数 */
     setPreloadFlag = (name, value) => {
         if (name && value) {
@@ -290,29 +320,21 @@ class Title extends Component {
 
     /* 控制所有键盘事件的主函数 */
     keyOn = (e) => {
+        
         let keyCode = e.keyCode;
-        // if (window.electron) {
-        //     switch (keyCode) {
-        //         case 116:
-        //             window.electron.ipcRenderer.send("f5"); //应用刷新
-        //             break;
-        //         case 122:
-        //             window.electron.ipcRenderer.send("f11");//应用放大或全屏
-        //             break;
-        //         case 123:
-        //             window.electron.ipcRenderer.send("f12");//应用打开调试工具
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
-        if (this.state.menuFlag)
+        if (this.state.loadDataFlag) {
+            if (keyCode === 88) this.colseContinueGame();        //键位x
             return;
+        }
+        if (this.state.menuFlag) {
+            this.menuComponent ? this.menuComponent.keyOn(e) : null;
+            return;
+        }
         if (this.state.abilityFlag)
             return;
         else if (this.state.storyWordFlag) {
             switch (keyCode) {
-                case 13:
+                case 13:    //回车
                     this.storyWordComponent.nextStoryWord();
                     break;
                 default:
@@ -328,7 +350,7 @@ class Title extends Component {
                 case 40:       //下
                     this.shopComponent.changeShopGoods(1);
                     break;
-                case 13:
+                case 13:        //回车
                     this.shopComponent.getShopGoods();
                     break;
                 default:
@@ -339,7 +361,7 @@ class Title extends Component {
         else if (this.mainWindowComponent ? this.mainWindowComponent.state.fightFlag : false) {
             return;
         }
-        if (keyCode === 81) {         //打开菜单
+        if (keyCode === 81) {         //打开菜单 键位q
             this.openMenu();
             return;
         }

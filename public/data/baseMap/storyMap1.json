@@ -1,1 +1,56 @@
-[{"name":"0_00_start-Story","lx":"no-0_00_start-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1},{"name":"0_01-Story","lx":"no-0_01-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1},{"name":"0_02-Story","lx":"no-0_02-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1},{"name":"0_03-Story","lx":"no-0_03-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1},{"name":"0_04-Story","lx":"no-0_04-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1},{"name":"0_05-Story","lx":"no-0_05-Story","url":"img/base.png","column":0,"pos":0,"width":1,"height":1}]
+[
+    {
+        "name": "0_00_start-Story",
+        "lx": "no-0_00_start-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    },
+    {
+        "name": "0_01-Story",
+        "lx": "no-0_01-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    },
+    {
+        "name": "0_02-Story",
+        "lx": "no-0_02-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    },
+    {
+        "name": "0_03-Story",
+        "lx": "no-0_03-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    },
+    {
+        "name": "0_04-Story",
+        "lx": "no-0_04-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    },
+    {
+        "name": "0_05-Story",
+        "lx": "no-0_05-Story",
+        "url": "img/icon/Other09.png",
+        "column": 0,
+        "pos": 0,
+        "width": 4,
+        "height": 4
+    }
+]

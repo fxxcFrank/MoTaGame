@@ -11,6 +11,9 @@ class BaseMap extends Component {
         this.state = {
             baseMapList: [],
         }
+    }
+
+    componentDidMount = () => {
         this.props.baseMapComponentOnRef ? this.props.baseMapComponentOnRef(this) : null;
         axios.get('data/baseMap/baseMap1.json')
             .then((res) => {

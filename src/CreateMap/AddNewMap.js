@@ -72,7 +72,7 @@ class AddNewMap extends Component {
                     </Item>
                     <div className="CreateMao_AddNewMap_Column">
                         <Item name="lx" label="地图块类型名" rules={[{ required: true, message: "请定义地图块类型名！" }]}
-                            help={this.returnLXValidateStatus() === "error" ? "地图块类型名重复！" : ""} validateStatus={this.returnLXValidateStatus()}>
+                            help={this.returnLXHelp()} validateStatus={this.returnLXValidateStatus()}>
                             <Input onChange={() => this.refreshToRender()} />
                         </Item>
                         <Button onClick={this.addNewLXName}>默认名</Button>
@@ -312,12 +312,28 @@ class AddNewMap extends Component {
     //返回lx校验结果
     returnLXValidateStatus = () => {
         if (this.refForm && this.refForm.getFieldValue) {
-            // console.log("returnLXValidateStatus",this.refForm);
+            const { lxMap } = this.props;
+            let nowLX = this.returnLXName(lxMap);
             let lxName = this.refForm.getFieldValue("lx");
+            if(!lxName) return "error";
             if (this.isSameLxName(lxName) || lxName === "") return "error";
+            else if (!lxName.includes(nowLX)) return "error"; //缺少该类型的关键词
             else return "success";
         };
         return "success"
+    }
+    //返回lx校验提示词
+    returnLXHelp = () => {
+        if (this.refForm && this.refForm.getFieldValue) {
+            const { lxMap } = this.props;
+            let nowLX = this.returnLXName(lxMap);
+            let lxName = this.refForm.getFieldValue("lx");
+            if(!lxName) return "请输入类型名！";
+            if (this.isSameLxName(lxName) || lxName === "") return "地图块类型名重复！";
+            else if (!lxName.includes(nowLX)) return `缺少该类型的关键词'${nowLX}'!`; //缺少该类型的关键词
+            else return "";
+        };
+        return ""
     }
     //判断lx是否存在重复
     isSameLxName = (value) => {
@@ -357,6 +373,7 @@ class AddNewMap extends Component {
         switch (lx) {
             case "常用": return "base";
             case "基础": return "base";
+            case "道具": return "Item";
             case "怪物": return "Monster";
             case "商店": return "Shop";
             case "事件": return "Story";

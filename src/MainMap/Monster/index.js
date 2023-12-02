@@ -14,6 +14,9 @@ class Monster extends Component {
 
             baseMapList: [],
         }
+    }
+
+    componentDidMount = () => {
         this.props.monsterComponentOnRef ? this.props.monsterComponentOnRef(this) : null;
         axios.get('data/baseMap/monsterMap1.json')
             .then((res) => {

@@ -166,5 +166,17 @@
         "baseMap": [
             "no"
         ]
+    },
+    {
+        "name": "绿钥匙",
+        "lx": "Item_15",
+        "url": "public/img/icon/Item01-01.png",
+        "column": 0,
+        "pos": 3,
+        "width": 4,
+        "height": 4,
+        "baseMap": [
+            "no"
+        ]
     }
 ]

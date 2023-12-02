@@ -30,6 +30,17 @@
 .MainTitleWindow_Menu_explain{
     /* font-size: 2vw; */
 }
+
+
+.MainTitleWindow_Continue{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 1;
+}
 /* ---------------- */
 
 /* 说明界面 */
@@ -212,7 +223,7 @@
 }
 .mtYS_Img_down,.mtYS_Img_right,.mtYS_Img_left,.mtYS_Img_up{
     position: absolute;
-    animation: Animation_mtYS_down 0.5s linear 0s normal none 1;
+    /* animation: Animation_mtYS_down 0.5s linear 0s normal none 1; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -257,7 +268,7 @@
     }
 }
 .mtYS_Img_up{
-    animation: Animation_mtYS_up 0.5s linear 0s normal none 1;
+    /* animation: Animation_mtYS_up 0.5s linear 0s normal none 1; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +313,7 @@
     }
 }
 .mtYS_Img_left{
-    animation: Animation_mtYS_left 0.5s linear 0s normal none 1;
+    /* animation: Animation_mtYS_left 0.5s linear 0s normal none 1; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -347,7 +358,7 @@
     }
 }
 .mtYS_Img_right{
-    animation: Animation_mtYS_right 0.5s linear 0s normal none 1;
+    /* animation: Animation_mtYS_right 0.5s linear 0s normal none 1; */
     display: flex;
     align-items: center;
     justify-content: center;

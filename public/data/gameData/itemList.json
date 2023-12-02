@@ -21,7 +21,7 @@
         "itemID":"Item_3",
         "itemName":"黄钥匙",
         "get":{
-            "Item_3":1
+            "YKey":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把黄钥匙。"
@@ -30,7 +30,7 @@
         "itemID":"Item_4",
         "itemName":"蓝钥匙",
         "get":{
-            "Item_4":1
+            "BKey":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把蓝钥匙。"
@@ -39,7 +39,7 @@
         "itemID":"Item_5",
         "itemName":"红钥匙",
         "get":{
-            "Item_5":1
+            "RKey":1
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一把红钥匙。"
@@ -48,7 +48,7 @@
         "itemID":"Item_6",
         "itemName":"黄钥匙串",
         "get":{
-            "Item_3":3
+            "YKey":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串黄钥匙。"
@@ -57,7 +57,7 @@
         "itemID":"Item_7",
         "itemName":"蓝钥匙串",
         "get":{
-            "Item_4":3
+            "BKey":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串蓝钥匙。"
@@ -66,7 +66,7 @@
         "itemID":"Item_8",
         "itemName":"红钥匙串",
         "get":{
-            "Item_5":3
+            "RKey":3
         },
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"一串红钥匙。"
@@ -115,5 +115,11 @@
         "itemName":"羊皮纸",
         "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
         "describe":"普通的羊皮纸。"
+    },
+    {
+        "itemID":"Item_15",
+        "itemName":"绿钥匙",
+        "play":"Audio/RPG魔塔音效素材/SE/获取物品.mp3",
+        "describe":"特殊的绿色钥匙，说不定能在什么地方能够用到。"
     }
 ]

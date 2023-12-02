@@ -23,6 +23,9 @@ class Shop extends Component {
             shopGoodsList: [],
             spendGold: null,
         }
+    }
+
+    componentDidMount = () => {
         this.props.shopComponentOnRef ? this.props.shopComponentOnRef(this) : null;
         axios.get('data/baseMap/shopMap1.json')
             .then((res) => {

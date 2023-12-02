@@ -95,7 +95,7 @@ class MainWindow extends Component {
     componentDidUpdate() {
         this.props.setAllState(this.state);
         this.props.onFreshenFlag();
-        if (this.state.ysPosFirstFlag) this.setYSPos_First();
+        if (this.state.ysPosFirstFlag && this.props.startMode === 'start') this.setYSPos_First();
     }
 
     render() {
@@ -160,26 +160,17 @@ class MainWindow extends Component {
                         </div>
                         : null}
                     <div className="MainMap">
-                        {/* <div className={width > 10 || height > 10 ? "NowMap_big" : "NowMap"} onKeyUp={(e) => this.keyOn(e)} style={this.returnNowMap_bigStyle(width, height)}>
+                        <div
+                            // className={this.returnMainMapClass(width, height)}
+                            // style={{ ...this.returnNowMap_bigStyle(width, height), "--nowMapWidth": width, "--nowMapHeight": height }}
+                            onKeyUp={(e) => this.keyOn(e)}
+                            className="NowMap_text"
+                            id="NowMap"
+                            style={{ "--nowMapWidth": 10, "--nowMapHeight": 10 }}
+                        >
                             {nowMap.map((map, index) => {
-                                if (index + 1 == num) {
-                                    num += width;
-                                    return (
-                                        <div className={width > 10 ? "MapColumn_big" : "MapColumn"} key={nowMapNum + "行" + Math.floor(num / width)}>
-                                            {nowMap.map((map2, index2) => {
-                                                if (index2 >= index + 1 - width && index2 <= index) {
-                                                    return this.returnMap(map2, index2);
-                                                }
-                                            })}
-                                        </div>
-                                    )
-                                }
-                            })}
-                        </div> */}
-                        <div className={this.returnMainMapClass(width, height)} onKeyUp={(e) => this.keyOn(e)}
-                            style={{ ...this.returnNowMap_bigStyle(width, height), "--nowMapWidth": width, "--nowMapHeight": height }}>
-                            {nowMap.map((map, index) => {
-                                return this.returnMap(map, index);
+                                return this.dynamicLoadingMap(map, index, width, height);
+                                // return this.returnMap(map, index);
                             })}
                         </div>
                         <div className="mtYS_Img_down" id="mtYS" index={0} style={{ backgroundImage: "URL(img/ys.png)" }}></div>
@@ -217,6 +208,7 @@ class MainWindow extends Component {
 
     /* 控制所有键盘事件的主函数 */
     keyOn = (e) => {
+        // console.log("MainWindow", e);
         let keyCode = e.keyCode;
         switch (keyCode) {
             case 38:       //上
@@ -288,8 +280,8 @@ class MainWindow extends Component {
         this.whenMeet(doc);
     }
 
-    move = (doc1) => {
-        let id = doc1.attributes["index"].nodeValue;    //因为采用了复合图层的原因，会导致部分dom刷新后doc的指向不明确，导致无法正常添加div，所以采用这种麻烦的方式，应该对效率有所影响，但目前看来不大。
+    move = (doc) => {
+        let id = parseInt(doc.attributes["index"].nodeValue);    //因为采用了复合图层的原因，会导致部分dom刷新后doc的指向不明确，导致无法正常添加div，所以采用这种麻烦的方式，应该对效率有所影响，但目前看来不大。
         this.getAllRoundTarget(id);
         this.setYSPos(id);
         this.setState({ freshenFlag: !this.state.freshenFlag });   //为了刷新render，目前的目的是为了让卷轴视口移动能够对齐
@@ -299,13 +291,102 @@ class MainWindow extends Component {
         let nowMapNum = this.state.nowMapNum;
         let mapList = [...this.state.mapList];
         let nowMap = [...this.state.mapList[nowMapNum].map];
-        let id = doc.attributes["index"].nodeValue;
+        let id = parseInt(doc.attributes["index"].nodeValue);
         doc.attributes["lx"].nodeValue = "no";
         nowMap[id] = "no";
         mapList[nowMapNum].map = nowMap;
         this.setState({ mapList: mapList });
     }
     /* */
+    //动态加载地图块（仅加载视口范围内的，可能需要去掉下面的卷轴移动）2023.08.18尚未完成
+    dynamicLoadingMap = (map, index, allWidth_true, allHeight_true) => {
+        let allWidth = allWidth_true - 1;       //因为从0开始计数，这是x，y的实际最大值
+        let allHeight = allHeight_true - 1;     //因为从0开始计数，这是x，y的实际最大值
+        // let allWidth = allWidth_true;       //因为从0开始计数，这是x，y的实际最大值
+        // let allHeight = allHeight_true;     //因为从0开始计数，这是x，y的实际最大值
+        let plugin = document.getElementById("mtYS");
+        if (!plugin) return;
+        if (allWidth_true > 10 || allHeight_true > 10) {
+            let id = parseInt(plugin.attributes["index"].nodeValue);    //从0开始计数
+            let nowPosLeft = (id) % allWidth_true;                           //从0开始计数
+            let nowPosTop = Math.floor((id) / allWidth_true);
+            let maxWidth = 10;              //视口最大宽度
+            let maxHeight = 10;             //视口最大高度
+            let widthLimitCount = 5;       //视口宽度，实际会*2，目前也就是10（格）
+            let heightLimitCount = 5;      //视口高度，实际会*2，目前也就是10（格）
+
+            let mapLeft = (index) % allWidth_true;
+            let mapTop = Math.floor((index) / allWidth_true);
+            //2023.11.01 打算先拆分为八个方向以及存在内部的情况（一共九种）分开进行处理，之后再考虑逻辑合并
+            //左上角
+            if (nowPosLeft <= widthLimitCount && nowPosTop <= heightLimitCount) {
+                if (!(mapLeft < maxWidth && mapTop < maxHeight)) return;
+            }
+            //右上角
+            if (allWidth - nowPosLeft <= widthLimitCount && nowPosTop <= heightLimitCount) {
+                if (!(allWidth - mapLeft < maxWidth && mapTop < maxHeight)) return;
+            }
+            //左下角
+            if (nowPosLeft <= widthLimitCount && allHeight - nowPosTop <= heightLimitCount) {
+                if (!(mapLeft < maxWidth && allHeight - mapTop < maxHeight)) return;
+            }
+            //右下角
+            if (allWidth - nowPosLeft <= widthLimitCount && allHeight - nowPosTop <= heightLimitCount) {
+                if (!(allWidth - mapLeft < maxWidth && allHeight - mapTop < maxHeight)) return;
+            }
+            //上侧
+            if (nowPosLeft > widthLimitCount && allWidth - mapLeft > widthLimitCount && nowPosTop <= 5) {
+                if (!((mapLeft - nowPosLeft < maxWidth || nowPosLeft - mapLeft <= maxWidth) && (mapTop < maxHeight))) return;
+            }
+            //下侧
+            if (nowPosLeft > widthLimitCount && allWidth - mapLeft > widthLimitCount && allHeight - nowPosTop <= 5) {
+                if (!((mapLeft - nowPosLeft < maxWidth || nowPosLeft - mapLeft <= maxWidth) && (allHeight - mapTop < maxHeight))) return;
+            }
+            //左侧
+            if (nowPosLeft <= 5 && nowPosTop > 5 && allHeight - nowPosTop > 5) {
+                // if (!((mapLeft < 10) && (mapTop - nowPosTop < 5 || nowPosTop - mapTop <= 5))) return;
+                if (mapLeft >= 10) return;
+                if (mapTop - nowPosTop > 5) return;
+                if (nowPosTop - mapTop >= 5) return;
+            }
+            //右侧
+            if (allWidth - nowPosLeft <= 5 && nowPosTop > 5 && allHeight - nowPosTop > 5) {
+                // if (!((allWidth - mapLeft < 10) && (mapTop - nowPosTop < 5 || nowPosTop - mapTop <= 5))) return;
+                if (allWidth - mapLeft >= 10) return;
+                if (mapTop - nowPosTop > 5) return;
+                if (nowPosTop - mapTop >= 5) return;
+            }
+
+            //-------------
+
+            // //位置靠近左侧边界时
+            // if (nowPosLeft <= widthLimitCount && mapLeft >= maxWidth) return;
+            // //位置靠近右侧边界时
+            // if (allWidth - nowPosLeft <= widthLimitCount && allWidth - mapLeft >= maxWidth) return;
+            // //位置靠近上侧边界时
+            // if (nowPosTop <= heightLimitCount && mapTop >= maxHeight) return;
+            // //位置靠近下侧边界时
+            // if (allHeight - nowPosTop <= heightLimitCount && allHeight - mapTop >= maxHeight) return;
+            // //位置靠近左上边界时
+            // if (nowPosLeft <= widthLimitCount && mapLeft >= maxWidth) return;
+            //位置在地图内侧时（根据下面判断可以控制在动态加载时，勇者始终处于中央正方的哪个位置（目前为中央右上角），除非之后将默认地图长度改为11*11类型的奇数块）
+            //且，目前似乎加载地图块得和setYSPos中的位置逻辑对应上，不然会出现index正确，但图像位置不对的情况。
+            // let flag = (nowPosLeft > widthLimitCount) && ((allWidth_true) - nowPosLeft > widthLimitCount) && (nowPosTop > heightLimitCount) && ((allHeight_true) - nowPosTop > heightLimitCount)
+            let flag = nowPosLeft > widthLimitCount && allWidth_true - nowPosLeft > widthLimitCount && nowPosTop > heightLimitCount && allHeight_true - nowPosTop > heightLimitCount
+            if (flag) {
+                // if (nowPosLeft - mapLeft > widthLimitCount && nowPosLeft > widthLimitCount) return;
+                // if (nowPosTop - mapTop > heightLimitCount && nowPosTop > heightLimitCount) return;
+                // if (mapLeft - nowPosLeft > widthLimitCount - 1 && allWidth - nowPosLeft > widthLimitCount - 1) return;
+                // if (mapTop - nowPosTop > heightLimitCount - 1 && allHeight - nowPosTop > heightLimitCount - 1) return;
+                if (nowPosLeft - mapLeft > widthLimitCount) return;
+                if (nowPosTop - mapTop > heightLimitCount - 1) return;
+                if (mapLeft - nowPosLeft > widthLimitCount - 1) return;
+                if (mapTop - nowPosTop > heightLimitCount) return;
+            }
+        }
+        return this.returnMap(map, index);
+    }
+
     //返回主地图的class，方便移动
     returnMainMapClass = (width, height) => {
         if (width > 10 || height > 10) return 'NowMap_textBig';
@@ -313,11 +394,6 @@ class MainWindow extends Component {
     }
     /* 当当前地图大于一定大小时（目前为10*10），跟随移动让画面进行卷轴移动 */
     returnNowMap_bigStyle = (allWidth, allHeight) => {
-        // console.log("returnNowMap_bigStyle----", allWidth, allHeight);
-        // const { nowMapNum, mapList, } = this.state;
-        // let nowMap = mapList[nowMapNum].map;
-        // let width = mapList[nowMapNum].width;
-        // let height = Math.ceil(nowMap.length / width);
         let width = allWidth;
         let height = allHeight;
 
@@ -326,17 +402,13 @@ class MainWindow extends Component {
         if (!plugin) return;
         let id = parseInt(plugin.attributes["index"].nodeValue);
         let nowPosLeft = (id) % width;
-        let nowPosTop = Math.ceil((id) / width);
-        // console.log("returnNowMap_bigStyle", id + 1,width, height, nowPosLeft, nowPosTop)
+        let nowPosTop = Math.floor((id) / width);
         let widthLimitCount = 5;       //视口宽度，实际会*2，目前也就是10（格）
         let heightLimitCount = 5;      //视口高度，实际会*2，目前也就是10（格）
-        let widthLimit = 0.5;
-        let heightLimit = 0.5;
         let oneLeft = -8;   //一个格子的宽
         let oneTop = -10;   //一个格子的高
         let nowShouldLeft = nowPosLeft - widthLimitCount;
         let nowShouldTop = nowPosTop - heightLimitCount;
-        // console.log("returnNowMap_bigStyle", nowPosLeft, nowPosTop);
         style.left = nowShouldLeft * oneLeft + "vw";
         style.top = nowShouldTop * oneTop + "vh";
         if (nowShouldLeft <= 0) style.left = 0 + 'vw';
@@ -353,7 +425,6 @@ class MainWindow extends Component {
     /* 获取周围对象的信息 */
     getAllRoundTarget = (id) => {   //可能逻辑有点赘余了，之后再调整吧
         try {
-            // let id = plugin.attributes["index"].nodeValue = id;
             let arountList = [];
             let list = document.getElementsByTagName("div");
             for (let i = 0; i < list.length; i++) {
@@ -366,7 +437,6 @@ class MainWindow extends Component {
                 if (lx.includes("Monster")) {
                     let divIndex = div.attributes["index"].nodeValue * 1;
                     let width = this.state.mapList[this.state.nowMapNum].width;
-                    // console.log("Monster", id,divIndex);
                     //左、右、上、下
                     if (((id == divIndex - 1) && !((id + 1) % width == 0)) || ((id == divIndex + 1) && !((id + 1) % width == 0)) || id == divIndex + width || id == divIndex - width) {
                         let info = {
@@ -389,7 +459,6 @@ class MainWindow extends Component {
                     }
                 }
             }
-            // console.log("getAllRoundTarget", arountList);
             this.setState({ aroundMonster: [...arountList] });
         } catch (error) {
             console.log("getAllRoundTarget", error);
@@ -752,10 +821,54 @@ class MainWindow extends Component {
             let nowTop = (Math.floor(id / width)) * 10 + 'vh';
             plugin.style.left = nowLeft;
             plugin.style.top = nowTop;
-            this.setState({ ysPosFirstFlag: false })
+            this.setState({ ysPosFirstFlag: false });
         } catch (error) {
             console.log(error);
         }
+    }
+    //返回动态加载地图下，勇者当前应该所处的位置(因保留之前卷轴滚动的逻辑，所以此处返回的是以左上角index=0为起点，计算的style的left和top的vw、vh相对值)
+    retnruYSPos = (width, height, preId, ysId) => {
+        let firstMap = document.getElementById('NowMap').getElementsByTagName('div')[0];
+        // if (!firstMap || ) return;
+        let firstMapId = parseInt(firstMap.attributes["index"].nodeValue);
+        console.log("firstMapId", firstMapId, width, height);
+        this.setState({ beforeFirstMapIdId: firstMapId });
+        //当地图为小地图（固定）模式时
+        if (width <= 10 || height <= 10) {      //2023.11.02 暂时不知单向大地图（即长、宽中仅有一项超过视口限制）是否能够满足
+            // ysId = preId;
+        }
+        //当横向移动时（x轴）
+        else if (Math.abs(ysId - preId) === 1) {
+            let leftTopWidth = firstMapId % width;
+            let ysWidth = ysId % width;
+            if (firstMapId % width !== 0 && (firstMapId + 10) % width !== 0 || Math.abs(ysWidth - leftTopWidth > 5)) {
+                if (ysId - preId === 1) firstMapId += 1;
+                else if (ysId - preId === -1) firstMapId -= 1;
+                else if (ysId - preId === width) firstMapId += width;
+                else firstMapId -= width;
+            }
+        }
+        //当纵向移动时（y轴）
+        else if (Math.abs(ysId - preId) === width) {
+            let leftTopHeight = Math.floor(firstMapId / width);
+            let ysHeight = Math.floor(ysId / width);
+            if (Math.floor(firstMapId / width) !== 0 && (firstMapId + 10) % height !== 0 || Math.abs(ysHeight - leftTopHeight > 5)) {
+                if (ysId - preId === 1) firstMapId += 1;
+                else if (ysId - preId === -1) firstMapId -= 1;
+                else if (ysId - preId === width) firstMapId += width;
+                else firstMapId -= width;
+            }
+        }
+        // debugger
+        let id = Math.abs(firstMapId - ysId);
+        let nowWidth = id % width;
+        let nowHeight = Math.floor(id / width);
+
+        let style = { left: 0, top: 0 };
+        style.left = nowWidth * 8 + 'vw';
+        style.top = nowHeight * 10 + 'vh';
+        console.log("retnruYSPos", width, preId, ysId, firstMapId, style);
+        return style;
     }
     //设置勇者位置
     setYSPos = (id) => {
@@ -764,33 +877,56 @@ class MainWindow extends Component {
         let height = mapList[nowMapNum].map.length / width;
         let nowWidth = id % width;
         let nowHeight = Math.floor(id / width);
+        // let nowHeight = id !== 0 ? Math.ceil(id / width) : 1;
         let plugin = document.getElementById('mtYS');
+        let preId = plugin.attributes["index"].nodeValue;
         plugin.attributes["index"].nodeValue = id;
-
         // console.log("setYSPos", height, mapList[nowMapNum].map.length, width);
-        let style = this.returnNowMap_bigStyle(width, height);
-        if (width > 10) {
-            let lessLeft = parseInt(style.left.split("vw")[0]);
-            plugin.style.left = (nowWidth) * 8 + lessLeft + 'vw';
-        }
-        if (height > 10) {
-            let lessTop = parseInt(style.top.split("vh")[0]);
-            plugin.style.top = (nowHeight) * 10 + lessTop + 'vh';
-        }
-        if (width < 10) {
-            plugin.style.left = (nowWidth + (10 - width) / 2) * 8 + 'vw';
-        }
-        if (height < 10) {
-            plugin.style.top = (nowHeight + (10 - height) / 2) * 10 + 'vh';
-        }
-        if (width === 10) {
-            let nowLeft = (nowWidth) * 8 + 'vw';
-            plugin.style.left = nowLeft;
-        }
-        if (height === 10) {
-            let nowTop = (nowHeight) * 10 + 'vh';
-            plugin.style.top = nowTop;
-        }
+        // let style = this.returnNowMap_bigStyle(width, height);
+
+        let style = this.retnruYSPos(width, height, preId, id);
+        plugin.style.left = style.left;
+        plugin.style.top = style.top;
+
+        // if (width > 10) {
+        //     let lessLeft = parseInt(style.left.split("vw")[0]);
+        //     plugin.style.left = (nowWidth) * 8 + lessLeft + 'vw';
+        // }
+        // if (height > 10) {
+        //     let lessTop = parseInt(style.top.split("vh")[0]);
+        //     plugin.style.top = (nowHeight) * 10 + lessTop + 'vh';
+        // }
+        // if (width < 10) {
+        //     plugin.style.left = (nowWidth + (10 - width) / 2) * 8 + 'vw';
+        // }
+        // if (height < 10) {
+        //     plugin.style.top = (nowHeight + (10 - height) / 2) * 10 + 'vh';
+        // }
+        // if (width === 10) {
+        //     let nowLeft = (nowWidth) * 8 + 'vw';
+        //     plugin.style.left = nowLeft;
+        // }
+        // if (height === 10) {
+        //     let nowTop = (nowHeight) * 10 + 'vh';
+        //     plugin.style.top = nowTop;
+        // }
+        //修改勇者移动逻辑后，为了刷新同方向的移动动画(2023.08.23设置延时似乎不太好，之后想到更好的话，切记记得修改此处)
+        let name = plugin.className;
+        // plugin.className = "";
+        // setTimeout(() => {
+        //     plugin.className = name;
+        // }, 1);
+        let _this = this;
+        plugin.style.animation = "";
+        setTimeout(() => {
+            plugin.style.animation = _this.setAnimationFromClassName(name);
+        }, 1);
+    }
+
+    //设置对应className的移动动画数据（为了应对修改勇者移动逻辑后，刷新同方向的移动动画）
+    setAnimationFromClassName = (className) => {
+        let direction = className.split("_")[2];
+        return `Animation_mtYS_${direction} 0.5s linear 0s normal none 1`;
     }
 
     //设置单个属性()
@@ -961,6 +1097,7 @@ class MainWindow extends Component {
             // this.move(doc);
             let storyId = doc.attributes["storyId"].nodeValue;
             this.props.setStory(true, storyId);
+            this.remove(doc);
             return;
         }
         /* 获取道具 */

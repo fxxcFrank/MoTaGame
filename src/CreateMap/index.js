@@ -191,10 +191,12 @@ class CreateMap extends Component {
     }
     changeMiddleMap = (index) => {
         let nowClickAddMap = this.state.nowClickAddMap;
+        console.log("changeMiddleMap", index, nowClickAddMap);
         if (!nowClickAddMap)
             return;
         let nowMap = [...this.state.nowMap];
         nowMap[index] = nowClickAddMap.lx;
+        console.log("nowMap",nowMap,nowClickAddMap.lx);
         this.setState({ nowMap: nowMap, onChangeMapFlag: true });
     }
     setMap = (map) => {

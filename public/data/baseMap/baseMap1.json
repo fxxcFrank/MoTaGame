@@ -20,11 +20,11 @@
     {
         "name": "黄门",
         "lx": "YDoor",
-        "url": "img/doors.png",
+        "url": "img/icon/Event01-Door01.png",
         "column": 0,
-        "pos": 3,
-        "width": 5,
-        "height": 1,
+        "pos": 0,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]
@@ -32,11 +32,11 @@
     {
         "name": "蓝门",
         "lx": "BDoor",
-        "url": "img/doors.png",
+        "url": "img/icon/Event01-Door01.png",
         "column": 0,
-        "pos": 2,
-        "width": 5,
-        "height": 1,
+        "pos": 1,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]
@@ -44,11 +44,11 @@
     {
         "name": "红门",
         "lx": "RDoor",
-        "url": "img/doors.png",
+        "url": "img/icon/Event01-Door01.png",
         "column": 0,
-        "pos": 1,
-        "width": 5,
-        "height": 1,
+        "pos": 2,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]
@@ -56,11 +56,11 @@
     {
         "name": "铁门",
         "lx": "TDoor",
-        "url": "img/doors.png",
+        "url": "img/icon/Event01-Wall01.png",
         "column": 0,
-        "pos": 0,
-        "width": 5,
-        "height": 1,
+        "pos": 3,
+        "width": 4,
+        "height": 4,
         "baseMap": [
             "no"
         ]

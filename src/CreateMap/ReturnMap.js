@@ -13,7 +13,7 @@ class ReturnMap extends Component {
             shopMap1List: [],
             baseMap1List: [],
             monsterMap1List: [],
-            itemMap1List:[],
+            itemMap1List: [],
             mouseDownFlag: false,
         }
     }
@@ -55,6 +55,7 @@ class ReturnMap extends Component {
         axios.get('data/baseMap/itemMap1.json')
             .then((res) => {
                 const result = res.data;
+                console.log("itemMap1List",result);
                 this.setState({ itemMap1List: result });
             })
             .catch((error) => {

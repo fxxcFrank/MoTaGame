@@ -22,6 +22,9 @@ class StoryWord extends Component {
             nowWord: "",
             showStoryMode: -1,
         }
+    }
+
+    componentDidMount() {
         this.props.storyWordComponentOnRef ? this.props.storyWordComponentOnRef(this) : null;
         axios.get('data/baseMap/storyMap1.json')
             .then((res) => {
@@ -52,10 +55,6 @@ class StoryWord extends Component {
             }).catch((e) => {
                 console.log(e);
             })
-    }
-
-    componentDidMount() {
-
     }
 
     /* 该时间周期函数中不能使用this */

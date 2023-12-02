@@ -14,6 +14,9 @@ class ItemMap extends Component {
 
             baseMapList: [],
         }
+    }
+
+    componentDidMount = () => {
         this.props.itemMapComponentOnRef ? this.props.itemMapComponentOnRef(this) : null;
         axios.get('data/baseMap/itemMap1.json')
             .then((res) => {
@@ -126,6 +129,7 @@ class ItemMap extends Component {
             }
             GetAndSpendData.spend = data;
         }
+        console.log("getItemEffect",GetAndSpendData);
         this.props.setStateForGetAndSpend(GetAndSpendData);
     }
 
