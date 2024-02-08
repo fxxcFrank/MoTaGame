@@ -45,3 +45,17 @@ I have saved a packed project on this computer. After playing a compressed packa
 -_- If you need it later, open a warehouse to upload it. To be honest, the volume is not small. It is estimated that deleting unnecessary redundant files will have a total size of 200m.
 
 In addition: because no good transparent background material is found, the material with black background is replaced by a unified color channel, which is temporarily adjusted to a transparent background when used in the project. The approximate logic is that when the three RGB values are lower than a certain value, it is set as a transparent background, part of which is 32 and 1, and the basic terrain is set as 100
+
+2024.02.08
+目前的主界面
+<img width="768" alt="微信图片_20240205113423" src="https://github.com/fxxcFrank/MoTaGame/assets/49519067/f3a23708-5d40-4fb1-824d-a635759cba3c">
+
+游戏界面
+<img width="768" alt="微信图片_20240205113428" src="https://github.com/fxxcFrank/MoTaGame/assets/49519067/702dcdb7-96c4-434f-863e-89f2353b13de">
+
+创建地图界面
+<img width="768" alt="微信图片_20240205113431" src="https://github.com/fxxcFrank/MoTaGame/assets/49519067/055b6763-40c0-47b3-9c8e-ff8d4d4a30fb">
+<img width="768" alt="微信图片_20240205113437" src="https://github.com/fxxcFrank/MoTaGame/assets/49519067/4c6aa5bb-16d5-4ce4-9fda-203ca4cf1c0c">
+
+创建故事界面
+<img width="768" alt="微信图片_20240205113435" src="https://github.com/fxxcFrank/MoTaGame/assets/49519067/843f0170-47aa-40e8-a085-a59af8c2ca10">
